@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Иероглифика</title>
+  <title>Hieróglifos</title>
   <style>
     html, body {
       width: 100%;
@@ -178,7 +178,7 @@
 </head>
 <body>
   <div class="header">
-    <div id="status">🔤 Готов к уроку</div>
+    <div id="status">🔤 Pronto para a lição</div>
     <div class="scale-controls">
       <div class="scale-btn" id="zoom-out">−</div>
       <div class="scale-value" id="scale-value">1.0</div>
@@ -195,30 +195,30 @@
   </div>
 
   <div class="controls">
-    <button id="next-btn">▶️ Старт!</button>
-    <button id="skip-btn" style="display: none;">⏭️ Пропустить</button>
+    <button id="next-btn">▶️ Iniciar!</button>
+    <button id="skip-btn" style="display: none;">⏭️ Pular</button>
   </div>
 
   <script src="./../dictionary.js"></script>
 
 <script>
-  // === НАСТРОЙКА УРОКА ===
+  // === CONFIGURAÇÃO DA LIÇÃO ===
   const LESSON =  parseInt((window.location.pathname.match(/\/lesson(\d+)(?:\/|$)/) || [])[1] || '1');
 
   if (typeof charData === 'undefined') {
-    console.error('❌ Не загружен dictionary.js');
-    alert('Ошибка: не удалось загрузить словарь иероглифов.');
+    console.error('❌ dictionary.js não carregado');
+    alert('Erro: não foi possível carregar o dicionário de hieróglifos.');
     throw new Error('charData not found');
   }
 
   const lessonwords = Object.keys(charData).filter(key => {
     const data = charData[key];
-    return data.lesson === LESSON && key.length === 1; // только одиночные иероглифы
+    return data.lesson === LESSON && key.length === 1; // apenas hieróglifos únicos
   });
 
   if (lessonwords.length === 0) {
-    console.error(`❌ Нет иероглифов для урока ${LESSON}`);
-    alert(`Нет иероглифов для урока ${LESSON}`);
+    console.error(`❌ Nenhum hieróglifo encontrado para a lição ${LESSON}`);
+    alert(`Nenhum hieróglifo encontrado para a lição ${LESSON}`);
   }
 
   function shuffleArray(array) {
@@ -274,16 +274,16 @@
     else if (data.pinyin.includes('à')) tone = '4';
 
     const pinyinKey = cleanPinyin + tone;
-    const url = `https://data.dong-chinese.com/pinyin/b/${pinyinKey}.mp3`;
+    const url = `https://data.dong-chinese.com/pinyin/b/  ${pinyinKey}.mp3`;
     const audio = new Audio(url);
 
     audio.play().catch(e => {
-      console.warn(`🔇 Нет звука для ${hanzi}`);
+      console.warn(`🔇 Sem som para ${hanzi}`);
     });
   }
 
 
-// --- 🔥 Исправленная инициализация Firebase ---
+// --- 🔥 Inicialização corrigida do Firebase ---
 let db = null;
 let auth = null;
 let currentUser = null;
@@ -293,10 +293,10 @@ let docRef = null;
 async function initFirebase() {
   try {
     const [{ initializeApp }, { getAuth, onAuthStateChanged }, { getFirestore }, { updateDoc, doc }] = await Promise.all([
-      import('https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js'),
-      import('https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js'),
-      import('https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js'),
-      import('https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js')
+      import('https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js  '),
+      import('https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js  '),
+      import('https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js  '),
+      import('https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js  ')
     ]);
 
     const firebaseConfig = {
@@ -317,22 +317,22 @@ async function initFirebase() {
 
     onAuthStateChanged(auth, (user) => {
       currentUser = user;
-      console.log('🔐 Пользователь:', user ? user.displayName : 'не авторизован');
+      console.log('🔐 Usuário:', user ? user.displayName : 'não autenticado');
     });
   } catch (e) {
-    console.error("❌ Ошибка инициализации Firebase:", e);
+    console.error("❌ Erro ao inicializar o Firebase:", e);
   }
 }
 
-// Запускаем Firebase
+// Inicia o Firebase
 initFirebase();
 
-// --- 🔥 Обработка баллов ---
+// --- 🔥 Tratamento de pontos ---
 window.addEventListener("message", async function(event) {
   if (event.data.type === "TASK_RESULT") {
     const { success, message, points = 0 } = event.data;
 
-    console.log(`[Баллы] Получено: ${points} | Сообщение: ${message}`);
+    console.log(`[Pontos] Recebido: ${points} | Mensagem: ${message}`);
 
     if (success && points !== 0 && db && currentUser && updateDocRef && docRef) {
       try {
@@ -340,17 +340,17 @@ window.addEventListener("message", async function(event) {
         await updateDocRef(userRef, {
           points: (currentUser.points || 0) + points
         });
-        // Обновляем локально
+        // Atualiza localmente
         if (currentUser.points === undefined) currentUser.points = 0;
         currentUser.points += points;
-        console.log(`[Баллы] Сохранено. Теперь: ${currentUser.points}`);
+        console.log(`[Pontos] Salvo. Agora: ${currentUser.points}`);
       } catch (e) {
-        console.error("❌ Не удалось сохранить баллы в Firestore:", e);
+        console.error("❌ Falha ao salvar pontos no Firestore:", e);
       }
     }
 
     if (success) {
-      statusEl.textContent = "✅ Готово! Можно дальше";
+      statusEl.textContent = "✅ Concluído! Pode continuar";
       nextBtn.disabled = false;
     }
   }
@@ -366,7 +366,7 @@ window.addEventListener("message", async function(event) {
 
     const meaningDisplay = (data.meaning?.length > 50)
       ? data.meaning.slice(0, 47) + '...'
-      : data.meaning || 'значение не найдено';
+      : data.meaning || 'significado não encontrado';
 
     statusEl.textContent = `${hanzi} • ${data.pinyin || '—'} • ${meaningDisplay}`;
     statusEl.title = `${data.meaning || ''}`;
@@ -384,7 +384,7 @@ window.addEventListener("message", async function(event) {
 
   nextBtn.addEventListener("click", () => {
     if (currentTaskIndex === 0) {
-      nextBtn.textContent = "▶️ Следующее";
+      nextBtn.textContent = "▶️ Próximo";
       loadNextTask();
       currentTaskIndex++;
       return;
@@ -400,15 +400,15 @@ window.addEventListener("message", async function(event) {
     nextBtn.disabled = true;
     skipBtn.style.display = "none";
     statusEl.innerHTML = `<div style="text-align: center;">
-      <h2>🎉 Поздравляем!</h2>
-      <p>Вы завершили урок ${LESSON}</p>
+      <h2>🎉 Parabéns!</h2>
+      <p>Você concluiu a lição ${LESSON}</p>
     </div>`;
     setTimeout(() => window.location.href = "../", 3000);
   });
 
 if (skipBtn) {
   skipBtn.addEventListener("click", async () => {
-    // ❌ Пропуск — штраф -1
+    // ❌ Pular — penalidade -1
     if (db && currentUser && updateDocRef && docRef) {
       try {
         const userRef = docRef(db, 'users', currentUser.uid);
@@ -417,9 +417,9 @@ if (skipBtn) {
         });
         if (currentUser.points === undefined) currentUser.points = 0;
         currentUser.points -= 1;
-        console.log("[Баллы] Пропуск: -1");
+        console.log("[Pontos] Pular: -1");
       } catch (e) {
-        console.error("❌ Не удалось применить штраф:", e);
+        console.error("❌ Falha ao aplicar penalidade:", e);
       }
     }
 
@@ -432,8 +432,8 @@ if (skipBtn) {
 }
 
   window.addEventListener("load", () => {
-    console.log(`📚 Урок ${LESSON}: ${lessonwords.length} иероглифов`);
-    console.log("🎲 Порядок:", shuffledLesson);
+    console.log(`📚 Lição ${LESSON}: ${lessonwords.length} hieróglifos`);
+    console.log("🎲 Ordem:", shuffledLesson);
     setScale(1.0);
   });
 </script></body>

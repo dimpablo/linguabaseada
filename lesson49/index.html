@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Курс: Древнекитайские оракульные надписи</title>
+  <title>Curso: Inscrições Oraculares Chinesas Antigas</title>
 
   <!-- Подключаем словарь как обычный скрипт -->
   <script src="./../dictionary.js"></script>
@@ -206,7 +206,7 @@
 </head>
 <body>
   <div class="header">
-    <div id="status">🔍 Поиск заданий...</div>
+    <div id="status">🔍 Procurando tarefas...</div>
     <div class="scale-controls">
       <div class="scale-btn" id="zoom-out">−</div>
       <div class="scale-value" id="scale-value">1.0</div>
@@ -223,8 +223,8 @@
   </div>
 
   <div class="controls">
-    <button id="next-btn" disabled>Следующее задание</button>
-    <button id="skip-btn">Пропустить задание</button>
+    <button id="next-btn" disabled>Próxima tarefa</button>
+    <button id="skip-btn">Pular tarefa</button>
   </div>
 
   <!-- НОМЕР УРОКА — МЕНЯЙ ВРУЧНУЮ ДЛЯ КАЖДОЙ ПАПКИ -->
@@ -235,9 +235,9 @@
   <!-- Firebase SDK -->
   <script type="module">
     // Импорт Firebase
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
-    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js';
-    import { getFirestore, doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js  ';
+    import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js  ';
+    import { getFirestore, doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js  ';
 
     // Конфиг
     const firebaseConfig = {
@@ -289,7 +289,7 @@
 
     const lessonwords = getLessonWords(LESSON);
     if (lessonwords.length === 0) {
-      document.getElementById('status').textContent = `❌ Нет иероглифов для урока ${LESSON}`;
+      document.getElementById('status').textContent = `❌ Nenhum caractere encontrado para a lição ${LESSON}`;
     }
 
     // === 🧩 ОСНОВНОЙ КОД КВИЗА ===
@@ -385,7 +385,7 @@
       const existingTasks = [];
       let n = 1;
 
-      statusEl.textContent = "🔍 Ищем задания...";
+      statusEl.textContent = "🔍 Procurando tarefas...";
 
       while (true) {
         const result = await checkTaskIsValid(n);
@@ -400,8 +400,8 @@
 
       if (existingTasks.length === 0) {
         statusEl.innerHTML = `
-          ❌ Не найдено ни одного <strong>настоящего</strong> задания.<br>
-          Убедитесь, что каждый <code>taskN.html</code> отправляет:<br>
+          ❌ Nenhuma <strong>tarefa válida</strong> encontrada.<br>
+          Certifique-se de que cada <code>taskN.html</code> envie:<br>
           <code>window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");</code>
         `;
         return;
@@ -409,7 +409,7 @@
 
       tasks = shuffleArray(existingTasks);
       discoveryCompleted = true;
-      statusEl.textContent = `✅ Найдено ${tasks.length} заданий.`;
+      statusEl.textContent = `✅ Encontradas ${tasks.length} tarefas.`;
       updateProgress();
       document.getElementById("task-container").classList.add("active");
 
@@ -424,12 +424,12 @@
         skipBtn.disabled = true;
 
         statusEl.innerHTML = `<div style="text-align: center;">
-          <h2>🎉 Поздравляем!</h2>
-          <p>Вы успешно завершили урок!</p>
-          <p><strong>+10 баллов за полное прохождение!</strong></p>
+          <h2>🎉 Parabéns!</h2>
+          <p>Você concluiu a lição com sucesso!</p>
+          <p><strong>+10 pontos por concluir toda a lição!</strong></p>
         </div>`;
 
-        addPoints(10, `успешное завершение урока ${LESSON}`);
+        addPoints(10, `conclusão bem-sucedida da lição ${LESSON}`);
         setTimeout(() => {
           window.location.href = "../";
         }, 5000);
@@ -490,13 +490,13 @@
 
       if (type === "TASK_RESULT") {
         if (success) {
-          statusEl.textContent = "✅ Задание выполнено!";
+          statusEl.textContent = "✅ Tarefa concluída!";
           nextBtn.disabled = false;
-          addPoints(5, `успешное задание ${tasks[currentTaskIndex]}`);
+          addPoints(5, `tarefa bem-sucedida ${tasks[currentTaskIndex]}`);
         } else {
-          statusEl.textContent = "❌ Ошибка или пропуск";
+          statusEl.textContent = "❌ Erro ou pulado";
           nextBtn.disabled = false;
-          addPoints(-4, `ошибка или пропуск в ${tasks[currentTaskIndex]}`);
+          addPoints(-4, `erro ou pular em ${tasks[currentTaskIndex]}`);
         }
       }
     });
@@ -508,7 +508,7 @@
     });
 
     skipBtn.addEventListener("click", () => {
-      addPoints(-4, `пропуск задания ${tasks[currentTaskIndex]}`);
+      addPoints(-4, `pulou tarefa ${tasks[currentTaskIndex]}`);
       currentTaskIndex++;
       loadTask(currentTaskIndex);
     });

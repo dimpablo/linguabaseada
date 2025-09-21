@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Квиз по сегментации текста</title>
+    <title>Quiz de Segmentação de Texto</title>
     <script src="../dictionary.js"></script>
     <script src="segmentation.js"></script>
     <style>
@@ -363,23 +363,23 @@
 <body>
     <div class="container">
         <div class="instruction">
-            <h2>Задание по сегментации текста</h2>
-            <p>Закрасьте символы, чтобы выделить предложения. Каждое предложение — своим цветом.</p>
+            <h2>Tarefa de Segmentação de Texto</h2>
+            <p>Pinte os caracteres para destacar as sentenças. Cada sentença com uma cor diferente.</p>
             <ul>
-                <li>Всего <span id="sentenceCount">0</span> предложений</li>
-                <li>Разные предложения — разными цветами</li>
-                <li>Все символы должны быть закрашены</li>
+                <li>Total de <span id="sentenceCount">0</span> sentenças</li>
+                <li>Sentenças diferentes — cores diferentes</li>
+                <li>Todos os caracteres devem ser pintados</li>
             </ul>
         </div>
         
         <div class="color-tools">
             <div class="color-picker">
-                <label for="colorSelect">Цвет:</label>
+                <label for="colorSelect">Cor:</label>
                 <input type="color" id="colorSelect" value="#a8dadc">
             </div>
-            <button class="random-color-btn" id="randomColorBtn">Любой случайный цвет</button>
+            <button class="random-color-btn" id="randomColorBtn">Qualquer cor aleatória</button>
             <div class="color-info">
-                Текущий цвет: <span id="currentColor">#a8dadc</span>
+                Cor atual: <span id="currentColor">#a8dadc</span>
             </div>
             <button class="random-color-btn" id="helpBtn">?</button>
         </div>
@@ -387,8 +387,8 @@
         <table id="textTable"></table>
         
         <div class="controls">
-            <button id="checkBtn">Проверить</button>
-            <button id="resetBtn">Сбросить</button>
+            <button id="checkBtn">Verificar</button>
+            <button id="resetBtn">Reiniciar</button>
         </div>
         
         <div id="result"></div>
@@ -400,10 +400,10 @@
     <div class="modal-overlay" id="helpModal">
         <div class="modal">
             <h3 id="modalChar">?</h3>
-            <p><strong>Пиньинь:</strong> <span id="modalPinyin">-</span></p>
-            <p><strong>Значение:</strong> <span id="modalMeaning">-</span></p>
-            <p><small>Урок: <span id="modalLesson">-</span></small></p>
-            <button class="modal-close" id="closeModal">Закрыть</button>
+            <p><strong>Pinyin:</strong> <span id="modalPinyin">-</span></p>
+            <p><strong>Significado:</strong> <span id="modalMeaning">-</span></p>
+            <p><small>Aula: <span id="modalLesson">-</span></small></p>
+            <button class="modal-close" id="closeModal">Fechar</button>
         </div>
     </div>
 
@@ -468,9 +468,9 @@
       }
 
       // === 🔥 ПОДКЛЮЧЕНИЕ К FIREBASE ===
-      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js  ';
-      import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js  ';
-      import { getFirestore, doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js  ';
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js    ';
+      import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js    ';
+      import { getFirestore, doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js    ';
 
       const firebaseConfig = {
         apiKey: "AIzaSyBvyxPtx5PICYk60HUCERw5Cxh1TyCcZCY",
@@ -594,8 +594,8 @@
           document.body.classList.toggle('help-mode', helpMode);
           helpBtn.style.fontWeight = helpMode ? 'bold' : 'normal';
           helpBtn.title = helpMode 
-            ? 'Режим справки: ВКЛ (нажмите на иероглиф)' 
-            : 'Режим справки: ВЫКЛ';
+            ? 'Modo de ajuda: LIGADO (clique no caractere)' 
+            : 'Modo de ajuda: DESLIGADO';
         }
 
         helpBtn.addEventListener('click', function () {
@@ -604,7 +604,7 @@
           updateHelpButton();
           if (helpMode) {
             document.getElementById('result').className = 'info';
-            document.getElementById('result').textContent = '👉 Нажмите на иероглиф, чтобы увидеть значение';
+            document.getElementById('result').textContent = '👉 Clique no caractere para ver o significado';
           } else {
             document.getElementById('result').textContent = '';
           }
@@ -627,14 +627,14 @@
             const char = target.textContent.trim();
             if (!char || /[.,?!;:\s]/.test(char)) {
               document.getElementById('result').className = 'info';
-              document.getElementById('result').textContent = '👉 Нажмите на иероглиф';
+              document.getElementById('result').textContent = '👉 Clique em um caractere';
               return;
             }
             
             const entry = charData[char];
             modalChar.textContent = char;
             modalPinyin.textContent = entry?.pinyin || '—';
-            modalMeaning.textContent = entry?.meaning || 'Нет в словаре';
+            modalMeaning.textContent = entry?.meaning || 'Não está no dicionário';
             modalLesson.textContent = entry?.lesson || '—';
             
             helpModal.classList.add('show');
@@ -729,7 +729,7 @@
             box.className = 'legend-color';
             box.style.backgroundColor = color;
             const label = document.createElement('span');
-            label.textContent = `Цв.${idx}`;
+            label.textContent = `Cor.${idx}`;
             item.appendChild(box);
             item.appendChild(label);
             colorLegend.appendChild(item);
@@ -743,7 +743,7 @@
             box.className = 'legend-color';
             box.style.backgroundColor = currentColor;
             const label = document.createElement('span');
-            label.textContent = 'Цв.1 (выбран)';
+            label.textContent = 'Cor.1 (selecionada)';
             item.appendChild(box);
             item.appendChild(label);
             colorLegend.appendChild(item);
@@ -899,9 +899,9 @@
           // === 3. ФИНАЛЬНЫЙ АНАЛИЗ ===
           if (errorCells.size > 0) {
             result.className = 'error';
-            result.innerHTML = '❌ Проверьте границы предложений.';
+            result.innerHTML = '❌ Verifique os limites das sentenças.';
             playSound(uiSounds.error); // Воспроизводим звук ошибки
-            updatePoints(-2, 'неверные границы');
+            updatePoints(-2, 'limites incorretos');
             
             // Мерцание ТОЛЬКО на конфликтующих ячейках (и только если они закрашены)
             errorCells.forEach(cell => {
@@ -912,14 +912,14 @@
           }
           else if (unpainted.size > 0) {
             result.className = 'info';
-            result.textContent = `⚠️ Не закрашено: ${unpainted.size} символов`;
+            result.textContent = `⚠️ Não pintado: ${unpainted.size} caracteres`;
             // НЕ вешаем error-blink, просто информируем
           }
           else {
             result.className = 'success';
-            result.innerHTML = '✅ Все предложения выделены правильно!';
+            result.innerHTML = '✅ Todas as sentenças foram destacadas corretamente!';
             playSound(uiSounds.success); // Воспроизводим звук успеха
-            updatePoints(5, 'успешная сегментация');
+            updatePoints(5, 'segmentação bem-sucedida');
           }
         });
 
