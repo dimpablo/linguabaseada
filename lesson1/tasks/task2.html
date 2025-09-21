@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Задание 3: 其</title>
+</head>
+<body>
+
+  <h2>Что означает 其?</h2>
+  <p><strong>«其雨» — это:</strong></p>
+
+  <div class="pinyin-container">
+    <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+      Показать пиньинь
+    </button>
+    <div class="pinyin-text">qí yǔ</div>
+  </div>
+
+  <label><input type="radio" name="q" value="0"> Дождь идёт</label>
+  <label><input type="radio" name="q" value="1"> Будет дождь</label>
+  <label><input type="radio" name="q" value="2"> Дождя не будет</label>
+  <label><input type="radio" name="q" value="3"> Дождь действительно был</label>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    function sendResult(success, message) {
+      window.parent.postMessage({ type: "TASK_RESULT", success, message }, "*");
+    }
+
+    function check() {
+      const selected = document.querySelector('input[name="q"]:checked');
+      const resultEl = document.getElementById("result");
+      if (!selected) {
+        resultEl.textContent = "Выберите вариант.";
+        return;
+      }
+
+      if (selected.value === "1") {
+        resultEl.textContent = "✅ Правильно!";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно.";
+        sendResult(false, "Ошибка в интерпретации 其");
+      }
+    }
+  </script>
+
+</body>
+</html>
+
+<script>
+  window.parent.postMessage({
+    type: "TASK_EXISTS",
+    valid: true
+  }, "*");
+</script>
+

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Собери фразу</title>
+</head>
+<body>
+  <h2>Собери фразу</h2>
+
+  <div class="instructions">
+    <p><strong>Нажмите на иероглифы, чтобы собрать фразу:</strong></p>
+    <p><em>Гадатель Чжэн сказал: «Правитель действительно не задаёт вопросов».</em></p>
+  </div>
+
+  <p><strong>Иероглифы:</strong></p>
+  <div id="char-pool"></div>
+
+  <p><strong>Соберите здесь:</strong></p>
+  <div id="drop-area" class="drop-area">
+    <!-- Сюда добавляются иероглифы -->
+  </div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result" class="message"></p>
+
+  <script>
+    const expected = ['卜', '爭', '曰', '王', '允', '不', '貞'];
+
+    const allChars = [
+      '己', '卯', '王', '不', '貞', '巳',
+      '爭', '寅', '爭', '雨', '曰', '其', 
+      '癸', '亥', '允', '卜', '丑', '㱿', '壬', '午'
+    ];
+
+    const charPool = document.getElementById('char-pool');
+    const dropArea = document.getElementById('drop-area');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultEl = document.getElementById('result');
+
+    const isMobileDevice = 'ontouchstart' in window;
+
+    function moveToDropArea(box) {
+      const clone = box.cloneNode(true);
+      clone.draggable = false;
+      clone.style.cursor = 'default';
+      clone.onclick = null;
+      clone.ontouchstart = null;
+
+      box.remove();
+      dropArea.appendChild(clone);
+    }
+
+    function initCharPool(shuffled) {
+      charPool.innerHTML = '';
+      dropArea.innerHTML = '';
+      resultEl.textContent = '';
+
+      shuffled.forEach(char => {
+        const box = document.createElement('div');
+        box.className = 'char-box';
+        if (char === '，') box.classList.add('punctuation');
+        box.textContent = char;
+
+        box.style.cursor = 'pointer';
+        box.addEventListener('click', function() {
+          moveToDropArea(this);
+        });
+
+        charPool.appendChild(box);
+      });
+    }
+
+    let shuffledChars = [...allChars].sort(() => Math.random() - 0.5);
+    initCharPool(shuffledChars);
+
+    checkBtn.addEventListener('click', () => {
+      const current = Array.from(dropArea.children).map(el => el.textContent);
+      if (arraysEqual(current, expected)) {
+        resultEl.innerHTML = '✅ Правильно!<br>卜爭曰王允不貞';
+        resultEl.className = 'message success';
+        sendResult(true);
+      } else {
+        resultEl.textContent = '❌ Попробуйте снова.';
+        resultEl.className = 'message';
+        sendResult(false, 'Неверный порядок');
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      shuffledChars = [...allChars].sort(() => Math.random() - 0.5);
+      initCharPool(shuffledChars);
+    });
+
+    function arraysEqual(a, b) {
+      if (a.length !== b.length) return false;
+      for (let i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) return false;
+      }
+      return true;
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Фраза собрана верно" : "Ошибка в порядке")
+      }, "*");
+    }
+
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <title>Что означает 允?</title>
+</head>
+<body>
+
+  <h2>Что означает 允?</h2>
+
+  <div class="oracle-text">癸丑允其雨</div>
+<div class="pinyin-container">
+  <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">
+    Показать пиньинь ▼
+  </button>
+  <div class="pinyin-text">
+    guǐ chǒu yǔn qí yǔ
+  </div>
+</div>
+
+  <div class="options" id="options-container">
+    <!-- Варианты будут добавлены динамически и в случайном порядке -->
+  </div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    // Все варианты с указанием правильного
+    const options = [
+      { value: "correct", text: "Действительно пошёл дождь", correct: true },
+      { value: "rain", text: "Будет дождь", correct: false },
+      { value: "no-rain", text: "Не будет дождя", correct: false },
+      { value: "said", text: "Правитель сказал", correct: false }
+    ];
+
+    let selectedValue = null;
+
+    // Функция случайного перемешивания
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Отображение перемешанных вариантов
+    function renderOptions() {
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+
+      const shuffled = shuffleArray(options);
+
+      shuffled.forEach(option => {
+        const label = document.createElement("label");
+        label.className = "option";
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q";
+        input.value = option.value;
+
+        input.onchange = () => {
+          selectedValue = option.value;
+          // Убираем выделение
+          document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+          // Выделяем выбранный
+          label.classList.add('selected');
+        };
+
+        const text = document.createTextNode(option.text);
+        label.appendChild(input);
+        label.appendChild(text);
+        container.appendChild(label);
+      });
+    }
+
+    function check() {
+      if (!selectedValue) {
+        document.getElementById("result").textContent = "Выберите вариант ответа.";
+        document.getElementById("result").className = "error";
+        return;
+      }
+
+      const isCorrect = selectedValue === "correct";
+
+      const resultEl = document.getElementById("result");
+      if (isCorrect) {
+        resultEl.textContent = "✅ Правильно! 允 — подтверждение события, «и в самом деле пошёл дождь».";
+        resultEl.className = "success";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно. 允 означает «действительно», «и в самом деле» — это подтверждение, а не предсказание.";
+        resultEl.className = "error";
+        sendResult(false, "Ошибка в интерпретации 允");
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage(
+        {
+          type: "TASK_RESULT",
+          success,
+          message: message || (success ? "Верно интерпретировано 允" : "Ошибка в интерпретации 允")
+        },
+        "*"
+      );
+    }
+
+    // Перемешиваем и рендерим при загрузке
+    window.onload = renderOptions;
+
+    // Сигнализируем, что задание существует
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+

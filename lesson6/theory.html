@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Урок 6 — Древнекитайский язык по Крюкову</title>
+<!-- Для старых браузеров: полифилл -->
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<!-- Сам MathJax (версия 3) -->
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+<style>body {
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            line-height: 1.8;
+            margin: 50px auto;
+            background-color: #fbf8f0;
+            color: #2c3e50;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+        h1, h2, h3 {
+            color: #1a4f72;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            border-bottom: 2px solid #1a4f72;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5em;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin: 40px 0 20px;
+        }
+        h3 {
+            font-size: 1.2em;
+            color: #2c3e50;
+            border-bottom: none;
+            margin-top: 30px;
+        }
+        .original {
+            background-color: #f0f4f8;
+            padding: 18px 20px;
+            border-left: 6px solid #1a4f72;
+            font-size: 1.08em;
+            line-height: 1.6;
+            border-radius: 0 8px 8px 0;
+        }
+        .text, .grammar, .lexicon, .assignment {
+            margin-bottom: 45px;
+        }
+        .footer {
+            font-size: 0.85em;
+            color: #777;
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            line-height: 1.4;
+        }
+        .example {
+            display: block;
+            margin: 8px 0 8px 15px;
+            font-family: "Courier New", monospace;
+            font-size: 0.95em;
+            color: #1a4f72;
+        }
+        ol {
+            line-height: 1.8;
+        }
+
+        /* === Интерактивные подсказки для иероглифов === */
+        .char-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .char-item {
+            position: relative;
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.1em;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .char-item:hover {
+            background: #e6f2ff;
+        }
+
+        .inline-pinyin {
+            font-size: 0.85em;
+            color: #555;
+            margin-left: 4px;
+            font-style: italic;
+        }
+
+        .char-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 260px;
+            background: #1a4f72;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            text-align: left;
+            white-space: normal;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+            line-height: 1.5;
+            pointer-events: none;
+        }
+
+        .char-item:hover .char-tooltip {
+            display: block;
+        }
+
+        /* Таблица текста */
+
+
+
+        .phrase-item {
+            display: inline-block;
+            margin: 5px;
+            font-size: 1.1em;
+        }
+
+        .phrase-char {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .phrase-pinyin {
+            font-style: italic;
+            color: #555;
+            margin: 0 8px;
+        }
+
+        .phrase-meaning {
+            color: #333;
+        }
+
+        /* Таблица сравнения */
+        .comparison-table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-family: 'Noto Serif CJK SC', serif;
+        }
+        .comparison-table th {
+            background-color: #e6f2ff;
+            color: #1a4f72;
+        }
+
+        /* Таблица местоимений */
+        .pronoun-table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 70%;
+            font-size: 1.05em;
+        }
+        .pronoun-table th, .pronoun-table td {
+            border: 1px solid #ccc;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        .pronoun-table th {
+            background-color: #f0f4f8;
+            color: #1a4f72;
+        }
+        .pronoun-table td:nth-child(3), .pronoun-table td:nth-child(4) {
+            width: 30%;
+        }
+
+.math-example {
+    font-size: 1.1em;
+    margin: 20px auto;
+    text-align: center;
+    line-height: 1.4;
+}</style>
+<style>
+@font-face {
+  font-family: 'Jiaguwen';
+  src: url('../jiaguwen.ttf') format('truetype');
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+</style></head>
+<body><style id="2change">
+.oracle-table {
+    border-collapse: collapse;
+    margin: 20px auto;
+    font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+    font-size: 1.3em;
+    table-layout: fixed;
+    width: 95%;
+    max-width: 1200px;
+}
+.oracle-table td {
+    padding: 6px 8px;
+    border: 1px solid #d4d4d4;
+    text-align: center;
+    position: relative;
+    word-break: keep-all;
+    white-space: nowrap;
+}
+.line-num, .col-num {
+    background-color: #f0f4f8;
+    color: #1a4f72;
+    font-weight: bold;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 0.85em;
+    white-space: nowrap;
+}
+</style>
+<script src="./../dictionary.js"></script>
+<h1>УРОК 6</h1>
+<!-- ТАБЛИЦА ТЕКСТ УРОКА -->
+<div class="text">
+<h2>Texto da Lição</h2>
+<table class="oracle-table" id="oracleTable"></table>
+</div>
+<div style="text-align: center; margin: 20px 0;">
+<label class="toggle-switch">
+<input id="fontToggle" type="checkbox"/>
+<span class="slider"></span>
+</label>
+<span id="toggleLabel" style="margin-left: 10px; font-family: 'Segoe UI', sans-serif; color: #333;">
+    Обычный вид
+  </span>
+</div>
+<style>
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+  }
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 30px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: #1a5fb4;
+  }
+  input:checked + .slider:before {
+    transform: translateX(30px);
+  }
+</style>
+<style>/* Уменьшаем размер для номеров */
+
+/* Tooltip — без изменений */
+.char-tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 300px;
+    background: #1a4f72;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    text-align: left;
+    white-space: normal;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+    line-height: 1.5;
+}
+
+td:hover .char-tooltip {
+    display: block;
+}
+
+.lesson-badge {
+    display: inline-block;
+    background: #e6f2ff;
+    color: #1a4f72;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-left: 5px;
+}</style>
+<script>
+
+
+        const lessonText = [
+            "貞身其有疾貞身亡疾",
+            "乙酉卜大貞及茲二月有大雨辛未卜",
+            "中貞黍年有足雨",
+            "癸未貞旬亡禍癸丑卜出貞旬有祟乙",
+            "丑卜㱿貞茲邑亡振癸卯卜旅貞今日",
+            "亡來艱甲辰卜永貞西土其有降熯",
+            "貞冓眔㱿其有禍貞冓眔㱿不其以羌",
+            "貞冓叶王使貞冓眔㱿弗其叶王使",
+            "貞告于妣己眔妣庚其祐兄丙眔子癸",
+            "其祐妣丙眔大乙"
+        ];
+
+// Функция для создания таблицы
+function createOracleTable() {
+    const table = document.getElementById('oracleTable');
+    
+    // Создаём строку с номерами колонок
+    const headerRow = document.createElement('tr');
+    
+    // Пустая ячейка для выравнивания с номерами строк
+    const emptyCell = document.createElement('td');
+    emptyCell.className = 'line-num';
+    headerRow.appendChild(emptyCell);
+    
+    // Номера колонок: от 1 до 15
+    for (let i = 1; i <= 15; i++) {
+        const th = document.createElement('td');
+        th.className = 'col-num';
+        th.textContent = i;
+        headerRow.appendChild(th);
+    }
+    table.appendChild(headerRow);
+    
+    // Создаём строки с текстом
+    for (let i = 0; i < lessonText.length; i++) {
+        const row = document.createElement('tr');
+        
+        // Номер строки
+        const lineNumCell = document.createElement('td');
+        lineNumCell.className = 'line-num';
+        lineNumCell.textContent = i + 1;
+        row.appendChild(lineNumCell);
+        
+        // Разбиваем строку на символы
+        const chars = Array.from(lessonText[i]);
+        
+        // Заполняем ячейки для позиций 1–15
+        for (let j = 0; j < 15; j++) {  // Ровно 15 ячеек
+            const td = document.createElement('td');
+            
+            // Если есть символ на этой позиции — ставим его
+            if (j < chars.length && chars[j].trim() !== '') {
+                const char = chars[j];
+                td.textContent = char;
+                
+                if (charData[char]) {
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'char-tooltip';
+                    tooltip.innerHTML = `
+                        <strong>${char}</strong> <em>${charData[char].pinyin}</em><br>
+                        ${charData[char].meaning}<br>
+                        <span class="lesson-badge">Урок ${charData[char].lesson}</span>
+                    `;
+                    td.appendChild(tooltip);
+                }
+            }
+            // Если символа нет — ячейка остаётся пустой (ничего не делаем)
+            row.appendChild(td);
+        }
+        
+        table.appendChild(row);
+    }
+}
+
+// Инициализация таблицы при загрузке страницы
+document.addEventListener('DOMContentLoaded', createOracleTable);
+</script>
+<!-- КОНЕЦ ТАБЛИЦЫ ТЕКСТ УРОКА -->
+<!-- ГРАММАТИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="grammar">
+<h2>COMENTÁRIO DE GRAMÁTICA</h2>
+<h3>6.1. A palavra nocional 有 yǒu "ter"
+<p class="original">
+A palavra nocional 有 yǒu ocorre em textos do período arcaico exclusivamente em função predicativa. O predicado expresso por esta palavra possui duas características.
+Primeiro, geralmente possui um objeto direto:
+<span class="example">黍年有足雨 shǔ nián yǒu zú yǔ</span> "A colheita de painço terá chuva suficiente?"
+Segundo, em vez de um predicativo negativo, utiliza-se a palavra 亡 wú "não ter":
+<span class="example">旬有禍 xún yǒu huò</span> "Haverá infortúnio durante o período de dez dias?"
+<span class="example">旬亡禍 xún wú huò</span> "Não haverá infortúnio durante o período de dez dias?"
+O predicado expresso pelas palavras 有 yǒu ou 亡 wú é usado principalmente nos casos em que é necessário enfatizar que o sujeito não é o sujeito de uma ação, mas, ao contrário, está em um estado causado por alguma ação:
+<span class="example">西土其有降熯 xī tǔ qí yǒu jiàng hàn</span> "A seca foi enviada para as terras ocidentais?" (lit. "A seca foi enviada para as terras ocidentais?")
+</p>
+<h3>6.2. Preposição 及 jí</h3>
+<p class="original">
+A palavra 及 jí também é uma preposição arcaica.
+Esta preposição vem da palavra semântica "alcançar", "alcançar" e corresponde ao russo "quando..." ou "para...":
+<span class="example">及三月雨 jí sān yuè yǔ</span> "Haverá chuva na terceira lua?"
+</p>
+<h3>6.3. A conjunção 眔 dà</h3>
+<p class="original">
+Uma conjunção coordenativa entre dois ou mais substantivos é frequentemente não formada (por exemplo: 今來歳 jīn lái suì "o presente e o próximo ano"). Mas, no chinês antigo arcaico, há também uma palavra funcional especial que indica formalmente a relação de coordenação entre nomes. Esta é a conjunção 眔 dà:
+
+<!-- As chaves abaixo para os dois exemplos serão feitas usando látex -->
+<div class="math-example">
+\[
+\left.
+\begin{array}{c}
+\text{羊牛} \quad yáng\ niú \\
+\text{羊眔牛} \quad yáng\ dà\ niú
+\end{array}
+\right\}
+\text{ "carneiros e bois"}
+\]
+</div>
+
+<div class="char-tooltip">${data.meaning}</div>
+</p></h3></div>
+<!-- СПИСОК СЛОВ УРОКА -->
+<h2>СПИСОК СЛОВ УРОКА</h2>
+<div class="char-list"></div>
+<script>
+    // Укажи номер урока здесь
+    const LESSON = parseInt((window.location.pathname.match(/\/lesson(\d+)(?:\/|$)/) || [])[1] || '1');
+
+    // Находим все иероглифы этого урока из charData
+    const lessonChars = Object.entries(charData)
+        .filter(([char, data]) => data.lesson === LESSON)
+        .sort(([charA, dataA], [charB, dataB]) => {
+            // Сортировка по пиньиню (опционально)
+            return dataA.pinyin.localeCompare(dataB.pinyin, 'zh');
+        });
+
+    // Получаем контейнер
+    const charList = document.querySelector('.char-list');
+
+    // Очищаем (на всякий случай)
+    charList.innerHTML = '';
+
+    // Генерируем элементы
+    lessonChars.forEach(([char, data]) => {
+        const item = document.createElement('div');
+        item.className = 'char-item';
+
+        item.innerHTML = `
+            <span>${char}<span class="inline-pinyin">${data.pinyin}</span></span>
+            <div class="char-tooltip">${data.meaning}</div>
+        `;
+
+        charList.appendChild(item);
+    });
+</script>
+<!-- ЛЕКСИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="lexicon">
+<h2>COMENTÁRIO LÉXICO</h2>
+<h3>6.A. "A Missão dos Wang"</h3>
+<p class="original">
+Enquanto governava as tribos subjugadas, o Yin Wang simultaneamente se apoiava nelas em sua política em relação aos oponentes. Ao iniciar uma campanha contra uma tribo hostil, o rei normalmente ordenava que a milícia de "muitas hou" fosse colocada à sua disposição. Às vezes, porém, ele comissionava um líder específico para agir em seu nome — para realizar uma expedição punitiva contra vizinhos, entregar troféus e prisioneiros à capital Yin, etc.
+Nesses casos, o líder de uma tribo subordinada, autorizado pelo governante, era chamado de seu "embaixador" (使 shǐ). O mesmo termo era usado para designar a missão recebida pelo embaixador — a "missão do rei" (王使 wáng shǐ).
+</p>
+<h3>6.B. "Expedição Punitiva"</h3>
+<p class="original">
+Os antigos chineses afirmavam que "os principais assuntos do Estado são a guerra e o sacrifício". Inscrições divinatórias ilustram vividamente esse postulado.
+O povo Yin chamava suas expedições militares contra tribos hostis por vários nomes, mas o termo principal que significava "campanha punitiva" era 伐 fá. Era escrito com um ideograma representando um homem com um cutelo pressionado contra o pescoço — a principal arma de corte e perfuração da época.
+Os cutelos eram feitos de bronze e montados em um longo cabo de madeira. Essa arma podia ser usada para decapitar um inimigo sem permitir que ele se aproximasse.
+</p>
+<div style="text-align: center; margin: 20px 0;">
+<img alt="Ponta de picareta de bronze e o caractere 伐" src="img/7.jpg" style="max-width: 100%; border: 1px solid #ccc;"/>
+<img alt="Escrita antiga do caractere 伐 fá" src="img/8.jpg" style="max-width: 100%; border: 1px solid #ccc;"/>
+<p>À esquerda, há uma ponta de picareta de bronze; À direita, está a inscrição antiga do caractere 伐 fá.</p>
+</div>
+
+</div>
+<!-- ЗАДАНИЕ ДЛЯ САМОСТОЯТЕЛЬНОЙ РАБОТЫ -->
+<div class="assignment">
+<h2>TRABALHO PARA ESTUDO INDEPENDENTE</h2>
+<ol>
+<li>Reescreva o texto como uma tabela de distribuição.</li>
+<li>Faça uma análise gramatical do texto.</li>
+<li>Traduza o texto para o russo.</li>
+<li>Traduza as seguintes frases para o chinês antigo:
+<ol type="1">
+<li>No dia de Xin e Ren, o governante irá caçar.</li>
+<li>No primeiro mês, marcharemos sobre as tribos Qiangfang e Jifin.</li>
+<li>Gou e Yun realmente capturaram um veado.</li>
+<li>Não choverá até o segundo mês.</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="footer">
+Livro didático: V. A. Kryukov, Shuyin — Língua Chinesa Antiga Arcaica.
+Restaurado com OCR, preservando o estilo do autor.
+Todos os caracteres são das Lições 1 a 6 ou de caracteres cíclicos.
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const toggle = document.getElementById('fontToggle');
+  const label = document.getElementById('toggleLabel');
+  const styleSheet = document.getElementById('2change');
+
+  const normalCSS = `
+    .oracle-table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+      font-size: 1.3em;
+      table-layout: fixed;
+      width: 95%;
+      max-width: 1200px;
+    }
+    .oracle-table td {
+      padding: 6px 8px;
+      border: 1px solid #d4d4d4;
+      text-align: center;
+      position: relative;
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+    .line-num, .col-num {
+      background-color: #f0f4f8;
+      color: #1a4f72;
+      font-weight: bold;
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 0.85em;
+      white-space: nowrap;
+    }
+  `;
+
+  const oracleCSS = `
+    .oracle-table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      font-family: 'Jiaguwen', 'Noto Serif CJK SC', 'KaiTi', serif;
+      font-size: 1.3em;
+      table-layout: fixed;
+      width: 95%;
+      max-width: 1200px;
+    }
+    .oracle-table td {
+      padding: 6px 8px;
+      border: 1px solid #d4d4d4;
+      text-align: center;
+      position: relative;
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+    .line-num, .col-num {
+      background-color: #f0f4f8;
+      color: #1a4f72;
+      font-weight: bold;
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 0.85em;
+      white-space: nowrap;
+    }
+  `;
+
+  styleSheet.textContent = normalCSS;
+
+  toggle.addEventListener('change', function () {
+    if (toggle.checked) {
+      styleSheet.textContent = oracleCSS;
+      label.textContent = 'Оракульный вид';
+    } else {
+      styleSheet.textContent = normalCSS;
+      label.textContent = 'Обычный вид';
+    }
+  });
+});
+</script></body>
+<script id="help" src="../help.js"></script>
+</html>

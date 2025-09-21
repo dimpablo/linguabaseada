@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сказуемое</title>
+</head>
+<body>
+
+  <h2>Найди предикат</h2>
+  <p><strong>己卯卜貞雨？</strong></p>
+
+  <div class="pinyin-container">
+    <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+      Показать пиньинь
+    </button>
+    <div class="pinyin-text">jǐ mǎo bu zhēn yǔ?</div>
+  </div>
+
+  <p class="question">Какое слово — предикат?</p>
+
+  <div class="buttons">
+    <button onclick="answer('雨')">雨</button>
+    <button onclick="answer('貞')">貞</button>
+    <button onclick="answer('卜')">卜</button>
+    <button onclick="answer('己卯')">己卯</button>
+  </div>
+
+  <p id="result"></p>
+
+  <script>
+    function answer(sel) {
+      const resultEl = document.getElementById("result");
+      if (sel === "雨") {
+        resultEl.textContent = "✅ Верно! 雨 — предикат: «будет дождь?»";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно. Что отвечает на вопрос «что будет?»";
+        sendResult(false, "Ошибка в определении сказуемого");
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({ type: "TASK_RESULT", success, message }, "*");
+    }
+
+    // Сигнал о существовании задания
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+
+</body>
+</html>
+

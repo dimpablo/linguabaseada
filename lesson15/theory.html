@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Урок 15 — Древнекитайский язык по Крюкову</title>
+<style>
+        body {
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            line-height: 1.8;
+            margin: 50px auto;
+            background-color: #fbf8f0;
+            color: #2c3e50;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+        h1, h2, h3 {
+            color: #1a4f72;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            border-bottom: 2px solid #1a4f72;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5em;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin: 40px 0 20px;
+        }
+        h3 {
+            font-size: 1.2em;
+            color: #2c3e50;
+            border-bottom: none;
+            margin-top: 30px;
+        }
+        .original {
+            background-color: #f0f4f8;
+            padding: 18px 20px;
+            border-left: 6px solid #1a4f72;
+            font-size: 1.08em;
+            line-height: 1.6;
+            border-radius: 0 8px 8px 0;
+        }
+        .text, .grammar, .lexicon, .assignment {
+            margin-bottom: 45px;
+        }
+        .footer {
+            font-size: 0.85em;
+            color: #777;
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            line-height: 1.4;
+        }
+        .example {
+            display: block;
+            margin: 8px 0 8px 15px;
+            font-family: "Courier New", monospace;
+            font-size: 0.95em;
+            color: #1a4f72;
+        }
+        ol {
+            line-height: 1.8;
+        }
+
+        /* === Интерактивные подсказки для иероглифов === */
+        .char-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .char-item {
+            position: relative;
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.1em;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .char-item:hover {
+            background: #e6f2ff;
+        }
+
+        .char-item > span {
+            cursor: help;
+        }
+
+        .inline-pinyin {
+            font-size: 0.85em;
+            color: #555;
+            margin-left: 4px;
+            font-style: italic;
+        }
+
+        .char-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 260px;
+            background: #1a4f72;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            text-align: left;
+            white-space: normal;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+            line-height: 1.5;
+            pointer-events: none;
+        }
+
+        .char-item:hover .char-tooltip {
+            display: block;
+        }
+    </style>
+<style>
+        @font-face {
+            font-family: 'Jiaguwen';
+            src: url('../jiaguwen.ttf') format('truetype');
+            font-style: normal;
+            font-weight: normal;
+            font-display: swap;
+        }
+    </style>
+<style id="2change">
+        .oracle-table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.3em;
+            table-layout: fixed;
+            width: 95%;
+            max-width: 1200px;
+        }
+        .oracle-table td {
+            padding: 6px 8px;
+            border: 1px solid #d4d4d4;
+            text-align: center;
+            position: relative;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+        .line-num, .col-num {
+            background-color: #f0f4f8;
+            color: #1a4f72;
+            font-weight: bold;
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+    </style>
+<script src="./../dictionary.js"></script>
+</head>
+<body>
+<h1>УРОК 15</h1>
+<!-- ТАБЛИЦА ТЕКСТ УРОКА -->
+<div class="text">
+<h2>Texto da Lição</h2>
+<table class="oracle-table" id="oracleTable"></table>
+</div>
+<div style="text-align: center; margin: 20px 0;">
+<label class="toggle-switch">
+<input id="fontToggle" type="checkbox"/>
+<span class="slider"></span>
+</label>
+<span id="toggleLabel" style="margin-left: 10px; font-family: 'Segoe UI', sans-serif; color: #333;">
+        Обычный вид
+    </span>
+</div>
+<style>
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 30px;
+    }
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 30px;
+    }
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    input:checked + .slider {
+        background-color: #1a5fb4;
+    }
+    .slider:before {
+        transition: .4s;
+    }
+    input:checked + .slider:before {
+        transform: translateX(30px);
+    }
+</style>
+<style>
+    .char-tooltip {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: max-content;
+        max-width: 300px;
+        background: #1a4f72;
+        color: white;
+        padding: 12px 15px;
+        border-radius: 6px;
+        font-size: 0.9em;
+        text-align: left;
+        white-space: normal;
+        z-index: 100;
+        box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+        line-height: 1.5;
+    }
+    td:hover .char-tooltip {
+        display: block;
+    }
+    .lesson-badge {
+        display: inline-block;
+        background: #e6f2ff;
+        color: #1a4f72;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.8em;
+        margin-left: 5px;
+    }
+</style>
+<script>
+    // Данные текста урока 15 (по строкам из PDF)
+    const lessonText = [
+        "唯十又二月初吉丁丑王在宗周格于",
+        "大廟榮伯右同立中廷北鄉王令同左",
+        "右吳大父治場林虞牧自淲東至于河",
+        "厥遡至于玄水世孫孫子子左右吳大",
+        "父毋汝有閑對揚天子厥休",
+        "師望曰丕顯皇考究公穆穆克明厥心",
+        "哲厥德望肇帥型皇考虔夙夜出納王",
+        "命不敢不分不規王用弗忘聖人之後",
+        "多蔑曆賜休望敢對揚天子丕顯魯休",
+        "用作朕皇考究公尊鼎"
+    ];
+    // Функция для создания таблицы
+    function createOracleTable() {
+        const table = document.getElementById('oracleTable');
+        // Создаём строку с номерами колонок
+        const headerRow = document.createElement('tr');
+        const emptyCell = document.createElement('td');
+        emptyCell.className = 'line-num';
+        headerRow.appendChild(emptyCell);
+        for (let i = 1; i <= 15; i++) {
+            const th = document.createElement('td');
+            th.className = 'col-num';
+            th.textContent = i;
+            headerRow.appendChild(th);
+        }
+        table.appendChild(headerRow);
+
+        // Создаём строки с текстом
+        for (let i = 0; i < lessonText.length; i++) {
+            const row = document.createElement('tr');
+            const lineNumCell = document.createElement('td');
+            lineNumCell.className = 'line-num';
+            lineNumCell.textContent = i + 1;
+            row.appendChild(lineNumCell);
+
+            const chars = Array.from(lessonText[i].replace(/\s+/g, ' ')).filter(ch => ch.trim() !== '');
+            for (let j = 0; j < 15; j++) {
+                const td = document.createElement('td');
+                if (j < chars.length) {
+                    const char = chars[j];
+                    td.textContent = char;
+                    if (charData[char]) {
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'char-tooltip';
+                        tooltip.innerHTML = `
+                            <strong>${char}</strong> <em>${charData[char].pinyin}</em><br>
+                            ${charData[char].meaning}<br>
+                            <span class="lesson-badge">Урок ${charData[char].lesson}</span>
+                        `;
+                        td.appendChild(tooltip);
+                    }
+                }
+                row.appendChild(td);
+            }
+            table.appendChild(row);
+        }
+    }
+
+    // Инициализация таблицы при загрузке страницы
+    document.addEventListener('DOMContentLoaded', createOracleTable);
+</script>
+<!-- КОНЕЦ ТАБЛИЦЫ ТЕКСТ УРОКА -->
+<!-- ГРАММАТИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="grammar">
+<h2>COMENTÁRIO DE GRAMÁTICA</h2>
+<h3>15.1. Relações Atributivas entre Substantivos
+<p class="original">
+No chinês antigo, o atributivo sempre precede o atributivo. No entanto, nem sempre fica claro se existe uma relação atributiva entre substantivos adjacentes.
+Por exemplo, predicativos que significam "dar" e "receber"
+geralmente seguem dois objetos. No entanto, em contextos onde o objeto indireto já apareceu, ele pode ser omitido,
+enquanto o objeto direto pode ter um atributivo. Portanto, muitas vezes é difícil determinar com precisão as relações entre palavras individuais em uma frase como a seguinte: <span class="example">王賜同馬 wáng cì tóng mă</span>.
+<br/><br/>
+É possível que a palavra <span class="example">同 tóng</span>, que é um nome próprio, atue como um objeto indireto aqui. Nesse caso, podemos traduzir esta frase da seguinte forma: "Wang deu cavalos a [um homem chamado] Tong."
+<br/><br/>
+Mas também é possível que a palavra <span class="example">同 tóng</span> seja um atributo do seguinte objeto direto: "Wang deu [a alguém] cavalos [da região] Tong."
+<br/><br/>
+As línguas arcaicas não possuem meios gramaticais para formalizar relações atributivas entre substantivos, portanto, em alguns casos, permanece a possibilidade de diferentes interpretações do texto.
+<br/><br/>
+Indicadores formais de relações atributivas aparecem pela primeira vez em línguas pré-clássicas. Isso, sem dúvida, contribui para uma expressão de pensamento mais clara e inequívoca e elimina uma série de mal-entendidos na interpretação de textos. <br/><br/>
+Um dos indicadores da relação atributiva entre
+nomes é o já conhecido pronome pessoal <span class="example">厥 jué</span>.
+Vamos comparar duas frases:
+<br/><br/>
+<span class="example">天子休 tiān zǐ xiū</span> "presente do Filho do Céu"<br/>
+<span class="example">天子厥休 tiān zǐ jué xiū</span><br/>
+<span class="example">王所 wáng suǒ</span> "residência do governante"<br/>
+<span class="example">王厥所 wáng jué suǒ</span>
+</p>
+<h3>15.2. Palavra funcional 之 zhī</h3>
+<p class="original">
+Juntamente com <span class="example">厥 jué</span>, <span class="example">之 zhī</span> começou a ser usada para expressar relações atributivas na língua pré-clássica — uma palavra funcional completamente nova, nunca registrada em textos anteriores.
+<br/><br/>
+Assim como <span class="example">厥 jué</span> também fica entre a definição e o definido:
+<br/><br/>
+<span class="example">伐玁狁于洛之陽 fá xiăn yǔn yú luò zhī yáng</span> “ataque
+às tribos Xianyun na margem norte do rio Loshui" (yáng - "margem norte do rio");<br/>
+<span class="example">圖于榮伯之所 tú yú róng bó zhī suǒ</span> “para se estabelecer na residência de Rong-bo.” 
+</p>
+<h3>15.3. Inversão do Objeto Direto
+<p class="original">
+A continuidade entre as línguas arcaica e pré-clássica se manifesta, em particular, no fato de que esta última mantém a regra da inversão obrigatória do objeto direto expresso por um
+pronome em uma frase negativa:
+<br/><br/>
+<span class="example">毋汝又閑 wú rǔ yòu xián</span> "Você não deve ser dispensado
+[destes deveres]."
+</p>
+<h3>15.4. Duplicação de Palavras Nocionais (continuação)</h3>
+<p class="original">
+Na língua pré-clássica, não apenas um substantivo
+(ver 11.3), mas também um predicativo pode ser duplicado.
+<br/><br/>
+Neste último caso, a duplicação expressa um grau intensivo de um determinado estado ou qualidade. Na maioria das vezes, essa palavra duplicada é um atributo de um predicativo, ou seja, funciona como um modificador adverbial, indicando uma característica de uma ação ou
+estado:
+<br/><br/>
+<span class="example">祖考穆穆克哲厥德 zǔ kăo mù mù kè zhè jué dé</span> "Os ancestrais
+foram capazes de exibir magnificamente seu poder virtuoso."
+<br/><br/>
+Também pode ser um atributo de um nome: <span class="example">穆穆文王 mù mù wén wáng</span> "Wen Wang, cheio de esplendor."
+</p>
+</h3></h3></div>
+<h2>СПИСОК СЛОВ УРОКА</h2>
+<div class="char-list"></div>
+<script>
+    // Укажи номер урока здесь
+    const LESSON = parseInt((window.location.pathname.match(/\/lesson(\d+)(?:\/|$)/) || [])[1] || '1');
+
+    // Находим все иероглифы этого урока из charData
+    const lessonChars = Object.entries(charData)
+        .filter(([char, data]) => data.lesson === LESSON)
+        .sort(([charA, dataA], [charB, dataB]) => {
+            // Сортировка по пиньиню (опционально)
+            return dataA.pinyin.localeCompare(dataB.pinyin, 'zh');
+        });
+
+    // Получаем контейнер
+    const charList = document.querySelector('.char-list');
+
+    // Очищаем (на всякий случай)
+    charList.innerHTML = '';
+
+    // Генерируем элементы
+    lessonChars.forEach(([char, data]) => {
+        const item = document.createElement('div');
+        item.className = 'char-item';
+
+        item.innerHTML = `
+            <span>${char}<span class="inline-pinyin">${data.pinyin}</span></span>
+            <div class="char-tooltip">${data.meaning}</div>
+        `;
+
+        charList.appendChild(item);
+    });
+</script>
+<!-- ЛЕКСИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="lexicon">
+<h2>COMENTÁRIO LEXICO</h2>
+<h3>15.A. Poder Virtuoso (德 dé)</h3>
+<p class="original">
+Um atributo necessário do governante supremo — o Filho
+
+do Céu — era a posse de um poder mágico especial, semelhante ao mana polinésio. O povo Zhou designava esse poder pela palavra <span class="example">德 dé</span>.
+<br/><br/>
+Graças a esse poder, o governante podia influenciar aqueles ao seu redor.
+<br/><br/>
+"Seu de", diz, por exemplo, no Shangshu, "se manifesta
+como um brilho que ilumina as esferas superior e inferior; você o espalha diligentemente para os quatro pontos cardeais."
+<br/><br/>
+A posse de de permite manter tribos hostis sob controle e a ordem no Império Celestial. O poder virtuoso de de conecta o rei com seus ancestrais e, por meio deles, com o Céu, o árbitro dos destinos do cosmos e da sociedade humana como parte integrante dele.
+<br/><br/>
+No entanto, o governante não deve apenas confiar nesse poder inato, mas também promover sua manifestação externa de todas as maneiras possíveis.
+Para tanto, ele deve "iluminar" (<span class="example">明 míng</span>) seu coração — o centro do poder virtuoso de de. Observe que os antigos chineses acreditavam que o coração era dotado da capacidade não apenas de sentir, mas também de pensar.
+<br/><br/>
+O poder de de era, é claro, inerente não apenas ao Filho do Céu,
+mas também aos seus assessores mais próximos — os dignitários e os zhuhou. Eles, por sua vez, só poderiam auxiliar com sucesso o wang em seu trabalho transformador se conseguissem
+garantir que seu de não "permanecesse oculto" (<span class="example">潛 qián</span>)
+e, graças aos seus esforços, tivessem a oportunidade de se "manifestar" plena e exaustivamente (<span class="example">哲 zhé</span>).
+</p>
+<h3>15.B. Posições Hereditárias</h3>
+<p class="original">
+A prioridade de "seguir modelos" no período Zhou estava intimamente ligada às condições da realidade social, na qual a vocação de um aristocrata era servir em uma ou outra posição na corte
+do governante.
+<br/><br/>
+A permanência no cargo naquela época era vitalícia (veja
+no texto da Lição 13: "Ordeno que você governe o templo em Feng e o povo de Feng até a sua morte").
+<br/><br/>
+Além disso, essas posições eram hereditárias. A explicação para isso encontra-se no mesmo texto: uma vez que um ancestral nomeia alguém para uma posição específica, os descendentes deste também devem seguir seu exemplo. Como o ideal eterno de um súdito virtuoso é seguir o exemplo de seus ancestrais falecidos, ele
+"não pode nem sonhar que os ancestrais tenham [algo que] precise ser corrigido".
+<br/><br/>
+É por isso que, ao designar Tong para auxiliar Wu Dafu e ser responsável pelos
+campos, florestas, áreas de caça e pastagens, o rei o avisa que essa posição pertencerá a ele "por gerações, durante a vida de filhos e netos".
+</p>
+<h3>15.B. Capitais de Zhou</h3>
+<p class="original">
+Ao longo do Ocidente
+
+Zhou recebeu esse nome porque, após derrotar os Yin, os Zhou retornaram ao Ocidente e fundaram sua capital
+na região da moderna Xi'an.
+
+Esta cidade era chamada de <span class="example">宗周 zōng zhōu</span> "Zhou, onde os templos ancestrais estão localizados".
+<br/><br/>
+Além desta capital principal, o rei Zhou tinha
+várias outras residências, incluindo <span class="example">洛邑 luò yì</span> "Cidade Luo" (atual Luoyang), para onde a corte do rei se mudou após sua derrota para os nômades em 771 a.C. </p>
+<div style="text-align: center; margin: 20px 0;">
+<img (período="" alt="Inscrição no navio " class="original" do="" imperador="" reinado="" shi="" src="./img/page_6_img_1.jpeg " style="border: none; padding: 0; max-width: 100%;" wang)"="" xuan="" yugui=""/>
+<p class="footer" style="margin-top: 8px; border-top: none; padding-top: 0;">Inscrição no navio "Shi Yugui"<br/>(período do reinado do Imperador Xuan Wang)</p>
+</div>
+
+</div>
+<!-- ЗАДАНИЕ ДЛЯ САМОСТОЯТЕЛЬНОЙ РАБОТЫ -->
+<div class="assignment">
+<h2>TAREFA DE ESTUDO INDEPENDENTE</h2>
+<ol>
+<li>Reescreva o texto e adicione pontuação.</li>
+<li>Traduza o texto para o russo.</li>
+<li>Traduza as seguintes frases para o chinês antigo:
+<ol style="margin-left: 20px; margin-top: 5px;">
+<li>Com este recipiente ritual, agradeça ao filho do governante por seu favor.</li>
+<li>Dia e noite, sigo o exemplo dos meus ilustres ancestrais.</li>
+<li>Com esta carruagem, seu pai decapitou o inimigo e capturou prisioneiros.</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="footer">
+Livro didático: V. A. Kryukov - Chinês Antigo Arcaico.<br>
+Restaurado usando OCR, preservando o estilo do autor e adicionando Pinyin.<br>
+Todos os caracteres são dos textos das Lições 1–15, ou dos caracteres cíclicos (甲子 – 癸亥).
+</br></br></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggle = document.getElementById('fontToggle');
+        const label = document.getElementById('toggleLabel');
+        const styleSheet = document.getElementById('2change');
+
+        const normalCSS = `
+            .oracle-table {
+                border-collapse: collapse;
+                margin: 20px auto;
+                font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+                font-size: 1.3em;
+                table-layout: fixed;
+                width: 95%;
+                max-width: 1200px;
+            }
+            .oracle-table td {
+                padding: 6px 8px;
+                border: 1px solid #d4d4d4;
+                text-align: center;
+                position: relative;
+                word-break: keep-all;
+                white-space: nowrap;
+            }
+            .line-num, .col-num {
+                background-color: #f0f4f8;
+                color: #1a4f72;
+                font-weight: bold;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+                font-size: 0.85em;
+                white-space: nowrap;
+            }
+        `;
+
+        const oracleCSS = `
+            .oracle-table {
+                border-collapse: collapse;
+                margin: 20px auto;
+                font-family: 'Jiaguwen', 'Noto Serif CJK SC', 'KaiTi', serif;
+                font-size: 1.3em;
+                table-layout: fixed;
+                width: 95%;
+                max-width: 1200px;
+            }
+            .oracle-table td {
+                padding: 6px 8px;
+                border: 1px solid #d4d4d4;
+                text-align: center;
+                position: relative;
+                word-break: keep-all;
+                white-space: nowrap;
+            }
+            .line-num, .col-num {
+                background-color: #f0f4f8;
+                color: #1a4f72;
+                font-weight: bold;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+                font-size: 0.85em;
+                white-space: nowrap;
+            }
+        `;
+
+        styleSheet.textContent = normalCSS;
+
+        toggle.addEventListener('change', function () {
+            if (toggle.checked) {
+                styleSheet.textContent = oracleCSS;
+                label.textContent = 'Оракульный вид';
+            } else {
+                styleSheet.textContent = normalCSS;
+                label.textContent = 'Обычный вид';
+            }
+        });
+    });
+</script>
+<script id="help" src="../help.js"></script>
+</body>
+</html>

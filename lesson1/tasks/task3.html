@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Перевод</title>
+</head>
+<body>
+
+  <h2>Переведи словосочетание</h2>
+
+  <div id="questions-container">
+    <!-- Вопросы будут добавлены скриптом -->
+  </div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    const questions = [
+      {
+        id: "t1",
+        text: "丙寅卜",
+        pinyin: "bǐng yín bo",
+        options: [
+          "гадали в день бин-инь",
+          "правитель гадал",
+          "в день бинь-мао",
+          "жертвоприношение в храме"
+        ],
+        correct: "гадали в день бин-инь"
+      },
+      {
+        id: "t2",
+        text: "王占曰",
+        pinyin: "wáng zhàn yuē",
+        options: [
+          "правитель сказал",
+          "правитель истолковал",
+          "царь приказал",
+          "он записал"
+        ],
+        correct: "правитель истолковал"
+      }
+    ];
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function loadQuestions() {
+      const container = document.getElementById("questions-container");
+      container.innerHTML = "";
+
+      const shuffled = shuffleArray(questions);
+
+      shuffled.forEach(q => {
+        const questionDiv = document.createElement("div");
+        questionDiv.className = "question";
+        questionDiv.innerHTML = `
+          <p><strong>${q.text}</strong></p>
+          <div class="pinyin-container">
+            <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+              Показать пиньинь
+            </button>
+            <div class="pinyin-text">${q.pinyin}</div>
+          </div>
+          <div class="options">
+            ${q.options.map(option => `
+              <label>
+                <input type="radio" name="${q.id}" value="${option}">
+                ${option}
+              </label>
+            `).join("")}
+          </div>
+        `;
+        container.appendChild(questionDiv);
+      });
+    }
+
+    function check() {
+      const selectedT1 = document.querySelector('input[name="t1"]:checked');
+      const selectedT2 = document.querySelector('input[name="t2"]:checked');
+      const resultEl = document.getElementById("result");
+
+      if (!selectedT1 || !selectedT2) {
+        resultEl.textContent = "Выберите оба варианта.";
+        sendResult(false, "Не все поля заполнены");
+        return;
+      }
+
+      const correctT1 = questions.find(q => q.id === "t1").correct;
+      const correctT2 = questions.find(q => q.id === "t2").correct;
+
+      const match1 = selectedT1.value === correctT1;
+      const match2 = selectedT2.value === correctT2;
+
+      if (match1 && match2) {
+        resultEl.textContent = "✅ Верно!";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Ошибка. 曰 — прямая речь, 占 — истолковать.";
+        sendResult(false, "Неверный выбор");
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({ type: "TASK_RESULT", success, message }, "*");
+    }
+
+    window.onload = loadQuestions;
+
+    // Сигнал о существовании задания
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Собери перевод: Урок 3</title>
+</head>
+<body>
+
+  <h2>Собери перевод: Урок 3</h2>
+
+  <div class="instructions">
+    <p><strong>Кликайте по словам</strong>, чтобы собрать правильный перевод.</p>
+    <p>Каждое задание фокусируется на ключевых грамматических структурах Урока 3.</p>
+    <p>💡 <em>Обратите внимание на предлог 于 и модальное отрицание 勿!</em></p>
+  </div>
+
+  <div class="task-container">
+    <div class="task-title">1. 入于商？</div>
+    <div class="oracle-text">入于商？</div>
+    <div id="word-pool1" class="word-pool"></div>
+    <div id="drop-area1" class="drop-area"></div>
+    <div class="instructions" style="font-size:12px; padding:4px; margin-top:4px">
+      <p>💡 Эта фраза демонстрирует <strong>предлог 于</strong> в значении <strong>конечного пункта движения</strong> (3.1)</p>
+    </div>
+  </div>
+
+  <div class="task-container">
+    <div class="task-title">2. 王勿入于商</div>
+    <div class="oracle-text">王勿入于商</div>
+    <div id="word-pool2" class="word-pool"></div>
+    <div id="drop-area2" class="drop-area"></div>
+    <div class="instructions" style="font-size:12px; padding:4px; margin-top:4px">
+      <p>💡 Здесь важно <strong>модальное отрицание 勿</strong> (3.5) и <strong>предлог 于</strong> в значении конечного пункта</p>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result"></p>
+
+  <script>
+    // Ожидаемые правильные варианты
+    const expected1 = [
+      ['вступить', 'в', 'Шан'],
+      ['войти', 'в', 'Шан'],
+      ['вступлю', 'ли', 'в', 'Шан'],
+      ['в', 'Шан', 'вступить']
+    ];
+
+    const expected2 = [
+      ['правителю', 'не', 'следует', 'вступать', 'в', 'Шан'],
+      ['правителю', 'не', 'надо', 'вступать', 'в', 'Шан'],
+      ['правителю', 'не', 'стоит', 'вступать', 'в', 'Шан'],
+      ['в', 'Шан', 'правителю', 'не', 'следует', 'вступать']
+    ];
+
+    const words1 = ['в', 'Шан', 'вступить', 'ли', 'войти', 'из', 'сейчас', 'мы', 'выйти', 'из', 'него', 'на', 'запад'];
+    const words2 = ['правителю', 'не', 'следует', 'вступать', 'в', 'Шан', 'надо', 'стоит', 'он', 'войдет', 'сейчас', 'весной'];
+
+    const wordPool1 = document.getElementById('word-pool1');
+    const wordPool2 = document.getElementById('word-pool2');
+    const dropArea1 = document.getElementById('drop-area1');
+    const dropArea2 = document.getElementById('drop-area2');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultEl = document.getElementById('result');
+
+    // Перемешивание массива (алгоритм Фишера-Йейтса)
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Создаём DOM-элементы слов
+    function createWordElements(words, pool, dropArea) {
+      const shuffledWords = shuffleArray(words); // 🔁 Перемешиваем слова
+      return shuffledWords.map(word => {
+        const box = document.createElement('div');
+        box.className = 'word-box';
+        box.textContent = word;
+
+        box.onclick = () => {
+          // Перемещаем в drop-area
+          box.remove();
+          dropArea.appendChild(box);
+          updatePlaceholder(dropArea); // Обновляем состояние плейсхолдера
+        };
+
+        return box;
+      });
+    }
+
+    // Обновляем видимость [пусто]
+    function updatePlaceholder(dropArea) {
+      const hasWords = Array.from(dropArea.children).some(el => el.classList.contains('word-box'));
+      dropArea.classList.toggle('has-words', hasWords);
+    }
+
+    let wordElements1 = [];
+    let wordElements2 = [];
+
+    function init() {
+      // Очищаем
+      wordPool1.innerHTML = '';
+      wordPool2.innerHTML = '';
+      dropArea1.innerHTML = '';
+      dropArea2.innerHTML = '';
+      resultEl.style.display = 'none';
+
+      // Пересоздаём элементы со случайным порядком
+      wordElements1 = createWordElements(words1, wordPool1, dropArea1);
+      wordElements2 = createWordElements(words2, wordPool2, dropArea2);
+
+      // Добавляем в пулы
+      wordElements1.forEach(el => wordPool1.appendChild(el));
+      wordElements2.forEach(el => wordPool2.appendChild(el));
+
+      // Обновляем плейсхолдеры
+      updatePlaceholder(dropArea1);
+      updatePlaceholder(dropArea2);
+    }
+
+    // Обработка кликов в drop-area: возврат в пул
+    dropArea1.addEventListener('click', (e) => {
+      if (e.target.classList.contains('word-box')) {
+        const wordBox = e.target;
+        wordBox.remove();
+        wordPool1.appendChild(wordBox);
+        updatePlaceholder(dropArea1);
+      }
+    });
+
+    dropArea2.addEventListener('click', (e) => {
+      if (e.target.classList.contains('word-box')) {
+        const wordBox = e.target;
+        wordBox.remove();
+        wordPool2.appendChild(wordBox);
+        updatePlaceholder(dropArea2);
+      }
+    });
+
+    function getWords(dropArea) {
+      return Array.from(dropArea.children)
+        .filter(el => el.classList.contains('word-box'))
+        .map(el => el.textContent.trim());
+    }
+
+    checkBtn.addEventListener('click', () => {
+      const current1 = getWords(dropArea1);
+      const current2 = getWords(dropArea2);
+
+      const isCorrect1 = expected1.some(option => arraysEqual(current1, option));
+      const isCorrect2 = expected2.some(option => arraysEqual(current2, option));
+
+      if (isCorrect1 && isCorrect2) {
+        resultEl.innerHTML = `✅ <b>Идеально!</b> Вы усвоили ключевые структуры Урока 3: предлог 于 и модальное отрицание 勿.`;
+        resultEl.className = 'message success';
+        resultEl.style.display = 'block';
+        sendResult(true);
+      } else {
+        let message = '❌ Проверьте порядок слов и значение частиц:';
+        if (!isCorrect1) message += '<br>• В первом задании: предлог 于 в значении конечного пункта движения';
+        if (!isCorrect2) message += '<br>• Во втором: модальное отрицание 勿 ("не следует")';
+        
+        resultEl.innerHTML = message;
+        resultEl.className = 'message error';
+        resultEl.style.display = 'block';
+        sendResult(false, message);
+      }
+    });
+
+    resetBtn.addEventListener('click', init);
+
+    function arraysEqual(a, b) {
+      if (a.length !== b.length) return false;
+      for (let i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) return false;
+      }
+      return true;
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Верно" : "Ошибка")
+      }, "*");
+    }
+
+    // Инициализация
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>

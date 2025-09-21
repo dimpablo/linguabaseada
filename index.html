@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Língua Chinesa Antiga — Curso Online</title>
+  <style>
+    /* Estilos do botão de doação */
+    .btn-donate {
+      background: linear-gradient(to right, #ffcc00, #ff9900);
+      color: #333 !important;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(255, 204, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .btn-donate:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(255, 204, 0, 0.4);
+    }
+    
+    .btn-donate:active {
+      transform: translateY(0);
+    }
+    
+    .btn-donate::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.1);
+      transform: rotate(45deg);
+      transition: all 0.5s ease;
+      opacity: 0;
+    }
+    
+    .btn-donate:hover::before {
+      opacity: 1;
+      animation: shine 1.5s infinite;
+    }
+    
+    @keyframes shine {
+      0% {
+        left: -50%;
+      }
+      100% {
+        left: 100%;
+      }
+    }
+    
+    .pulse {
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(255, 204, 0, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(255, 204, 0, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 204, 0, 0);
+      }
+    }
+    
+    /* Os demais estilos permanecem inalterados */
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(315deg, #8a9cf8 0%, #9a75c8 100%);
+      font-family: 'Segoe UI', Verdana, sans-serif;
+      min-height: 100vh;
+      color: #e6e6fa;
+      overscroll-behavior: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      font-size: 2.8em;
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: -1px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+
+    .subtitle {
+      font-size: 1.2em;
+      margin: 10px 0 0;
+      opacity: 0.9;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+    }
+
+    .user-panel {
+      background: rgba(44, 62, 80, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      margin: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+      padding: 20px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      color: white;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .user-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .user-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 3px solid white;
+      object-fit: cover;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .user-name {
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .user-email {
+      font-size: 14px;
+      opacity: 0.8;
+    }
+
+    .user-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .user-stats a {
+      color: #e0f7fa;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.95em;
+    }
+
+    .auth-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1em;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .btn-primary {
+      background-color: #4285F4;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #3367D6;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: #00897b;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background-color: #00695C;
+      transform: translateY(-2px);
+    }
+
+    .btn-logout {
+      background-color: #d32f2f;
+      color: white;
+    }
+
+    .btn-logout:hover {
+      background-color: #c62828;
+      transform: translateY(-2px);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .periods-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 25px;
+      margin: 40px 0;
+    }
+
+    .period-card {
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-decoration: none;
+      height: 320px;
+      color: white;
+    }
+
+    .period-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+      z-index: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .period-card:hover::before {
+      opacity: 0.6;
+    }
+
+    .period-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .bg-archaic     { background-image: url('img/oracle.jpeg'); }
+    .bg-early       { background-image: url('img/bronze.png'); }
+    .bg-late        { background-image: url('img/seal.jpg'); }
+    .bg-classical   { background-image: url('img/laozi.jpg'); }
+    .bg-postclassical { background-image: url('img/simaqian.jpeg'); }
+    .bg-common      { background-image: url('img/vinegartasters.jpg'); }
+
+    .period-card {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .period-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px;
+      z-index: 2;
+      text-align: center;
+    }
+
+    .period-title {
+      font-size: 1.2em;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0 0 8px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
+
+    .period-desc {
+      font-size: 0.95em;
+      margin: 0 0 8px;
+      line-height: 1.5;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .lesson-count {
+      font-size: 0.85em;
+      opacity: 0.9;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.7);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9em;
+    }
+
+    footer a {
+      color: white;
+      text-decoration: underline;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: linear-gradient(135deg, #2c3e50 0%, #4a235a 100%);
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 90%;
+      color: white;
+      text-align: center;
+      position: relative;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .donate-options {
+      background: rgba(255,255,255,0.1);
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .donate-options h3 {
+      margin-top: 0;
+      color: #ffcc00;
+    }
+
+    .donate-options p {
+      word-break: break-all;
+      font-size: 14px;
+      background: rgba(0,0,0,0.2);
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .user-panel {
+        position: static;
+        margin: 10px;
+        padding: 15px;
+      }
+
+      .login-container,
+      .auth-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 9px 12px;
+        font-size: 0.9em;
+        text-align: center;
+      }
+
+      .user-info {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+
+      .user-stats {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 0;
+      }
+      .user-stats a {
+        font-size: 0.9em;
+      }
+      .container {
+        padding: 10px;
+      }
+      header {
+        padding: 30px 10px;
+      }
+      h1 {
+        font-size: 2.2em;
+      }
+      .subtitle {
+        font-size: 1.1em;
+      }
+      .period-card {
+        height: 260px;
+      }
+      .period-title {
+        font-size: 1.1em;
+      }
+      .period-desc {
+        font-size: 0.9em;
+        line-height: 1.45;
+      }
+      .lesson-count {
+        font-size: 0.8em;
+      }
+      
+      .auth-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Língua Chinesa Antiga</h1>
+      <div class="subtitle">Curso online sobre a língua arcaica e clássica chinesa</div>
+    </header>
+
+    <div class="user-panel">
+      <div id="login-container" class="login-container">
+        <button class="btn btn-primary" id="loginWithGoogle">Entrar com Google</button>
+        <a href="https://t.me/oldcnio  " class="btn btn-secondary">Contatar o desenvolvedor</a>
+        <a href="./dictionary.html" class="btn btn-secondary">Dicionário do curso</a>
+        <button class="btn btn-donate pulse" id="donateBtn">❤️ Apoiar o projeto</button>
+      </div>
+      <div id="user-container" class="user-container hidden">
+        <div class="user-info">
+          <img id="user-photo" class="user-avatar" src="" alt="Foto do usuário">
+          <div>
+            <div id="user-name" class="user-name"></div>
+            <div id="user-email" class="user-email"></div>
+          </div>
+          <div class="user-stats">
+            <a href="./community.html#leaderboard" target="_blank">
+              🎯 <strong id="user-points">0</strong> pontos
+            </a>
+            <a href="./community.html#friends" target="_blank">
+              👥 <strong id="user-friends">0</strong> amigos
+            </a>
+            <a href="./community.html#messages" target="_blank">
+              ✉️ <strong id="user-unread">0</strong> novas
+            </a>
+          </div>
+        </div>
+        <div class="auth-buttons">
+          <a href="./community.html#users" class="btn btn-secondary">Comunidade</a>
+          <a href="https://t.me/oldcnio  " class="btn btn-secondary">Desenvolvedor</a>
+          <a href="./dictionary.html" class="btn btn-secondary">Dicionário do curso</a>
+          <button class="btn btn-donate" id="donateBtnUser">❤️ Apoiar</button>
+          <button class="btn btn-logout" id="logoutBtn">Sair</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="periods-grid">
+      <a href="./archaic.html" class="period-card bg-archaic">
+        <div class="period-content">
+          <div class="period-title">Arcaico</div>
+          <div class="period-desc">Língua das inscrições oraculares<br>em ossos e bronze da dinastia Shang</div>
+          <div class="lesson-count">Lições 1–10</div>
+        </div>
+      </a>
+
+      <a href="./early.html" class="period-card bg-early">
+        <div class="period-content">
+          <div class="period-title">Pré-clássico inicial</div>
+          <div class="period-desc">Textos do Oeste Zhou,<br>inscrições em vasos de bronze</div>
+          <div class="lesson-count">Lições 11–20</div>
+        </div>
+      </a>
+
+      <a href="./late.html" class="period-card bg-late">
+        <div class="period-content">
+          <div class="period-title">Pré-clássico tardio</div>
+          <div class="period-desc">Filosofia e política da era Chunqiu</div>
+          <div class="lesson-count">Lições 21–30</div>
+        </div>
+      </a>
+
+      <a href="./earlyclassical.html" class="period-card bg-classical">
+        <div class="period-content">
+          <div class="period-title">Clássico inicial</div>
+          <div class="period-desc">Mengzi, Zhuangzi, Sunzi<br>— era de Zhanguo</div>
+          <div class="lesson-count">Lições 31–40</div>
+        </div>
+      </a>
+
+      <a href="./lateclassical.html" class="period-card bg-postclassical">
+        <div class="period-content">
+          <div class="period-title">Clássico tardio</div>
+          <div class="period-desc">Historiadores Han: Sima Qian, Ban Gu</div>
+          <div class="lesson-count">Lições 41–50</div>
+        </div>
+      </a>
+
+      <a href="./postclassical.html" class="period-card bg-common">
+        <div class="period-content">
+          <div class="period-title">Pós-clássico</div>
+          <div class="period-desc">Evolução da língua na era de divisão e budismo</div>
+          <div class="lesson-count">Lições 51–60</div>
+        </div>
+      </a>
+    </div>
+
+    <footer>
+      <p>© 2025 OLDCN.github.IO | <a href="https://t.me/oldcnio  ">Canal no Telegram</a></p>
+      <p onmouseover="this.style.visibility='visible';" onmouseout="this.style.visibility='hidden';" style="visibility:hidden;">Manual: V. A. Krjukov, Huang Shuiwen. «Língua Chinesa Antiga»</p>
+      <p>Apoie o desenvolvimento do projeto: 
+        <a href="#donate" style="color: #ffcc00; font-weight: bold;">Faça uma doação</a>
+      </p>
+    </footer>
+  </div>
+
+  <!-- Modal de doações -->
+  <div id="donateModal" class="modal">
+    <div class="modal-content">
+      <button class="close-modal" id="closeModal">×</button>
+      <h2>Apoiar o projeto</h2>
+      <p>Sua ajuda permite desenvolver o curso e adicionar novos materiais!</p>
+      
+      <div class="donate-options">
+        <h3>Transferência bancária:</h3>
+        <p>+7 (981) 361-34-61 (OZON-bank, Russia)</p>
+        
+        <h3>Bitcoin:</h3>
+        <p>1MAkcNBaJDoLzo3rtxgSjvyS7LZ6zgqdZo</p>
+        
+        <h3>Ethereum:</h3>
+        <p>0x69fcFd9Dcf84FdFe69C2E1E50887E2Cb720A9Cb4</p>
+      </div>
+      
+      <p style="font-style: italic;">Obrigado pelo seu apoio! 🙏</p>
+    </div>
+  </div>
+
+  <script>
+    // Manipulador para os botões de doação
+    document.querySelectorAll('#donateBtn, #donateBtnUser, footer a[href="#donate"]').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('donateModal').style.display = 'flex';
+      });
+    });
+
+    // Fechar o modal
+    document.getElementById('closeModal').addEventListener('click', function() {
+      document.getElementById('donateModal').style.display = 'none';
+    });
+
+    // Fechar ao clicar fora do modal
+    document.getElementById('donateModal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.style.display = 'none';
+      }
+    });
+
+    // Remover a classe pulse após o primeiro clique
+    document.getElementById('donateBtn').addEventListener('click', function() {
+      this.classList.remove('pulse');
+    });
+  </script>
+
+<!-- Firebase SDK e lógica de autenticação -->
+<script type="module">
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js  ';
+  import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js  ';
+  import { getFirestore, doc, getDoc, setDoc, collection, query, where, onSnapshot } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js  ';
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBvyxPtx5PICYk60HUCERw5Cxh1TyCcZCY",
+    authDomain: "antient-9bff0.firebaseapp.com",
+    projectId: "antient-9bff0",
+    storageBucket: "antient-9bff0.firebasestorage.app",
+    messagingSenderId: "311792589414",
+    appId: "1:311792589414:web:5fff3154735007c2006ba7",
+    measurementId: "G-W4ZQXWRTKK"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  const provider = new GoogleAuthProvider();
+
+  const loginBtn = document.getElementById('loginWithGoogle');
+  const loginContainer = document.getElementById('login-container');
+  const userContainer = document.getElementById('user-container');
+  const userName = document.getElementById('user-name');
+  const userEmail = document.getElementById('user-email');
+  const userPhoto = document.getElementById('user-photo');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const userPointsEl = document.getElementById('user-points');
+  const userFriendsEl = document.getElementById('user-friends');
+  const userUnreadEl = document.getElementById('user-unread');
+
+  let currentUser = null;
+
+  loginBtn.addEventListener('click', () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        loadUserData(result.user);
+      })
+      .catch((error) => {
+        alert("Erro ao entrar: " + error.message);
+      });
+  });
+
+  logoutBtn.addEventListener('click', () => {
+    signOut(auth).catch(() => {
+      alert("Erro ao sair");
+    });
+  });
+
+  async function loadUserData(user) {
+    const userRef = doc(db, 'users', user.uid);
+    const userSnap = await getDoc(userRef);
+
+    if (!userSnap.exists()) {
+      await setDoc(userRef, {
+        uid: user.uid,
+        displayName: user.displayName || 'Anônimo',
+        email: user.email,
+        photoURL: user.photoURL,
+        points: 0,
+        friends: [],
+        joinedAt: new Date()
+      });
+    }
+
+    const data = userSnap.data();
+    currentUser = { uid: user.uid, ...data };
+
+    userName.textContent = user.displayName || 'Usuário';
+    userEmail.textContent = user.email;
+    userPhoto.src = user.photoURL || 'https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg  ';
+
+    userPointsEl.textContent = data.points || 0;
+    userFriendsEl.textContent = (data.friends ? data.friends.length : 0);
+
+    if (currentUser) {
+      loadUnreadMessages(currentUser.uid);
+    }
+
+    loginContainer.classList.add('hidden');
+    userContainer.classList.remove('hidden');
+  }
+
+  function loadUnreadMessages(userId) {
+    const msgQuery = query(
+      collection(db, 'messages'),
+      where('participants', 'array-contains', userId)
+    );
+
+    onSnapshot(msgQuery, (snap) => {
+      let unread = 0;
+      snap.forEach(doc => {
+        const data = doc.data();
+        if (data.to === userId && (!data.seenBy || !data.seenBy.includes(userId))) {
+          unread++;
+        }
+      });
+      userUnreadEl.textContent = unread;
+    }, (error) => {
+      console.error("Erro ao contar mensagens não lidas:", error);
+    });
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      loadUserData(user);
+    } else {
+      loginContainer.classList.remove('hidden');
+      userContainer.classList.add('hidden');
+    }
+  });
+</script>
+
+<script>
+  // Verificar se é dispositivo móvel
+  function isMobile() {
+    return window.innerWidth <= 768 ||
+           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  // Função para injetar CSS
+  function injectMobileStyles() {
+    if (!isMobile()) return;
+
+    const style = document.createElement('style');
+    style.id = 'mobile-auth-buttons-style';
+    style.textContent = `
+      .user-panel .auth-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .user-panel .auth-buttons .btn {
+        width: 100% !important;
+        max-width: none !important;
+        flex: 1;
+        text-align: center;
+        box-sizing: border-box;
+      }
+      .user-panel .auth-buttons .btn-secondary,
+      .user-panel .auth-buttons .btn-logout {
+        min-width: 0 !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // Executar ao carregar
+  document.addEventListener('DOMContentLoaded', () => {
+    injectMobileStyles();
+
+    // Caso o usuário faça login depois — reiniciar estilos
+    const observer = new MutationObserver(() => {
+      const userContainer = document.getElementById('user-container');
+      if (userContainer && !userContainer.classList.contains('hidden')) {
+        // Garantir que os estilos ainda estão inseridos
+        if (!document.getElementById('mobile-auth-buttons-style')) {
+          injectMobileStyles();
+        }
+      }
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  });
+</script>
+</body>
+</html>

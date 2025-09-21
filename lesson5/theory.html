@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Урок 5 — Древнекитайский язык по Крюкову</title>
+<style>body {
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            line-height: 1.8;
+            margin: 50px auto;
+            background-color: #fbf8f0;
+            color: #2c3e50;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+        h1, h2, h3 {
+            color: #1a4f72;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            border-bottom: 2px solid #1a4f72;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5em;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin: 40px 0 20px;
+        }
+        h3 {
+            font-size: 1.2em;
+            color: #2c3e50;
+            border-bottom: none;
+            margin-top: 30px;
+        }
+        .original {
+            background-color: #f0f4f8;
+            padding: 18px 20px;
+            border-left: 6px solid #1a4f72;
+            font-size: 1.08em;
+            line-height: 1.6;
+            border-radius: 0 8px 8px 0;
+        }
+        .text, .grammar, .lexicon, .assignment {
+            margin-bottom: 45px;
+        }
+        .footer {
+            font-size: 0.85em;
+            color: #777;
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            line-height: 1.4;
+        }
+        .example {
+            display: block;
+            margin: 8px 0 8px 15px;
+            font-family: "Courier New", monospace;
+            font-size: 0.95em;
+            color: #1a4f72;
+        }
+        ol {
+            line-height: 1.8;
+        }
+
+        /* === Интерактивные подсказки для иероглифов === */
+        .char-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .char-item {
+            position: relative;
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.1em;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .char-item:hover {
+            background: #e6f2ff;
+        }
+
+        .inline-pinyin {
+            font-size: 0.85em;
+            color: #555;
+            margin-left: 4px;
+            font-style: italic;
+        }
+
+        .char-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 260px;
+            background: #1a4f72;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            text-align: left;
+            white-space: normal;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+            line-height: 1.5;
+            pointer-events: none;
+        }
+
+        .char-item:hover .char-tooltip {
+            display: block;
+        }
+
+        /* Таблица текста */
+
+
+
+        .phrase-item {
+            display: inline-block;
+            margin: 5px;
+            font-size: 1.1em;
+        }
+
+        .phrase-char {
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .phrase-pinyin {
+            font-style: italic;
+            color: #555;
+            margin: 0 8px;
+        }
+
+        .phrase-meaning {
+            color: #333;
+        }
+
+        /* Таблица сравнения */
+        .comparison-table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 80%;
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .comparison-table th, .comparison-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-family: 'Noto Serif CJK SC', serif;
+        }
+        .comparison-table th {
+            background-color: #e6f2ff;
+            color: #1a4f72;
+        }
+
+        /* Таблица местоимений */
+        .pronoun-table {
+            margin: 20px auto;
+            border-collapse: collapse;
+            width: 70%;
+            font-size: 1.05em;
+        }
+        .pronoun-table th, .pronoun-table td {
+            border: 1px solid #ccc;
+            padding: 8px 10px;
+            text-align: center;
+        }
+        .pronoun-table th {
+            background-color: #f0f4f8;
+            color: #1a4f72;
+        }
+        .pronoun-table td:nth-child(3), .pronoun-table td:nth-child(4) {
+            width: 30%;
+        }</style>
+<style>
+@font-face {
+  font-family: 'Jiaguwen';
+  src: url('../jiaguwen.ttf') format('truetype');
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+</style></head>
+<body><style id="2change">
+.oracle-table {
+    border-collapse: collapse;
+    margin: 20px auto;
+    font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+    font-size: 1.3em;
+    table-layout: fixed;
+    width: 95%;
+    max-width: 1200px;
+}
+.oracle-table td {
+    padding: 6px 8px;
+    border: 1px solid #d4d4d4;
+    text-align: center;
+    position: relative;
+    word-break: keep-all;
+    white-space: nowrap;
+}
+.line-num, .col-num {
+    background-color: #f0f4f8;
+    color: #1a4f72;
+    font-weight: bold;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 0.85em;
+    white-space: nowrap;
+}
+</style>
+<script src="./../dictionary.js"></script>
+<h1>УРОК 5</h1>
+<!-- ТАБЛИЦА ТЕКСТ УРОКА -->
+<div class="text">
+<h2>Texto da Lição</h2>
+<table class="oracle-table" id="oracleTable"></table>
+</div>
+<div style="text-align: center; margin: 20px 0;">
+<label class="toggle-switch">
+<input id="fontToggle" type="checkbox"/>
+<span class="slider"></span>
+</label>
+<span id="toggleLabel" style="margin-left: 10px; font-family: 'Segoe UI', sans-serif; color: #333;">
+    Обычный вид
+  </span>
+</div>
+<style>
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+  }
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 30px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: #1a5fb4;
+  }
+  input:checked + .slider:before {
+    transform: translateX(30px);
+  }
+</style>
+<style>/* Уменьшаем размер для номеров */
+
+/* Tooltip — без изменений */
+.char-tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 300px;
+    background: #1a4f72;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    text-align: left;
+    white-space: normal;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+    line-height: 1.5;
+}
+
+td:hover .char-tooltip {
+    display: block;
+}
+
+.lesson-badge {
+    display: inline-block;
+    background: #e6f2ff;
+    color: #1a4f72;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-left: 5px;
+}</style>
+<script>
+
+
+        const lessonText = [
+            "辛卯卜㱿貞帝其熯我貞帝不我熯戊",
+            "申卜爭貞帝其降我熯貞帝不我降熯",
+            "甲辰卜爭貞我伐馬方帝受我佑貞勿",
+            "伐工方帝不我其受佑貞洹其作茲邑",
+            "禍洹弗作茲邑禍",
+            "貞帝其作王禍余受馬方佑乙亥卜㱿",
+            "貞王曰侯虎余其得汝使余不其合以",
+            "乃使甲辰卜王貞羌弗烖朕使其烖余",
+            "不余烖"
+        ];
+
+// Функция для создания таблицы
+function createOracleTable() {
+    const table = document.getElementById('oracleTable');
+    
+    // Создаём строку с номерами колонок
+    const headerRow = document.createElement('tr');
+    
+    // Пустая ячейка для выравнивания с номерами строк
+    const emptyCell = document.createElement('td');
+    emptyCell.className = 'line-num';
+    headerRow.appendChild(emptyCell);
+    
+    // Номера колонок: от 1 до 15
+    for (let i = 1; i <= 15; i++) {
+        const th = document.createElement('td');
+        th.className = 'col-num';
+        th.textContent = i;
+        headerRow.appendChild(th);
+    }
+    table.appendChild(headerRow);
+    
+    // Создаём строки с текстом
+    for (let i = 0; i < lessonText.length; i++) {
+        const row = document.createElement('tr');
+        
+        // Номер строки
+        const lineNumCell = document.createElement('td');
+        lineNumCell.className = 'line-num';
+        lineNumCell.textContent = i + 1;
+        row.appendChild(lineNumCell);
+        
+        // Разбиваем строку на символы
+        const chars = Array.from(lessonText[i]);
+        
+        // Заполняем ячейки для позиций 1–15
+        for (let j = 0; j < 15; j++) {  // Ровно 15 ячеек
+            const td = document.createElement('td');
+            
+            // Если есть символ на этой позиции — ставим его
+            if (j < chars.length && chars[j].trim() !== '') {
+                const char = chars[j];
+                td.textContent = char;
+                
+                if (charData[char]) {
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'char-tooltip';
+                    tooltip.innerHTML = `
+                        <strong>${char}</strong> <em>${charData[char].pinyin}</em><br>
+                        ${charData[char].meaning}<br>
+                        <span class="lesson-badge">Урок ${charData[char].lesson}</span>
+                    `;
+                    td.appendChild(tooltip);
+                }
+            }
+            // Если символа нет — ячейка остаётся пустой (ничего не делаем)
+            row.appendChild(td);
+        }
+        
+        table.appendChild(row);
+    }
+}
+
+// Инициализация таблицы при загрузке страницы
+document.addEventListener('DOMContentLoaded', createOracleTable);
+</script>
+<!-- КОНЕЦ ТАБЛИЦЫ ТЕКСТ УРОКА -->
+<!-- ГРАММАТИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="grammar">
+<h2>COMENTÁRIO DE GRAMÁTICA</h2>
+<h3>5.1. Predicativos que Requerem um Objeto Duplo
+<p class="original">
+Palavras nocionais que servem como predicativos em línguas arcaicas podem ser divididas em vários
+grupos.
+Um desses grupos consiste em predicativos que têm o significado lexical geral de "dar" ou "tirar". Esses predicativos normalmente requerem dois objetos: um objeto direto, significando o objeto de dar ("a quem?", "o quê?"), e um objeto indireto, significando o destinatário ou doador ("a quem?", "de quem?").
+Uma característica formal de uma frase com um predicado expresso por um predicado deste grupo é que, em primeiro lugar,
+o objeto indireto com o significado do destinatário com tais predicados nunca recebe uma preposição e, em segundo lugar, ele fica
+imediatamente após o predicado, antes do objeto direto
+(S - Dk - Dp):
+<span class="example">帝受我年 dì shòu wǒ nián</span> "O Soberano Celestial nos enviará uma colheita?"
+<span class="example">洹弗作茲邑禍 huán fú zuò zī yì huò</span> "O Rio Huan não causará
+infortúnio a esta cidade?"
+A posição usual do objeto direto imediatamente após o predicado é impossível neste caso.
+</p>
+<h3>5.2. Inversão de Objetos Sem Preposições
+<p class="original">
+De acordo com a ordem das palavras existente no chinês antigo arcaico, qualquer objeto, se for formado por uma preposição, pode ser invertido e colocado imediatamente antes do
+predicado. A inversão de objetos sem preposições, no entanto, só é possível sob condições estritamente definidas,
+a saber:
+a) o predicado deve ser negativo;
+b) o objeto deve ser expresso por um pronome.
+Esta regra se aplica tanto a objetos diretos, que nunca recebem preposição, quanto a objetos indiretos sem preposições em predicativos com o significado de "dar e tirar":
+<span class="example">帝熯我 dì hàn wǒ</span> "O Soberano Celestial nos fará murchar?"
+<span class="example">帝不我熯 dì bù wǒ hàn</span> "O Soberano do Céu não nos fará secar?"
+<span class="example">帝降我熯 dì jiàng wǒ hàn</span> "O Soberano dos Céus nos enviará uma seca?"
+<span class="example">帝不我降熯 dì bù wǒ jiàng hàn</span> "O Soberano dos Céus não nos enviará uma seca?"
+</p>
+<h3>5.3. Dois Tipos de Inversão</h3>
+<p class="original">
+Deve-se notar que a inversão de um objeto sem preposição expresso por um pronome em uma frase negativa difere significativamente da inversão de um objeto com preposição.
+Neste último caso, a inversão é livre e arbitrária.
+Um objeto indireto com preposição pode ser invertido a critério do falante, mas também pode permanecer em sua
+posição usual: as normas gramaticais da língua permitem igualmente ambas as posições para tal objeto.
+Em contraste, a inversão de um objeto sem preposição nas condições mencionadas acima é obrigatória: a posição de tal objeto antes do predicado é a única possível.
+Outra diferença entre os dois tipos de inversão é que, no caso da inversão obrigatória, a negação só pode ser expressa
+com 不 bù (e não com 弗 fú), como observado acima (ver 2.6):
+<span class="example">帝弗受方佑 dì fú shòu fāng yòu</span> "O Soberano Celestial não enviará
+socorro às tribos?"
+<span class="example">帝不我受佑 dì bù wǒ shòu yòu</span> "O Soberano Celestial não nos enviará ajuda?"
+</p>
+<h3>5.4. Pronomes Pessoais (continuação)</h3>
+<p class="original">
+
+Os pronomes pessoais do chinês antigo arcaico podem ser divididos em duas categorias.
+A primeira categoria inclui o já conhecido pronome de primeira pessoa 我 wǒ. Caracteriza-se pelo seguinte: primeiro, não indica número (pode ser traduzido para o russo como "eu" ou "nós"); segundo, pode substituir um substantivo em qualquer uma de suas funções (sujeito, objeto, atributo):
+<span class="example">我受年 wǒ shòu nián</span> "Teremos uma colheita?"
+<span class="example">帝受我年 dì shòu wǒ nián</span> "O Soberano Celestial nos enviará uma colheita?"
+<span class="example">我年有足雨 wǒ nián yǒu zú yǔ</span> "Nossa colheita terá
+chuva suficiente?"
+Todos os pronomes pessoais da segunda categoria são singulares. Caracterizam-se pelo fato de poderem desempenhar não todas, mas apenas certas funções nominais. Dessa perspectiva, podem ser divididos em dois grupos.
+O primeiro grupo inclui os pronomes pessoais de primeira e segunda pessoa 余 yú e 汝 rǔ. Eles podem ser tanto o sujeito quanto o objeto de uma frase:
+<span class="example">余弗其作方禍 yú fú qí zuò fāng huò</span> "Não farei mal
+às tribos?"
+<span class="example">祖辛害余 zǔ xīn hài yú</span> "O Ancestral Xin me fará mal?"
+O segundo grupo inclui os pronomes pessoais de primeira pessoa
+朕 zhèn e o de segunda pessoa 乃 naǐ. Eles são usados ​​exclusivamente
+como modificadores de um substantivo:
+<span class="example">羌其烖朕使 qiāng qí zāi zhèn shǐ</span> "Os Qiang derrotarão meu embaixador?"
+<span class="example">以乃使 yǐ năi shǐ</span> "Tragam seus embaixadores!"
+Vale ressaltar que, no chinês antigo arcaico, os pronomes pessoais de terceira pessoa estão completamente ausentes.
+</p>
+<!-- Tabela 2 -->
+<div style="text-align: center; margin: 20px 0;">
+<strong>Tabela 2</strong>
+<em>Funções dos pronomes pessoais</em>
+<em>em chinês antigo arcaico</em>
+</div>
+
+<div class="char-tooltip">${data.meaning}</div>
+<div style="text-align: center; margin: 20px 0; font-family: 'Segoe UI', sans-serif;">
+<strong>Frases</strong>
+<span class="phrase-item">
+<span class="phrase-char">馬方</span>
+<span class="phrase-pinyin">mă fāng</span>
+<span class="phrase-meaning">"Tribo Ma"</span>
+</span>
+<span class="phrase-item">
+<span class="phrase-char">侯虎</span>
+<span class="phrase-pinyin">hóu hǔ</span>
+<span class="phrase-meaning">"hou Hu"</span>
+</span>
+</div>
+</h3></h3></div>
+<!-- СПИСОК СЛОВ УРОКА -->
+<h2>СПИСОК СЛОВ УРОКА</h2>
+<div class="char-list"></div>
+<script>
+    // Укажи номер урока здесь
+    const LESSON = parseInt((window.location.pathname.match(/\/lesson(\d+)(?:\/|$)/) || [])[1] || '1');
+
+    // Находим все иероглифы этого урока из charData
+    const lessonChars = Object.entries(charData)
+        .filter(([char, data]) => data.lesson === LESSON)
+        .sort(([charA, dataA], [charB, dataB]) => {
+            // Сортировка по пиньиню (опционально)
+            return dataA.pinyin.localeCompare(dataB.pinyin, 'zh');
+        });
+
+    // Получаем контейнер
+    const charList = document.querySelector('.char-list');
+
+    // Очищаем (на всякий случай)
+    charList.innerHTML = '';
+
+    // Генерируем элементы
+    lessonChars.forEach(([char, data]) => {
+        const item = document.createElement('div');
+        item.className = 'char-item';
+
+        item.innerHTML = `
+            <span>${char}<span class="inline-pinyin">${data.pinyin}</span></span>
+            <div class="char-tooltip">${data.meaning}</div>
+        `;
+
+        charList.appendChild(item);
+    });
+</script>
+<div style="text-align: center; margin: 20px 0; font-family: 'Segoe UI', sans-serif;">
+<strong>Словосочетания</strong>
+<span class="phrase-item">
+<span class="phrase-char">馬方</span>
+<span class="phrase-pinyin">mă fāng</span>
+<span class="phrase-meaning">«племя Ма»</span>
+</span>
+<span class="phrase-item">
+<span class="phrase-char">侯虎</span>
+<span class="phrase-pinyin">hóu hǔ</span>
+<span class="phrase-meaning">«хоу Ху»</span>
+</span>
+</div>
+<!-- ЛЕКСИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="lexicon">
+<h2>COMENTÁRIO LEXICO</h2>
+<h3>5.A. Seca e "Danos ao Rio"</h3>
+<p class="original">
+Durante o período Yin, a irrigação artificial ainda não era utilizada.
+Portanto, o destino da colheita dependia exclusivamente da quantidade
+e do momento da precipitação natural. Isso explica
+o interesse significativo dos Yin em "se haverá chuva". Embora o clima da Planície Central da China em meados do 2º milênio a.C. fosse muito mais úmido do que hoje, houve momentos em que a tão esperada chuva nunca chegou, ameaçando as plantações. Por outro lado, quando a estação chuvosa começava, os Yin enfrentavam outro perigo. O Rio Amarelo e seus afluentes inundaram, causando danos irreparáveis ​​aos campos e assentamentos do Yin. A "Grande Cidade de Shang" (ou "esta cidade", como é frequentemente chamada em inscrições) estava localizada em uma curva do Rio Huan, um dos afluentes do curso inferior do Rio Huan. O Rio Huan ameaçava constantemente o Yin com inundações devastadoras. </p>
+<div style="text-align: center; margin: 20px 0;">
+<img alt="Rio Huan e a Cidade de Shang" src="img/6.jpg" style="max-width: 100%; border: 1px solid #ccc;"/>
+<p>A "Grande Cidade de Shang" localizava-se em uma curva do Rio Huan.</p>
+</div>
+
+</div>
+<!-- ЗАДАНИЕ ДЛЯ САМОСТОЯТЕЛЬНОЙ РАБОТЫ -->
+<div class="assignment">
+<h2>TRABALHO PARA ESTUDO INDEPENDENTE</h2>
+<ol>
+<li>Reescreva o texto como uma tabela de distribuição.</li>
+<li>Analise o texto do ponto de vista gramatical.</li>
+<li>Traduza o texto para o russo.</li>
+</ol>
+</div>
+<div class="footer">
+Livro didático: V. A. Kryukov, Shuyin - Língua Chinesa Antiga Arcaica.
+Recuperado usando OCR, preservando o estilo original.
+Todos os caracteres são das Lições 1 a 5 ou de caracteres cíclicos.
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const toggle = document.getElementById('fontToggle');
+  const label = document.getElementById('toggleLabel');
+  const styleSheet = document.getElementById('2change');
+
+  const normalCSS = `
+    .oracle-table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+      font-size: 1.3em;
+      table-layout: fixed;
+      width: 95%;
+      max-width: 1200px;
+    }
+    .oracle-table td {
+      padding: 6px 8px;
+      border: 1px solid #d4d4d4;
+      text-align: center;
+      position: relative;
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+    .line-num, .col-num {
+      background-color: #f0f4f8;
+      color: #1a4f72;
+      font-weight: bold;
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 0.85em;
+      white-space: nowrap;
+    }
+  `;
+
+  const oracleCSS = `
+    .oracle-table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      font-family: 'Jiaguwen', 'Noto Serif CJK SC', 'KaiTi', serif;
+      font-size: 1.3em;
+      table-layout: fixed;
+      width: 95%;
+      max-width: 1200px;
+    }
+    .oracle-table td {
+      padding: 6px 8px;
+      border: 1px solid #d4d4d4;
+      text-align: center;
+      position: relative;
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+    .line-num, .col-num {
+      background-color: #f0f4f8;
+      color: #1a4f72;
+      font-weight: bold;
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 0.85em;
+      white-space: nowrap;
+    }
+  `;
+
+  styleSheet.textContent = normalCSS;
+
+  toggle.addEventListener('change', function () {
+    if (toggle.checked) {
+      styleSheet.textContent = oracleCSS;
+      label.textContent = 'Оракульный вид';
+    } else {
+      styleSheet.textContent = normalCSS;
+      label.textContent = 'Обычный вид';
+    }
+  });
+});
+</script></body>
+<script id="help" src="../help.js"></script>
+</html>

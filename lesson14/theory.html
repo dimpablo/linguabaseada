@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Урок 14 — Древнекитайский язык по Крюкову</title>
+<style>
+        body {
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            line-height: 1.8;
+            margin: 50px auto;
+            background-color: #fbf8f0;
+            color: #2c3e50;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+        h1, h2, h3 {
+            color: #1a4f72;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            border-bottom: 2px solid #1a4f72;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5em;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin: 40px 0 20px;
+        }
+        h3 {
+            font-size: 1.2em;
+            color: #2c3e50;
+            border-bottom: none;
+            margin-top: 30px;
+        }
+        .original {
+            background-color: #f0f4f8;
+            padding: 18px 20px;
+            border-left: 6px solid #1a4f72;
+            font-size: 1.08em;
+            line-height: 1.6;
+            border-radius: 0 8px 8px 0;
+        }
+        .text, .grammar, .lexicon, .assignment {
+            margin-bottom: 45px;
+        }
+        .footer {
+            font-size: 0.85em;
+            color: #777;
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            line-height: 1.4;
+        }
+        .example {
+            display: block;
+            margin: 8px 0 8px 15px;
+            font-family: "Courier New", monospace;
+            font-size: 0.95em;
+            color: #1a4f72;
+        }
+        ol {
+            line-height: 1.8;
+        }
+
+        /* === Интерактивные подсказки для иероглифов === */
+        .char-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .char-item {
+            position: relative;
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.1em;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .char-item:hover {
+            background: #e6f2ff;
+        }
+
+        .char-item > span {
+            cursor: help;
+        }
+
+        .inline-pinyin {
+            font-size: 0.85em;
+            color: #555;
+            margin-left: 4px;
+            font-style: italic;
+        }
+
+        .char-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 260px;
+            background: #1a4f72;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            text-align: left;
+            white-space: normal;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+            line-height: 1.5;
+            pointer-events: none;
+        }
+
+        .char-item:hover .char-tooltip {
+            display: block;
+        }
+    </style>
+<style>
+        @font-face {
+            font-family: 'Jiaguwen';
+            src: url('../jiaguwen.ttf') format('truetype');
+            font-style: normal;
+            font-weight: normal;
+            font-display: swap;
+        }
+    </style>
+<style id="2change">
+        .oracle-table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.3em;
+            table-layout: fixed;
+            width: 95%;
+            max-width: 1200px;
+        }
+        .oracle-table td {
+            padding: 6px 8px;
+            border: 1px solid #d4d4d4;
+            text-align: center;
+            position: relative;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+        .line-num, .col-num {
+            background-color: #f0f4f8;
+            color: #1a4f72;
+            font-weight: bold;
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+    </style>
+<script src="./../dictionary.js"></script>
+</head>
+<body>
+<h1>УРОК 14</h1>
+<!-- ТАБЛИЦА ТЕКСТ УРОКА -->
+<div class="text">
+<h2>Texto da Lição</h2>
+<table class="oracle-table" id="oracleTable"></table>
+</div>
+<div style="text-align: center; margin: 20px 0;">
+<label class="toggle-switch">
+<input id="fontToggle" type="checkbox"/>
+<span class="slider"></span>
+</label>
+<span id="toggleLabel" style="margin-left: 10px; font-family: 'Segoe UI', sans-serif; color: #333;">
+        Обычный вид
+    </span>
+</div>
+<style>
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 30px;
+    }
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: .4s;
+        border-radius: 30px;
+    }
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 22px;
+        width: 22px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+    input:checked + .slider {
+        background-color: #1a5fb4;
+    }
+    input:checked + .slider:before {
+        transform: translateX(30px);
+    }
+</style>
+<style>
+    .char-tooltip {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: max-content;
+        max-width: 300px;
+        background: #1a4f72;
+        color: white;
+        padding: 12px 15px;
+        border-radius: 6px;
+        font-size: 0.9em;
+        text-align: left;
+        white-space: normal;
+        z-index: 100;
+        box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+        line-height: 1.5;
+    }
+    td:hover .char-tooltip {
+        display: block;
+    }
+    .lesson-badge {
+        display: inline-block;
+        background: #e6f2ff;
+        color: #1a4f72;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.8em;
+        margin-left: 5px;
+    }
+</style>
+<script>
+    // Данные текста урока 14 (по строкам из PDF)
+const lessonText = [
+    "唯九月初吉戊申白氏曰不其馭方玁",
+    "狁廣伐西俞王令我羞追于西余來歸",
+    "獻禽余命汝御追于洛汝以我車宕伐",
+    "玁狁于高陵汝多折首執訊戎大同永",
+    "追汝汝及戎大敦伐汝休弗以我車陷",
+    "于艱汝多禽折首執訊白氏曰不其汝",
+    "小子女肇誨于戎工賜汝弓一矢束臣",
+    "五家田十田用永乃事不其拜稽首休",
+    "用作朕皇祖公白孟姬尊簋"
+];
+    // Функция для создания таблицы
+    function createOracleTable() {
+        const table = document.getElementById('oracleTable');
+        // Создаём строку с номерами колонок
+        const headerRow = document.createElement('tr');
+        const emptyCell = document.createElement('td');
+        emptyCell.className = 'line-num';
+        headerRow.appendChild(emptyCell);
+        for (let i = 1; i <= 15; i++) {
+            const th = document.createElement('td');
+            th.className = 'col-num';
+            th.textContent = i;
+            headerRow.appendChild(th);
+        }
+        table.appendChild(headerRow);
+
+        // Создаём строки с текстом
+        for (let i = 0; i < lessonText.length; i++) {
+            const row = document.createElement('tr');
+            const lineNumCell = document.createElement('td');
+            lineNumCell.className = 'line-num';
+            lineNumCell.textContent = i + 1;
+            row.appendChild(lineNumCell);
+
+            const chars = Array.from(lessonText[i].replace(/\s+/g, ' ')).filter(ch => ch.trim() !== '');
+            for (let j = 0; j < 15; j++) {
+                const td = document.createElement('td');
+                if (j < chars.length) {
+                    const char = chars[j];
+                    td.textContent = char;
+                    if (charData[char]) {
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'char-tooltip';
+                        tooltip.innerHTML = `
+                            <strong>${char}</strong> <em>${charData[char].pinyin}</em><br>
+                            ${charData[char].meaning}<br>
+                            <span class="lesson-badge">Урок ${charData[char].lesson}</span>
+                        `;
+                        td.appendChild(tooltip);
+                    }
+                }
+                row.appendChild(td);
+            }
+            table.appendChild(row);
+        }
+    }
+
+    // Инициализация таблицы при загрузке страницы
+    document.addEventListener('DOMContentLoaded', createOracleTable);
+</script>
+<!-- КОНЕЦ ТАБЛИЦЫ ТЕКСТ УРОКА -->
+<!-- ГРАММАТИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="grammar">
+<h2>COMENTÁRIO DE GRAMÁTICA</h2>
+<h3>14.1. Técnicas de Divisão de Texto (continuação)
+<p class="original">
+O fim de uma frase e o início de outra podem ser indicados, entre outras coisas, por uma combinação de dois pronomes: o primeiro deles é necessariamente o objeto, e o segundo é o sujeito da seguinte frase:
+<br/><br/>
+<span class="example">戎追汝,汝及戎 róng zhuī rǔ, rǔ jí róng</span> "O Rong irá persegui-lo, você encontrará o Rong."
+</p>
+<h3>14.2. Preposição 以 yǐ
+<p class="original">
+A língua pré-clássica continua a usar todas as preposições e construções preposicionais mais comuns da língua arcaica: a) 于 yú
+<br/><br/>
+<span class="example">王格于成宫 wáng gé yú chéng gōng</span> "Wang entrou no templo de Cheng Wang"; b) 自 zì
+<br/><br/>
+<span class="example">乃祖翼自他邦 năi zǔ yì zì tā bāng</span> "Seu ancestral nos forneceu assistência [do território] de outro estado";
+<br/><br/>
+c) 自...至于... zì... zhì yú...
+<br/><br/>
+<span class="example">自淲東至于河 zì hǔ dōng zhì yú hé</span> "Da região a leste do Hu até o Rio [Amarelo]."
+<br/><br/>
+Junto com essas preposições, algumas novas aparecem na língua pré-clássica. Entre elas está a preposição 以 yǐ.
+<br/><br/>
+O significado primário desta preposição é designar uma ferramenta (no sentido amplo da palavra) por meio da qual uma ação é realizada:
+<br/><br/>
+<span class="example">以乃族從父征 yǐ năi zú cóng fù zhēng</span> "Ajude seu pai em sua campanha com seu clã."
+<br/><br/>
+A preposição 以 yǐ historicamente remonta a uma palavra significativa encontrada em textos arcaicos — "liderar", "liderar". Esta preposição manteve parcialmente suas propriedades predicativas, o que a distingue das preposições 于 yú, 自 zì e outras.
+</p>
+<h3>14.3. Predicado Nominal</h3>
+<p class="original">
+O chinês arcaico tinha apenas um tipo de predicado — o predicativo. O chinês pré-clássico também registrava frases com predicados nominais.
+<br/><br/>
+Uma característica distintiva dos predicados nominais é que, quando expressos por um substantivo ou uma frase nominal, eles não podem assumir um objeto. A conexão entre o sujeito e o predicado em tais frases não é formalmente expressa no chinês pré-clássico (não há cópula):
+<br/><br/>
+<span class="example">余小子 yú xiăo zǐ</span> "Eu sou uma criança pequena."
+</p>
+<h3>14.4. Predicado Negativo 無 wú</h3>
+<p class="original">
+O predicado 有 yǒu "ter", como lembramos, não aceita negações. Quando um significado negativo precisa ser transmitido, ele é substituído pelo predicado negativo especial 亡 wú. Esta regra persiste na língua pré-clássica, por exemplo: <span class="example">亡尤 wú yóu</span> "não ter problemas".
+<br/><br/>
+Outro predicado negativo correspondente a 亡 wú na língua pré-clássica é 無 wú, que gradualmente substitui o antigo 亡 wú: <span class="example">無疆 wú jiāng</span> "não ter limites", "ser ilimitado".
+</p>
+</h3></h3></div>
+<h2>СПИСОК СЛОВ УРОКА</h2>
+<div class="char-list"></div>
+<script>
+    // Укажи номер урока здесь
+    const LESSON = parseInt((window.location.pathname.match(/\/lesson(\d+)(?:\/|$)/) || [])[1] || '1');
+
+    // Находим все иероглифы этого урока из charData
+    const lessonChars = Object.entries(charData)
+        .filter(([char, data]) => data.lesson === LESSON)
+        .sort(([charA, dataA], [charB, dataB]) => {
+            // Сортировка по пиньиню (опционально)
+            return dataA.pinyin.localeCompare(dataB.pinyin, 'zh');
+        });
+
+    // Получаем контейнер
+    const charList = document.querySelector('.char-list');
+
+    // Очищаем (на всякий случай)
+    charList.innerHTML = '';
+
+    // Генерируем элементы
+    lessonChars.forEach(([char, data]) => {
+        const item = document.createElement('div');
+        item.className = 'char-item';
+
+        item.innerHTML = `
+            <span>${char}<span class="inline-pinyin">${data.pinyin}</span></span>
+            <div class="char-tooltip">${data.meaning}</div>
+        `;
+
+        charList.appendChild(item);
+    });
+</script>
+<!-- ЛЕКСИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="lexicon">
+<h2>COMENTÁRIO LEXICO</h2>
+<h3>14.A. Tribos Xianyun</h3>
+<p class="original">
+A primeira evidência dos Xianyun nas fronteiras noroeste de Zhou remonta ao reinado do Imperador Xuan Wang (827-782 a.C.). Há razões para acreditar que as tribos Xianyun mencionadas em fontes chinesas antigas eram um dos grupos de nômades que se estabeleceram nos vastos territórios da Eurásia nos séculos IX e VIII a.C. e foram incluídas na literatura sob o nome coletivo de "citas". O núcleo do "mundo cita" consistia em tribos que falavam línguas iranianas.
+<br/><br/>
+A invasão repentina dos nômades tinha claramente a intenção de atingir diretamente o coração do estado de Zhou. O perigo era tão grande que o rei teve que mobilizar quase todas as forças disponíveis para repelir o inimigo. Uma das canções do Shijing, dedicada aos feitos de um certo Fang Shu no campo de batalha contra as tribos Xianyun, menciona 300 carros de guerra sob seu comando. Bu Qi, mencionado nesta inscrição, estava entre os generais que participaram das batalhas com as tribos Xianyun. Ele comandava um destacamento de carros de guerra.
+<br/><br/>
+No entanto, embora eficazes para ataques nas planícies, os carros de guerra perdiam sua vantagem no terreno acidentado típico das áreas onde as batalhas ocorriam. Talvez isso explique a advertência de Bu Qi de "não nos metermos em situações difíceis por causa de nossos carros de guerra". Uma das batalhas ocorreu no curso médio do Rio Luo, que deságua no Rio Amarelo onde vira para o leste. A área de Gaoling, onde Bu Qi conseguiu deter o inimigo, está localizada na margem norte do rio Wei, outro afluente do Rio Amarelo, a poucos quilômetros da capital Zhou.
+<br/><br/>
+Deve-se acrescentar que os Xianyun, assim como os Zhou, lutavam em bigas e, portanto, eram chamados de 馭方 yù fāng "tribo das bigas".
+</p>
+<h3>14.B. 姓 xìng e 氏 shì</h3>
+<p class="original">
+Na China Zhou, havia dois tipos de nomes hereditários.
+<br/><br/>
+O primeiro, 姓 xìng, era um nome de clã, uma denominação comum para todos os membros de um clã, ou seja, um grupo de parentes consanguíneos descendentes do pai. O clã era exogâmico, então uma mulher sempre se casava com um homem de outro clã. No entanto, ela mantinha sua filiação ao clã e continuava a usar seu nome de clã. <br/><br/>
+O segundo nome hereditário, 氏 shì, era um sinal de pertencimento a um clã — um grupo de famílias relacionadas. Uma mulher casada era transferida para o clã do marido e, portanto, recebia o nome do clã dele.
+<br/><br/>
+O povo Zhou tinha um costume segundo o qual o nome completo de um homem incluía seu nome pessoal e o nome do clã. Governantes de domínios hereditários (zhuhou) usavam seu título em vez de 氏 shì. Por exemplo, a inscrição no vaso Buqi Gui afirma que ele foi feito para oferecer sacrifícios a um certo Gongbo, referindo-se a um dos governantes do reino Qin.
+<br/><br/>
+Ao contrário dos nomes masculinos, o nome completo de uma mulher geralmente consistia em seu nome pessoal e o nome do clã. Os Zhou Wangs eram do clã Ji (姬 jī), e a esposa de Gong-bo, nomeada na inscrição Menji (孟姬 mèng jī), também tinha o mesmo nome do clã.
+</p>
+</div>
+<!-- ЗАДАНИЕ ДЛЯ САМОСТОЯТЕЛЬНОЙ РАБОТЫ -->
+<div class="assignment">
+<h2>TRABALHO PARA ESTUDO INDEPENDENTE</h2>
+<ol>
+<li>Reescreva o texto e adicione pontuação.</li>
+<li>Traduza o texto para o russo.</li>
+<li>Reescreva o texto, substituindo o discurso direto pelo indireto.</li>
+</ol>
+</div>
+<div class="footer">
+Livro didático: V. A. Kryukov - Chinês Antigo Arcaico.<br>
+Restaurado usando OCR, preservando o estilo do autor e adicionando pinyin.<br>
+Todos os caracteres são das Lições 1 a 14 ou de caracteres cíclicos (甲子 – 癸亥).
+</br></br></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggle = document.getElementById('fontToggle');
+        const label = document.getElementById('toggleLabel');
+        const styleSheet = document.getElementById('2change');
+
+        const normalCSS = `
+            .oracle-table {
+                border-collapse: collapse;
+                margin: 20px auto;
+                font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+                font-size: 1.3em;
+                table-layout: fixed;
+                width: 95%;
+                max-width: 1200px;
+            }
+            .oracle-table td {
+                padding: 6px 8px;
+                border: 1px solid #d4d4d4;
+                text-align: center;
+                position: relative;
+                word-break: keep-all;
+                white-space: nowrap;
+            }
+            .line-num, .col-num {
+                background-color: #f0f4f8;
+                color: #1a4f72;
+                font-weight: bold;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+                font-size: 0.85em;
+                white-space: nowrap;
+            }
+        `;
+
+        const oracleCSS = `
+            .oracle-table {
+                border-collapse: collapse;
+                margin: 20px auto;
+                font-family: 'Jiaguwen', 'Noto Serif CJK SC', 'KaiTi', serif;
+                font-size: 1.3em;
+                table-layout: fixed;
+                width: 95%;
+                max-width: 1200px;
+            }
+            .oracle-table td {
+                padding: 6px 8px;
+                border: 1px solid #d4d4d4;
+                text-align: center;
+                position: relative;
+                word-break: keep-all;
+                white-space: nowrap;
+            }
+            .line-num, .col-num {
+                background-color: #f0f4f8;
+                color: #1a4f72;
+                font-weight: bold;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+                font-size: 0.85em;
+                white-space: nowrap;
+            }
+        `;
+
+        styleSheet.textContent = normalCSS;
+
+        toggle.addEventListener('change', function () {
+            if (toggle.checked) {
+                styleSheet.textContent = oracleCSS;
+                label.textContent = 'Оракульный вид';
+            } else {
+                styleSheet.textContent = normalCSS;
+                label.textContent = 'Обычный вид';
+            }
+        });
+    });
+</script>
+<script id="help" src="../help.js"></script>
+</body>
+</html>

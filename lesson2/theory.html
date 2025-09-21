@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<title>Урок 2 — Древнекитайский язык по Крюкову</title>
+<style>
+        body {
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            line-height: 1.8;
+            margin: 50px auto;
+            background-color: #fbf8f0;
+            color: #2c3e50;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+        h1, h2, h3 {
+            color: #1a4f72;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            border-bottom: 2px solid #1a4f72;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5em;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin: 40px 0 20px;
+        }
+        h3 {
+            font-size: 1.2em;
+            color: #2c3e50;
+            border-bottom: none;
+            margin-top: 30px;
+        }
+        .original {
+            background-color: #f0f4f8;
+            padding: 18px 20px;
+            border-left: 6px solid #1a4f72;
+            font-size: 1.08em;
+            line-height: 1.6;
+            border-radius: 0 8px 8px 0;
+        }
+        .text, .grammar, .lexicon, .assignment {
+            margin-bottom: 45px;
+        }
+        .footer {
+            font-size: 0.85em;
+            color: #777;
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            line-height: 1.4;
+        }
+        .example {
+            display: block;
+            margin: 8px 0 8px 15px;
+            font-family: "Courier New", monospace;
+            font-size: 0.95em;
+            color: #1a4f72;
+        }
+        ol {
+            line-height: 1.8;
+        }
+
+        /* === Интерактивные подсказки для иероглифов (совместимо с Уроком 1) === */
+        .char-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .char-item {
+            position: relative;
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.1em;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .char-item:hover {
+            background: #e6f2ff;
+        }
+
+        .char-item > span {
+            cursor: help;
+        }
+
+        .inline-pinyin {
+            font-size: 0.85em;
+            color: #555;
+            margin-left: 4px;
+            font-style: italic;
+        }
+
+        .char-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 260px;
+            background: #1a4f72;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            text-align: left;
+            white-space: normal;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+            line-height: 1.5;
+            pointer-events: none;
+        }
+
+        .char-item:hover .char-tooltip {
+            display: block;
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Jiaguwen';
+  src: url('../jiaguwen.ttf') format('truetype');
+  font-style: normal;
+  font-weight: normal;
+  font-display: swap;
+}
+</style></head>
+<body><style id="2change">
+.oracle-table {
+    border-collapse: collapse;
+    margin: 20px auto;
+    font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+    font-size: 1.3em;
+    table-layout: fixed;
+    width: 95%;
+    max-width: 1200px;
+}
+.oracle-table td {
+    padding: 6px 8px;
+    border: 1px solid #d4d4d4;
+    text-align: center;
+    position: relative;
+    word-break: keep-all;
+    white-space: nowrap;
+}
+.line-num, .col-num {
+    background-color: #f0f4f8;
+    color: #1a4f72;
+    font-weight: bold;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-size: 0.85em;
+    white-space: nowrap;
+}
+</style>
+<script src="./../dictionary.js"></script>
+<h1>УРОК 2</h1>
+<div class="text">
+<h2>Texto da Lição</h2>
+<table class="oracle-table" id="oracleTable"></table>
+</div>
+<div style="text-align: center; margin: 20px 0;">
+<label class="toggle-switch">
+<input id="fontToggle" type="checkbox"/>
+<span class="slider"></span>
+</label>
+<span id="toggleLabel" style="margin-left: 10px; font-family: 'Segoe UI', sans-serif; color: #333;">
+    Обычный вид
+  </span>
+</div>
+<style>
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+  }
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 30px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: #1a5fb4;
+  }
+  input:checked + .slider:before {
+    transform: translateX(30px);
+  }
+</style>
+<style>.char-tooltip {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: max-content;
+        max-width: 300px;
+        background: #1a4f72;
+        color: white;
+        padding: 12px 15px;
+        border-radius: 6px;
+        font-size: 0.9em;
+        text-align: left;
+        white-space: normal;
+        z-index: 100;
+        box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+        line-height: 1.5;
+    }
+
+    td:hover .char-tooltip {
+        display: block;
+    }
+
+    .lesson-badge {
+        display: inline-block;
+        background: #e6f2ff;
+        color: #1a4f72;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.8em;
+        margin-left: 5px;
+    }</style>
+<script>
+
+
+// Текст урока 2 (без пунктуации, как в оригинале)
+const lessonText = [
+    "癸卯卜爭貞今歳商受年貞來歳不其",
+    "受年癸丑卜㱿貞冓受年貞冓不其受",
+    "年癸卯卜亘貞我受黍年癸巳卜㱿貞",
+    "我受稻年貞今來歳我不其受年貞戔",
+    "受貞甫弗其受黍年",
+    "貞肅來牛貞肅弗其來牛貞冓不其來",
+    "犬貞今春奚來牛奚不其來牛甲辰卜",
+    "㱿貞奚來白馬王占曰吉其來馬丙辰",
+    "卜㱿貞今春方其自來"
+    
+];
+
+// Функция для создания таблицы
+function createOracleTable() {
+    const table = document.getElementById('oracleTable');
+    
+    // Заголовок с номерами колонок
+    const headerRow = document.createElement('tr');
+    const emptyCell = document.createElement('td');
+    emptyCell.className = 'line-num';
+    headerRow.appendChild(emptyCell);
+    
+    for (let i = 1; i <= 15; i++) {
+        const th = document.createElement('td');
+        th.className = 'col-num';
+        th.textContent = i;
+        headerRow.appendChild(th);
+    }
+    table.appendChild(headerRow);
+    
+    // Строки текста
+    for (let i = 0; i < lessonText.length; i++) {
+        const row = document.createElement('tr');
+        
+        const lineNumCell = document.createElement('td');
+        lineNumCell.className = 'line-num';
+        lineNumCell.textContent = i + 1;
+        row.appendChild(lineNumCell);
+        
+        const chars = Array.from(lessonText[i]);
+        
+        for (let j = 0; j < 15; j++) {
+            const td = document.createElement('td');
+            
+            if (j < chars.length && chars[j].trim() !== '') {
+                const char = chars[j];
+                td.textContent = char;
+                
+                if (charData[char]) {
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'char-tooltip';
+                    tooltip.innerHTML = `
+                        <strong>${char}</strong> <em>${charData[char].pinyin}</em><br>
+                        ${charData[char].meaning}<br>
+                        <span class="lesson-badge">Урок ${charData[char].lesson}</span>
+                    `;
+                    td.appendChild(tooltip);
+                }
+            }
+            row.appendChild(td);
+        }
+        
+        table.appendChild(row);
+    }
+}
+
+// Инициализация
+document.addEventListener('DOMContentLoaded', createOracleTable);
+</script>
+<!-- ГРАММАТИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="grammar">
+<h2>COMENTÁRIO DE GRAMÁTICA</h2>
+<h3>2.1. Objeto Direto</h3>
+<p class="original">
+Um objeto direto geralmente segue o predicado.
+Nos textos citados, a presença de um objeto direto é determinada por a) omissão e b) substituição de um membro da frase em posição pós-predicado:
+<br/><br/>
+a) <span class="example">受年 (shòu nián)</span> ‘receber uma colheita’;<br/>
+<span class="example">弗受年 (fú shòu nián)</span> ‘não receber [uma colheita]’;<br/>
+b) <span class="example">來牛 (lái niú)</span> ‘enviar bois’;<br/>
+<span class="example">來犬 (lái quǎn)</span> ‘enviar cães’.
+</p>
+<h3>2.2. Definição
+<p class="original">
+No chinês arcaico, como no chinês antigo em geral, a definição sempre precede aquela que define:
+<br/><br/>
+<span class="example">白馬 (bái mǎ)</span> ‘cavalo branco’;<br/>
+<span class="example">稻年 (dào nián)</span> ‘colheita de arroz’;<br/>
+<span class="example">今春 (jīn chūn)</span> ‘esta primavera’.
+</p>
+<h3>2.3. Pronomes Pessoais</h3>
+<p class="original">
+Pronomes pessoais são classes gramaticais auxiliares que sempre cumprem uma função gramatical estritamente definida, substituindo nomes. Um pronome pessoal não pode ser usado como predicativo.
+<br/><br/>
+Os pronomes pessoais possuem todas as propriedades sintáticas dos substantivos, exceto uma: não podem ser atribuídos.
+<br/><br/>
+Os pronomes pessoais no chinês antigo são diferenciados por pessoa. O número é expresso de forma inconsistente. Em particular, o pronome de primeira pessoa <strong>我 (wǒ)</strong> pode ser usado tanto no singular ("eu") quanto no plural ("nós").
+</p>
+<h3>2.4. Substantivos Adverbiais</h3>
+<p class="original">
+No chinês antigo, há um grupo de substantivos adverbiais que denotam um ponto específico no espaço e no tempo. Estes incluem, em particular, a palavra <strong>今 (jīn)</strong> "agora", "no momento presente". Pode ser usado independentemente, como um advérbio de tempo ou como um modificador de outro substantivo:
+<br/><br/>
+<span class="example">今雨 (jīn yǔ)</span> "Está chovendo agora?"<br/>
+<span class="example">今歳我受年 (jīn suì wǒ shòu nián)</span> "Teremos uma colheita este ano?" (<strong>今歳 (jīn suì)</strong> "este ano").
+<br/><br/>
+Em línguas arcaicas, algumas outras palavras significativas também podem ser usadas nesta função. Assim, <strong>來 (lái)</strong> "por vir", quando usado como atributo de um substantivo, adquire o significado de "futuro", "próximo":
+<br/><br/>
+<span class="example">來歳我弗受年 (lái suì wǒ fú shòu nián)</span> "No ano que vem não teremos colheita" (<strong>來歳 (lái suì)</strong> "ano que vem").
+<br/><br/>
+No entanto, por si só, como <strong>今 (jīn)</strong>, a palavra <strong>來 (lái)</strong> não pode ser usada neste significado.
+</p>
+<h3>2.5. Significados Primários e Causais de um Predicativo
+<p class="original">
+Uma palavra nocional que serve como predicativo pode ter vários significados no chinês antigo arcaico. Um deles — o primário — é inerente ao predicativo, denotando uma ação realizada pelo sujeito. No entanto, além disso, a palavra também pode ter outro significado — o causativo —, denotando uma ação que o sujeito induz a ser realizada.
+<br/><br/>
+Por exemplo, se a palavra nocional <strong>來 (lái)</strong> significa "vir", "chegar", então, em outro contexto, pode significar "fazer alguém (algo) chegar", ou seja, "enviar", "entregar".
+<br/><br/>
+O mesmo pode ser dito sobre o predicativo <strong>受 (shòu)</strong> "receber", cujo significado causativo é "fazer alguém receber", ou seja, "dar", "conceder", etc.
+<br/><br/>
+Observe que, em monumentos posteriores da língua chinesa antiga, a diferença entre os significados básico e causativo dos predicativos é expressa graficamente. A palavra para "receber" é escrita com <strong>受 (shòu)</strong>, e "dar" é escrita com <strong>授 (shòu)</strong>:
+<br/><br/>
+<span class="example">男女授受不親 (nán nǚ shòu shòu bù qīn)</span> "Quando um homem e uma mulher dão ou recebem algo, eles não devem se tocar."
+</p>
+<div style="text-align: center; margin: 20px 0;">
+<img alt="Antiga ortografia do caractere 受: passar um barco de mão em mão" class="original" src="./img/page_3_img_1.png" style="border: none; padding: 0; max-width: 100%;"/>
+<p class="footer" style="margin-top: 8px; border-top: none; padding-top: 0;">Antiga ortografia do caractere 受:<br/>passar um barco de mão em mão</p>
+</div>
+
+<div class="char-tooltip">${data.meaning}</div>
+
+
+</h3></h3></div>
+<h2>СПИСОК СЛОВ УРОКА</h2>
+<div class="char-list"></div>
+<script>
+    // Укажи номер урока здесь
+    const LESSON = parseInt((window.location.pathname.match(/\/lesson(\d+)(?:\/|$)/) || [])[1] || '1');
+
+    // Находим все иероглифы этого урока из charData
+    const lessonChars = Object.entries(charData)
+        .filter(([char, data]) => data.lesson === LESSON)
+        .sort(([charA, dataA], [charB, dataB]) => {
+            // Сортировка по пиньиню (опционально)
+            return dataA.pinyin.localeCompare(dataB.pinyin, 'zh');
+        });
+
+    // Получаем контейнер
+    const charList = document.querySelector('.char-list');
+
+    // Очищаем (на всякий случай)
+    charList.innerHTML = '';
+
+    // Генерируем элементы
+    lessonChars.forEach(([char, data]) => {
+        const item = document.createElement('div');
+        item.className = 'char-item';
+
+        item.innerHTML = `
+            <span>${char}<span class="inline-pinyin">${data.pinyin}</span></span>
+            <div class="char-tooltip">${data.meaning}</div>
+        `;
+
+        charList.appendChild(item);
+    });
+</script>
+<!-- ЛЕКСИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="lexicon">
+<h2>COMENTÁRIO LEXICAL</h2>
+<h3>2-1. Nomes Pessoais
+<p class="original">
+Os nomes pessoais em inscrições Yin diferem de outras palavras significativas por não poderem ser usados ​​para nenhuma outra função além da nominalização (no chinês antigo clássico, um nome próprio também podia ser usado predicativamente). Ao interpretar um texto Yin, deve-se ter em mente que os nomes pessoais encontrados nele apresentam uma série de peculiaridades:
+<br><br/>
+a) indivíduos com o mesmo nome aparecem em inscrições de diferentes períodos;<br/>
+b) nomes pessoais coincidem com nomes geográficos;<br/>
+c) às vezes servem para designar não uma única pessoa, mas grupos inteiros de pessoas.
+<br/><br/>
+Tudo isso nos permite concluir que os nomes próprios em inscrições Yin são os nomes de grupos de clãs, denotando o clã inteiro como um todo, cada um de seus membros individuais e o território do clã.
+</br></p>
+<h3>2-2. O Ano e as Estações
+<p class="original">
+A unidade básica do povo Yin para medir longos períodos de tempo era o ano (suì), dividido em 12 (às vezes 13) meses (yuè). O ano Yin incluía não quatro, mas duas estações: chūn (chūn) e qiū (qiū) (daí, entre outras coisas, a origem da expressão chūnqiū (chūnqiū), que significa "mudança de estações", "fluxo natural do tempo" e, posteriormente, "crônica").
+<br/><br/>
+Portanto, podemos traduzir apenas aproximadamente <strong>春 (chūn)</strong> como "primavera" e <strong>秋 (qiū)</strong> como "outono". O primeiro desses termos denota, na verdade, toda a primeira metade do ano, e o outro, a segunda.
+</p>
+</h3></h3></div>
+<!-- ЗАДАНИЕ ДЛЯ САМОСТОЯТЕЛЬНОЙ РАБОТЫ -->
+<div class="assignment">
+<h2>TAREFA PARA ESTUDO INDEPENDENTE</h2>
+<ol>
+<li>Reescreva o texto como uma tabela de distribuição.</li>
+<li>Faça uma análise gramatical do texto.</li>
+<li>Traduza o texto para o russo.</li>
+</ol>
+</div>
+<div class="footer">
+Livro didático: V. A. Kryukov - Língua Chinesa Antiga Arcaica.<br/>
+Recuperado usando OCR, preservando o estilo do autor e adicionando pinyin.<br/>
+Todos os caracteres são das Lições 1 e 2 ou de caracteres cíclicos (甲子 – 癸亥).
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const toggle = document.getElementById('fontToggle');
+  const label = document.getElementById('toggleLabel');
+  const styleSheet = document.getElementById('2change');
+
+  const normalCSS = `
+    .oracle-table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+      font-size: 1.3em;
+      table-layout: fixed;
+      width: 95%;
+      max-width: 1200px;
+    }
+    .oracle-table td {
+      padding: 6px 8px;
+      border: 1px solid #d4d4d4;
+      text-align: center;
+      position: relative;
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+    .line-num, .col-num {
+      background-color: #f0f4f8;
+      color: #1a4f72;
+      font-weight: bold;
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 0.85em;
+      white-space: nowrap;
+    }
+  `;
+
+  const oracleCSS = `
+    .oracle-table {
+      border-collapse: collapse;
+      margin: 20px auto;
+      font-family: 'Jiaguwen', 'Noto Serif CJK SC', 'KaiTi', serif;
+      font-size: 1.3em;
+      table-layout: fixed;
+      width: 95%;
+      max-width: 1200px;
+    }
+    .oracle-table td {
+      padding: 6px 8px;
+      border: 1px solid #d4d4d4;
+      text-align: center;
+      position: relative;
+      word-break: keep-all;
+      white-space: nowrap;
+    }
+    .line-num, .col-num {
+      background-color: #f0f4f8;
+      color: #1a4f72;
+      font-weight: bold;
+      font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      font-size: 0.85em;
+      white-space: nowrap;
+    }
+  `;
+
+  styleSheet.textContent = normalCSS;
+
+  toggle.addEventListener('change', function () {
+    if (toggle.checked) {
+      styleSheet.textContent = oracleCSS;
+      label.textContent = 'Оракульный вид';
+    } else {
+      styleSheet.textContent = normalCSS;
+      label.textContent = 'Обычный вид';
+    }
+  });
+});
+</script></body>
+<script id="help" src="../help.js"></script>
+</html>

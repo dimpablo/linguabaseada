@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Прямая речь</title>
+</head>
+<body>
+
+  <h2>Прямая речь в оракульных надписях</h2>
+  <p class="intro">Выберите часть текста, которая является прямым вопросом.</p>
+
+  <div class="oracle-text">貞丁卯其雨王占曰其雨</div>
+
+  <div class="pinyin-container">
+    <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+      Показать пиньинь
+    </button>
+    <div class="pinyin-text">zhēn dīng mǎo qí yǔ wáng zhàn yuē qí yǔ</div>
+  </div>
+
+  <div class="question">Какая часть — прямой вопрос к оракулу?</div>
+
+  <div id="options-container" class="options"></div>
+
+  <button onclick="checkAnswer()">Проверить</button>
+  <div id="result"></div>
+  <div id="explanation" style="display: none;">
+    <p><strong>Объяснение:</strong></p>
+    <ol>
+      <li><strong>貞</strong> вводит вопрос — это прямая речь.</li>
+      <li><strong>王占曰</strong> — царь истолковал, тоже прямая речь, но это ответ.</li>
+    </ol>
+    <p><strong>「貞丁卯其雨」</strong> — полный вопрос: "Будет ли дождь?"</p>
+  </div>
+
+  <script>
+    const options = [
+      { id: 1, text: "貞丁卯其雨", correct: true },
+      { id: 2, text: "王占曰其雨", correct: false },
+      { id: 3, text: "丁卯其雨", correct: false },
+      { id: 4, text: "貞丁卯", correct: false }
+    ];
+
+    let selectedOptionId = null;
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderOptions() {
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+
+      const shuffled = shuffleArray(options);
+
+      shuffled.forEach(option => {
+        const optionEl = document.createElement("div");
+        optionEl.className = "option";
+        optionEl.textContent = option.text;
+        optionEl.dataset.id = option.id;
+        optionEl.onclick = () => selectOption(option.id);
+        container.appendChild(optionEl);
+      });
+    }
+
+    function selectOption(id) {
+      selectedOptionId = id;
+      document.querySelectorAll('.option').forEach(el => {
+        el.classList.remove('selected');
+      });
+      document.querySelector(`.option[data-id="${id}"]`).classList.add('selected');
+    }
+
+    function checkAnswer() {
+      const resultEl = document.getElementById('result');
+      const explanationEl = document.getElementById('explanation');
+
+      if (!selectedOptionId) {
+        resultEl.textContent = "Выберите вариант";
+        resultEl.className = "error";
+        return;
+      }
+
+      const correct = options.find(o => o.id === selectedOptionId).correct;
+
+      if (correct) {
+        resultEl.innerHTML = "✅ <b>Верно!</b>";
+        resultEl.className = "success";
+        explanationEl.style.display = "block";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно.";
+        resultEl.className = "error";
+        explanationEl.style.display = "block";
+        sendResult(false, "Ошибка в определении прямой речи");
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Правильно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = renderOptions;
+
+    window.parent.postMessage({
+      type: "TASK_EXISTS",
+      valid: true
+    }, "*");
+  </script>
+</body>
+</html>
+

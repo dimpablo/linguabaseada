@@ -1,0 +1,4234 @@
+=== 📄 task1.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Задание 1: Рисование</title>
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    #splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #f0f4ff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      flex-direction: column;
+      text-align: center;
+      color: #333;
+    }
+
+    #splash-screen h1 {
+      font-size: 3.5rem;
+      font-weight: bold;
+      color: #2c55d9;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+      margin: 0;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    #splash-screen p {
+      font-size: 1.5rem;
+      color: #555;
+      margin-top: 20px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    #character-target-div {
+      display: none;
+      margin: 40px auto;
+      width: 300px;
+      height: 300px;
+    }
+
+    /* === Мерцающий overlay === */
+    #feedback-overlay {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0s;
+      z-index: 9999;
+    }
+
+    @keyframes flash {
+      0% { opacity: 0; }
+      50% { opacity: 0.7; }
+      100% { opacity: 0; }
+    }
+
+    #feedback-overlay.success {
+      background: green;
+    }
+
+    #feedback-overlay.error {
+      background: red;
+    }
+
+    #feedback-overlay.animate {
+      opacity: 0.7;
+      animation: flash 0.8s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Заставка -->
+<div id="splash-screen">
+  <h1>Нарисуй здесь</h1>
+  <p>любой иероглиф из словаря урока!</p>
+</div>
+
+<!-- Контейнер для HanziWriter -->
+<div id="character-target-div"></div>
+
+<!-- Overlay для мерцания -->
+<div id="feedback-overlay"></div>
+
+<script>
+  // ✅ Универсальная функция отправки результата и баллов
+  function sendResult(success, message, points = 0) {
+    window.parent.postMessage({
+      type: "TASK_RESULT",
+      success: !!success,
+      message: message || (success ? "Задание выполнено" : "Ошибка"),
+      points: points // ✅ Отправляем баллы
+    }, "*");
+  }
+
+  // ✅ Функция мерцания экрана
+  function flashScreen(color) {
+    const overlay = document.getElementById('feedback-overlay');
+    overlay.className = '';
+    overlay.classList.add(color === 'success' ? 'success' : 'error');
+    overlay.classList.add('animate');
+
+    setTimeout(() => {
+      overlay.classList.remove('animate');
+    }, 800);
+  }
+
+  let totalPointsEarned = 0;
+  let strokeCount = 0;
+  let mistakes = 0;
+
+  window.onload = function() {
+    const splashScreen = document.getElementById('splash-screen');
+    const characterDiv = document.getElementById('character-target-div');
+    const splashH1 = splashScreen.querySelector('h1');
+    const splashP = splashScreen.querySelector('p');
+
+    setTimeout(() => {
+      const hash = window.location.hash.slice(1);
+      if (!hash) {
+        splashP.textContent = "⚠️ Не указан иероглиф";
+        sendResult(false, "Не указан иероглиф", 0);
+        return;
+      }
+
+      const char = decodeURIComponent(hash);
+
+      // Показываем иероглиф
+      splashH1.textContent = char;
+
+      // === Попробуем загрузить данные для иероглифа ===
+      HanziWriter.loadCharacterData(char)
+        .then(charData => {
+          // ✅ Данные есть — запускаем квиз
+          splashScreen.style.display = 'none';
+          characterDiv.style.display = 'block';
+
+          // Считаем количество штрихов
+          strokeCount = charData.strokes.length;
+
+          const writer = HanziWriter.create('character-target-div', char, {
+            width: 300,
+            height: 300,
+            showCharacter: false,
+            showOutline: false,
+            showHintAfterMisses: 1,
+            highlightOnComplete: false,
+            padding: 5
+          });
+
+          writer.quiz({
+            leniency: 2.0,
+
+            onCorrectStroke: function(strokeData) {
+              // ✅ +1 балл за каждый правильный штрих
+              totalPointsEarned += 1;
+              console.log(`✅ Штрих ${strokeData.strokeNum} — +1 балл`);
+            },
+
+            onMistake: function(strokeData) {
+              console.log("❌ Ошибка на штрихе", strokeData.strokeNum);
+              flashScreen('error');
+              mistakes++;
+            },
+
+            onComplete: function(summaryData) {
+              console.log("🎯 Квиз завершён:", summaryData);
+              flashScreen('success');
+
+              // ✅ +2 балла за полное завершение
+              totalPointsEarned += 2;
+
+              sendResult(
+                true,
+                `Иероглиф "${char}" нарисован верно`,
+                totalPointsEarned
+              );
+            }
+          });
+
+        })
+        .catch(err => {
+          // ❌ Данных нет — древний иероглиф
+          console.warn(`🚫 Нет данных для иероглифа: ${char}`, err);
+
+          // === ОСТАВЛЯЕМ ЗАСТАВКУ, МЕНЯЕМ ТЕКСТ ===
+          splashP.innerHTML = `
+            Очень древний и редкий иероглиф 😔<br>
+            Софт не поддерживает его отрисовку.<br>
+            <strong>Придётся выписать его от руки ✍️</strong>
+          `;
+
+          // Мерцание — ошибка
+          flashScreen('error');
+
+          // ✅ Ничего не штрафуем и не награждаем
+          setTimeout(() => {
+            sendResult(
+              true,
+              `Древний иероглиф "${char}" — задание пропущено (нет данных)`,
+              0 // 🟢 0 баллов — не вина пользователя
+            );
+          }, 1200);
+        });
+    }, 1000);
+  };
+
+  // Обработка пропуска (например, если пользователь закрыл окно без завершения)
+  window.addEventListener('beforeunload', () => {
+    if (totalPointsEarned === 0 && mistakes > 0) {
+      // ❌ Пропуск с ошибками — штраф -1
+      sendResult(false, "Задание пропущено", -1);
+    }
+  });
+</script>
+
+<!-- Сигналы родительскому окну -->
+<script>
+  window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  window.parent.postMessage({ type: "DO_HANZI", valid: true }, "*");
+</script>
+
+</body>
+</html>
+
+=== 📄 task10.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание: 勿</title>
+<body>
+<h2>Что означает 于 в «告于王»?</h2>
+<p><strong>Пример: «告于王» — это:</strong></p>
+
+  <div class="pinyin-container">
+    <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+      Показать пиньинь
+    </button>
+    <div class="pinyin-text">gào yú wáng</div>
+  </div>
+
+
+  <div id="answers"></div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+  const options = [
+    { text: "Откуда: «выйти из Шан»", correct: false },
+    { text: "Конечный пункт: «вступить в Шан»", correct: true },
+    { text: "Место действия: «действовать в Шан»", correct: false },
+    { text: "Средство: «с помощью Шан»", correct: false }
+  ];
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderOptions() {
+      const shuffled = shuffle(options);
+      const container = document.getElementById("answers");
+      container.innerHTML = "";
+
+      shuffled.forEach((opt, index) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q";
+        input.value = opt.correct ? "1" : "0_" + index;
+        input.dataset.correct = opt.correct;
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(opt.text));
+        container.appendChild(label);
+      });
+    }
+
+    function check() {
+      const selected = document.querySelector('input[name="q"]:checked');
+      const resultEl = document.getElementById("result");
+
+      if (!selected) {
+        resultEl.textContent = "Выберите вариант.";
+        return;
+      }
+
+      if (selected.dataset.correct === "true") {
+        resultEl.textContent = "✅ Правильно! 勿 выражает модальное отрицание: «не следует», «не надо».";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно. 勿 — это не просто «не», а «не следует».";
+        sendResult(false);
+      }
+    }
+
+    function sendResult(success) {
+      window.parent.postMessage({ type: "TASK_RESULT", success }, "*");
+    }
+
+    window.onload = renderOptions;
+  </script>
+</body>
+</html>
+<script>window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");</script>
+
+=== 📄 task11.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание: 勿</title>
+<body>
+<h2>Что означает 于 в «入于商»?</h2>
+<p><strong>Пример: «入于商» — это:</strong></p>
+
+  <div class="pinyin-container">
+    <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+      Показать пиньинь
+    </button>
+    <div class="pinyin-text">rù yú shāng</div>
+  </div>
+
+
+  <div id="answers"></div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+  const options = [
+    { text: "Откуда: «выйти из Шан»", correct: false },
+    { text: "Конечный пункт: «вступить в Шан»", correct: true },
+    { text: "Место действия: «действовать в Шан»", correct: false },
+    { text: "Средство: «с помощью Шан»", correct: false }
+  ];
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderOptions() {
+      const shuffled = shuffle(options);
+      const container = document.getElementById("answers");
+      container.innerHTML = "";
+
+      shuffled.forEach((opt, index) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q";
+        input.value = opt.correct ? "1" : "0_" + index;
+        input.dataset.correct = opt.correct;
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(opt.text));
+        container.appendChild(label);
+      });
+    }
+
+    function check() {
+      const selected = document.querySelector('input[name="q"]:checked');
+      const resultEl = document.getElementById("result");
+
+      if (!selected) {
+        resultEl.textContent = "Выберите вариант.";
+        return;
+      }
+
+      if (selected.dataset.correct === "true") {
+        resultEl.textContent = "✅ Правильно! 勿 выражает модальное отрицание: «не следует», «не надо».";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно. 勿 — это не просто «не», а «не следует».";
+        sendResult(false);
+      }
+    }
+
+    function sendResult(success) {
+      window.parent.postMessage({ type: "TASK_RESULT", success }, "*");
+    }
+
+    window.onload = renderOptions;
+  </script>
+</body>
+</html>
+<script>window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");</script>
+
+=== 📄 task12.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание: 勿</title>
+<body>
+<h2>Что означает 翌 в «翌庚寅»?</h2>
+<p><strong>Пример: «翌庚寅» — это:</strong></p>
+
+  <div class="pinyin-container">
+    <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+      Показать пиньинь
+    </button>
+    <div class="pinyin-text">yì gēng yín</div>
+  </div>
+
+
+  <div id="answers"></div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+  const options = [
+    { text: "Прошедший день гэн-инь", correct: false },
+    { text: "Следующий день гэн-инь", correct: true },
+    { text: "Великий день гэн-инь", correct: false },
+    { text: "Наступающий месяц гэн-инь", correct: false }
+  ];
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderOptions() {
+      const shuffled = shuffle(options);
+      const container = document.getElementById("answers");
+      container.innerHTML = "";
+
+      shuffled.forEach((opt, index) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q";
+        input.value = opt.correct ? "1" : "0_" + index;
+        input.dataset.correct = opt.correct;
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(opt.text));
+        container.appendChild(label);
+      });
+    }
+
+    function check() {
+      const selected = document.querySelector('input[name="q"]:checked');
+      const resultEl = document.getElementById("result");
+
+      if (!selected) {
+        resultEl.textContent = "Выберите вариант.";
+        return;
+      }
+
+      if (selected.dataset.correct === "true") {
+        resultEl.textContent = "✅ Правильно! 勿 выражает модальное отрицание: «не следует», «не надо».";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно. 勿 — это не просто «не», а «не следует».";
+        sendResult(false);
+      }
+    }
+
+    function sendResult(success) {
+      window.parent.postMessage({ type: "TASK_RESULT", success }, "*");
+    }
+
+    window.onload = renderOptions;
+  </script>
+</body>
+</html>
+<script>window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");</script>
+
+=== 📄 task13.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание: 勿</title>
+<body>
+<h2>Что означает 上 в «上甲»?</h2>
+<p><strong>Пример: «上甲» — это:</strong></p>
+
+
+
+  <div class="pinyin-container">
+    <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+      Показать пиньинь
+    </button>
+    <div class="pinyin-text">shàng jiǎ</div>
+  </div>
+
+
+  <div id="answers"></div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+  const options = [
+    { text: "Верхний Цзя (по положению или рангу)", correct: true },
+    { text: "Младший Цзя", correct: false },
+    { text: "Цзя из племени Шан", correct: false },
+    { text: "Цзя, который правил весной", correct: false }
+  ];
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderOptions() {
+      const shuffled = shuffle(options);
+      const container = document.getElementById("answers");
+      container.innerHTML = "";
+
+      shuffled.forEach((opt, index) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q";
+        input.value = opt.correct ? "1" : "0_" + index;
+        input.dataset.correct = opt.correct;
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(opt.text));
+        container.appendChild(label);
+      });
+    }
+
+    function check() {
+      const selected = document.querySelector('input[name="q"]:checked');
+      const resultEl = document.getElementById("result");
+
+      if (!selected) {
+        resultEl.textContent = "Выберите вариант.";
+        return;
+      }
+
+      if (selected.dataset.correct === "true") {
+        resultEl.textContent = "✅ Правильно! 勿 выражает модальное отрицание: «не следует», «не надо».";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно. 勿 — это не просто «не», а «не следует».";
+        sendResult(false);
+      }
+    }
+
+    function sendResult(success) {
+      window.parent.postMessage({ type: "TASK_RESULT", success }, "*");
+    }
+
+    window.onload = renderOptions;
+  </script>
+</body>
+</html>
+<script>window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");</script>
+
+=== 📄 task14.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Урок 3 — Частицы и предлоги</title>
+</head>
+<body>
+
+  <h2>Выберите значение</h2>
+
+  <div class="grid">
+    <div class="cell" onclick="openModal('q1')">
+      <strong>入于商</strong>
+      <span class="status" id="status-q1">?</span>
+    </div>
+    <div class="cell" onclick="openModal('q2')">
+      <strong>王勿入于商</strong>
+      <span class="status" id="status-q2">?</span>
+    </div>
+    <div class="cell" onclick="openModal('q3')">
+      <strong>翌庚寅</strong>
+      <span class="status" id="status-q3">?</span>
+    </div>
+    <div class="cell" onclick="openModal('q4')">
+      <strong>上甲</strong>
+      <span class="status" id="status-q4">?</span>
+    </div>
+  </div>
+
+  <button onclick="checkAll()" style="width:100%; margin-top:12px;">Проверить</button>
+  <p id="result"></p>
+
+  <!-- Модальные окна -->
+  <div id="modal-q1" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">入于商</div>
+      <div class="pinyin-container">
+        <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">Показать пиньинь</button>
+        <div class="pinyin-text">rù yú shāng</div>
+      </div>
+      <div class="options">
+        <label><input type="radio" name="q1" value="выйти из Шан">выйти из Шан</label>
+        <label><input type="radio" name="q1" value="вступить в Шан">вступить в Шан</label>
+        <label><input type="radio" name="q1" value="охотиться в Шан">охотиться в Шан</label>
+        <label><input type="radio" name="q1" value="сообщить в Шан">сообщить в Шан</label>
+      </div>
+      <button onclick="closeModal('q1')">OK</button>
+    </div>
+  </div>
+
+  <div id="modal-q2" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">王勿入于商</div>
+      <div class="pinyin-container">
+        <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">Показать пиньинь</button>
+        <div class="pinyin-text">wáng wù rù yú shāng</div>
+      </div>
+      <div class="options">
+        <label><input type="radio" name="q2" value="Правитель не вступит в Шан">Правитель не вступит в Шан</label>
+        <label><input type="radio" name="q2" value="Правителю не следует вступать в Шан">Правителю не следует вступать в Шан</label>
+        <label><input type="radio" name="q2" value="Правитель вступит не в Шан">Правитель вступит не в Шан</label>
+        <label><input type="radio" name="q2" value="Правитель не должен вступать в Шан">Правитель не должен вступать в Шан</label>
+      </div>
+      <button onclick="closeModal('q2')">OK</button>
+    </div>
+  </div>
+
+  <div id="modal-q3" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">翌庚寅</div>
+      <div class="pinyin-container">
+        <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">Показать пиньинь</button>
+        <div class="pinyin-text">yì gēng yín</div>
+      </div>
+      <div class="options">
+        <label><input type="radio" name="q3" value="прошедший день гэн-инь">прошедший день гэн-инь</label>
+        <label><input type="radio" name="q3" value="следующий день гэн-инь">следующий день гэн-инь</label>
+        <label><input type="radio" name="q3" value="великий день гэн-инь">великий день гэн-инь</label>
+        <label><input type="radio" name="q3" value="наступающий месяц гэн-инь">наступающий месяц гэн-инь</label>
+      </div>
+      <button onclick="closeModal('q3')">OK</button>
+    </div>
+  </div>
+
+  <div id="modal-q4" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">上甲</div>
+      <div class="pinyin-container">
+        <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">Показать пиньинь</button>
+        <div class="pinyin-text">shàng jiǎ</div>
+      </div>
+      <div class="options">
+        <label><input type="radio" name="q4" value="Верхний Цзя (по положению или рангу)">Верхний Цзя (по положению или рангу)</label>
+        <label><input type="radio" name="q4" value="Младший Цзя">Младший Цзя</label>
+        <label><input type="radio" name="q4" value="Цзя из племени Шан">Цзя из племени Шан</label>
+        <label><input type="radio" name="q4" value="Цзя, который правил весной">Цзя, который правил весной</label>
+      </div>
+      <button onclick="closeModal('q4')">OK</button>
+    </div>
+  </div>
+
+  <script>
+    const correctAnswers = {
+      q1: "вступить в Шан",
+      q2: "Правителю не следует вступать в Шан",
+      q3: "следующий день гэн-инь",
+      q4: "Верхний Цзя (по положению или рангу)"
+    };
+
+    let userAnswers = { q1: null, q2: null, q3: null, q4: null };
+
+    function openModal(id) {
+      document.getElementById(`modal-${id}`).style.display = "flex";
+    }
+
+    function closeModal(id) {
+      const selected = document.querySelector(`input[name="${id}"]:checked`);
+      if (selected) {
+        userAnswers[id] = selected.value;
+        document.getElementById(`status-${id}`).textContent = "✓";
+        document.getElementById(`status-${id}`).style.color = "green";
+      }
+      document.getElementById(`modal-${id}`).style.display = "none";
+    }
+
+    function checkAll() {
+      const resultEl = document.getElementById("result");
+      const allAnswered = Object.values(userAnswers).every(ans => ans !== null);
+
+      if (!allAnswered) {
+        resultEl.textContent = "Ответьте на все.";
+        return;
+      }
+
+      let correctCount = 0;
+      for (const id in correctAnswers) {
+        if (userAnswers[id] === correctAnswers[id]) correctCount++;
+      }
+
+      if (correctCount === 4) {
+        resultEl.textContent = "✅ Все верно!";
+        sendResult(true);
+      } else {
+        const wrong = 4 - correctCount;
+        resultEl.textContent = `❌ ${wrong} ошибки.`;
+        sendResult(false, `Ошибки: ${wrong}/4`);
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({ type: "TASK_RESULT", success, message }, "*");
+    }
+
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task15.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Собери перевод: Урок 3</title>
+</head>
+<body>
+
+  <h2>Собери перевод: Урок 3</h2>
+
+  <div class="instructions">
+    <p><strong>Кликайте по словам</strong>, чтобы собрать правильный перевод.</p>
+    <p>Каждое задание фокусируется на ключевых грамматических структурах Урока 3.</p>
+    <p>💡 <em>Обратите внимание на предлог 于 и модальное отрицание 勿!</em></p>
+  </div>
+
+  <div class="task-container">
+    <div class="task-title">1. 入于商？</div>
+    <div class="oracle-text">入于商？</div>
+    <div id="word-pool1" class="word-pool"></div>
+    <div id="drop-area1" class="drop-area"></div>
+    <div class="instructions" style="font-size:12px; padding:4px; margin-top:4px">
+      <p>💡 Эта фраза демонстрирует <strong>предлог 于</strong> в значении <strong>конечного пункта движения</strong> (3.1)</p>
+    </div>
+  </div>
+
+  <div class="task-container">
+    <div class="task-title">2. 王勿入于商</div>
+    <div class="oracle-text">王勿入于商</div>
+    <div id="word-pool2" class="word-pool"></div>
+    <div id="drop-area2" class="drop-area"></div>
+    <div class="instructions" style="font-size:12px; padding:4px; margin-top:4px">
+      <p>💡 Здесь важно <strong>модальное отрицание 勿</strong> (3.5) и <strong>предлог 于</strong> в значении конечного пункта</p>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result"></p>
+
+  <script>
+    // Ожидаемые правильные варианты
+    const expected1 = [
+      ['вступить', 'в', 'Шан'],
+      ['войти', 'в', 'Шан'],
+      ['вступлю', 'ли', 'в', 'Шан'],
+      ['в', 'Шан', 'вступить']
+    ];
+
+    const expected2 = [
+      ['правителю', 'не', 'следует', 'вступать', 'в', 'Шан'],
+      ['правителю', 'не', 'надо', 'вступать', 'в', 'Шан'],
+      ['правителю', 'не', 'стоит', 'вступать', 'в', 'Шан'],
+      ['в', 'Шан', 'правителю', 'не', 'следует', 'вступать']
+    ];
+
+    const words1 = ['в', 'Шан', 'вступить', 'ли', 'войти', 'из', 'сейчас', 'мы', 'выйти', 'из', 'него', 'на', 'запад'];
+    const words2 = ['правителю', 'не', 'следует', 'вступать', 'в', 'Шан', 'надо', 'стоит', 'он', 'войдет', 'сейчас', 'весной'];
+
+    const wordPool1 = document.getElementById('word-pool1');
+    const wordPool2 = document.getElementById('word-pool2');
+    const dropArea1 = document.getElementById('drop-area1');
+    const dropArea2 = document.getElementById('drop-area2');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultEl = document.getElementById('result');
+
+    // Перемешивание массива (алгоритм Фишера-Йейтса)
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Создаём DOM-элементы слов
+    function createWordElements(words, pool, dropArea) {
+      const shuffledWords = shuffleArray(words); // 🔁 Перемешиваем слова
+      return shuffledWords.map(word => {
+        const box = document.createElement('div');
+        box.className = 'word-box';
+        box.textContent = word;
+
+        box.onclick = () => {
+          // Перемещаем в drop-area
+          box.remove();
+          dropArea.appendChild(box);
+          updatePlaceholder(dropArea); // Обновляем состояние плейсхолдера
+        };
+
+        return box;
+      });
+    }
+
+    // Обновляем видимость [пусто]
+    function updatePlaceholder(dropArea) {
+      const hasWords = Array.from(dropArea.children).some(el => el.classList.contains('word-box'));
+      dropArea.classList.toggle('has-words', hasWords);
+    }
+
+    let wordElements1 = [];
+    let wordElements2 = [];
+
+    function init() {
+      // Очищаем
+      wordPool1.innerHTML = '';
+      wordPool2.innerHTML = '';
+      dropArea1.innerHTML = '';
+      dropArea2.innerHTML = '';
+      resultEl.style.display = 'none';
+
+      // Пересоздаём элементы со случайным порядком
+      wordElements1 = createWordElements(words1, wordPool1, dropArea1);
+      wordElements2 = createWordElements(words2, wordPool2, dropArea2);
+
+      // Добавляем в пулы
+      wordElements1.forEach(el => wordPool1.appendChild(el));
+      wordElements2.forEach(el => wordPool2.appendChild(el));
+
+      // Обновляем плейсхолдеры
+      updatePlaceholder(dropArea1);
+      updatePlaceholder(dropArea2);
+    }
+
+    // Обработка кликов в drop-area: возврат в пул
+    dropArea1.addEventListener('click', (e) => {
+      if (e.target.classList.contains('word-box')) {
+        const wordBox = e.target;
+        wordBox.remove();
+        wordPool1.appendChild(wordBox);
+        updatePlaceholder(dropArea1);
+      }
+    });
+
+    dropArea2.addEventListener('click', (e) => {
+      if (e.target.classList.contains('word-box')) {
+        const wordBox = e.target;
+        wordBox.remove();
+        wordPool2.appendChild(wordBox);
+        updatePlaceholder(dropArea2);
+      }
+    });
+
+    function getWords(dropArea) {
+      return Array.from(dropArea.children)
+        .filter(el => el.classList.contains('word-box'))
+        .map(el => el.textContent.trim());
+    }
+
+    checkBtn.addEventListener('click', () => {
+      const current1 = getWords(dropArea1);
+      const current2 = getWords(dropArea2);
+
+      const isCorrect1 = expected1.some(option => arraysEqual(current1, option));
+      const isCorrect2 = expected2.some(option => arraysEqual(current2, option));
+
+      if (isCorrect1 && isCorrect2) {
+        resultEl.innerHTML = `✅ <b>Идеально!</b> Вы усвоили ключевые структуры Урока 3: предлог 于 и модальное отрицание 勿.`;
+        resultEl.className = 'message success';
+        resultEl.style.display = 'block';
+        sendResult(true);
+      } else {
+        let message = '❌ Проверьте порядок слов и значение частиц:';
+        if (!isCorrect1) message += '<br>• В первом задании: предлог 于 в значении конечного пункта движения';
+        if (!isCorrect2) message += '<br>• Во втором: модальное отрицание 勿 ("не следует")';
+        
+        resultEl.innerHTML = message;
+        resultEl.className = 'message error';
+        resultEl.style.display = 'block';
+        sendResult(false, message);
+      }
+    });
+
+    resetBtn.addEventListener('click', init);
+
+    function arraysEqual(a, b) {
+      if (a.length !== b.length) return false;
+      for (let i = 0; i < a.length; i++) {
+        if (a[i] !== b[i]) return false;
+      }
+      return true;
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Верно" : "Ошибка")
+      }, "*");
+    }
+
+    // Инициализация
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task16.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Пространство vs Модальность</title>
+</head>
+<body>
+
+  <h2>Пространство/Время vs Модальность</h2>
+
+<div class="instructions">
+  <div class="instructions-header" onclick="toggleInstructions()">
+    <strong>📌 Инструкция (нажми для развертывания)</strong>
+    <span class="arrow">▼</span>
+  </div>
+  <div class="instructions-content" style="display:none">
+    <p><strong>Пространство/Время vs Модальность</strong></p>
+    <p>В древнекитайском языке предложения организуются вокруг двух ключевых аспектов:</p>
+    
+    <p>🔵 <strong>Пространство/Время</strong> (синий):</p>
+    <ul>
+      <li>Предлог 于 (yú) указывает место/время: <em>"于商"</em> = "в Шан"</li>
+      <li>Циклические даты: <em>"甲子"</em> = "день цзя-цзы"</li>
+      <li>Обстоятельства всегда стоят ДО сказуемого</li>
+    </ul>
+    
+    <p>🟣 <strong>Модальность</strong> (фиолетовый):</p>
+    <ul>
+      <li>勿 (wù)/毋 (wú) = запрет: <em>"勿入"</em> = "не входи!"</li>
+      <li>翌 (yì)/生 (shēng) = будущее время: <em>"翌庚寅"</em> = "след. день гэн-инь"</li>
+      <li>Стоят непосредственно перед глаголом</li>
+    </ul>
+    
+    <p><em>Примеры:</em><br>
+      "于商入" → 🔵 (место)<br>
+      "勿告" → 🟣 (запрет)</p>
+  </div>
+</div>
+
+
+<script>
+function toggleInstructions() {
+  const header = document.querySelector('.instructions-header');
+  const content = document.querySelector('.instructions-content');
+  const isHidden = content.style.display === 'none';
+  
+  content.style.display = isHidden ? 'block' : 'none';
+  header.classList.toggle('collapsed', !isHidden);
+  
+  // Адаптация для iframe (отправляем родителю новый размер)
+  setTimeout(() => {
+    window.parent.postMessage({
+      type: "UPDATE_HEIGHT",
+      height: document.body.scrollHeight
+    }, "*");
+  }, 100);
+}
+</script>
+
+  <div class="columns">
+    <div id="column1" class="column"></div>
+    <div id="column2" class="column"></div>
+  </div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result"></p>
+
+  <script>
+    const sentences = [
+      { text: "于商入", type: "space", explanation: "вступить в Шан (пространство)" },
+      { text: "勿告王", type: "mod", explanation: "не сообщай правителю (модальность)" },
+      { text: "于甲子田", type: "space", explanation: "охотиться в день цзя-цзы (время)" },
+      { text: "翌庚寅", type: "mod", explanation: "в следующий день гэн-инь (будущее время)" },
+      { text: "告于上甲", type: "space", explanation: "сообщить Верхнему Цзя (адресат)" },
+      { text: "王毋入", type: "mod", explanation: "правителю не следует входить (модальность)" },
+      { text: "于大邑商", type: "space", explanation: "в Великом городе Шан (пространство)" },
+      { text: "生七月", type: "mod", explanation: "наступающий седьмой месяц (будущее время)" },
+      { text: "于河告", type: "space", explanation: "сообщить у реки (место)" },
+      { text: "弗其來", type: "mod", explanation: "не придет (отрицание)" }
+    ];
+
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function createSentenceElement(sentence, index) {
+      const item = document.createElement('div');
+      item.className = 'sentence-item';
+      item.dataset.index = index;
+      
+      item.innerHTML = `
+        <div class="oracle-text">${sentence.text}</div>
+        <div class="toggle-container">
+          <span class="toggle-text">пространство</span>
+          <label class="toggle-switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-text">модальность</span>
+        </div>
+      `;
+      
+      return item;
+    }
+
+    function init() {
+      const shuffled = shuffleArray([...sentences]);
+      const column1 = document.getElementById('column1');
+      const column2 = document.getElementById('column2');
+      
+      column1.innerHTML = '';
+      column2.innerHTML = '';
+      document.getElementById('result').style.display = 'none';
+      
+      // Очистка предыдущих стилей
+      document.querySelectorAll('.sentence-item').forEach(el => {
+        el.classList.remove('correct', 'incorrect');
+      });
+
+      shuffled.slice(0, 5).forEach((s, i) => {
+        const el = createSentenceElement(s, i);
+        column1.appendChild(el);
+      });
+      
+      shuffled.slice(5).forEach((s, i) => {
+        const el = createSentenceElement(s, i + 5);
+        column2.appendChild(el);
+      });
+    }
+
+    function checkAnswers() {
+      const items = document.querySelectorAll('.sentence-item');
+      let allCorrect = true;
+      
+      items.forEach(item => {
+        const index = item.dataset.index;
+        const input = item.querySelector('input');
+        const expectedType = sentences[index].type;
+        const isCorrect = (input.checked && expectedType === "mod") || 
+                          (!input.checked && expectedType === "space");
+
+        item.classList.remove('correct', 'incorrect');
+        if (isCorrect) {
+          item.classList.add('correct');
+        } else {
+          item.classList.add('incorrect');
+          allCorrect = false;
+        }
+      });
+      
+      const resultEl = document.getElementById('result');
+      if (allCorrect) {
+        resultEl.innerHTML = `✅ <b>Отлично!</b> Все конструкции определены верно.`;
+        resultEl.className = 'success';
+        sendResult(true);
+      } else {
+        resultEl.innerHTML = `❌ <b>Ошибка</b> в одном или нескольких определениях.`;
+        resultEl.className = 'error';
+        sendResult(false);
+      }
+      resultEl.style.display = 'block';
+    }
+
+    function reset() {
+      document.querySelectorAll('.toggle-switch input').forEach(input => {
+        input.checked = false;
+      });
+      document.querySelectorAll('.sentence-item').forEach(item => {
+        item.classList.remove('correct', 'incorrect');
+      });
+      document.getElementById('result').style.display = 'none';
+    }
+
+    function sendResult(success) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: success,
+        message: success ? "Верно" : "Ошибка"
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+
+    document.getElementById('check-btn').addEventListener('click', checkAnswers);
+    document.getElementById('reset-btn').addEventListener('click', reset);
+  </script>
+</body>
+</html>
+
+=== 📄 task17.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставьте</title>
+</head>
+<body>
+
+  <h2>Сопоставьте иероглиф и значение</h2>
+  <p class="intro">Кликните на иероглиф слева, затем — на значение справа</p>
+
+  <div class="match-container">
+    <div class="column">
+      <h3>Иероглифы</h3>
+      <div id="words"></div>
+    </div>
+    <div class="column">
+      <h3>Значения</h3>
+      <div id="defs"></div>
+    </div>
+  </div>
+
+  <button onclick="reset()">Сбросить</button>
+  <p id="result"></p>
+
+  <script>
+    // Словарь Урока 3 — только ключевые лексемы
+const pairs = [
+  { char: "庚", meaning: "Небесный ствол (7-й); циклический знак" },
+  { char: "乙", meaning: "Небесный ствол (2-й); циклический знак" },
+  { char: "勿", meaning: "Служебное слово: отрицание с модальным оттенком" },
+  { char: "入", meaning: "Входить, вступать" },
+  { char: "于", meaning: "Предлог: в, на, к (универсальный предлог)" }
+];
+
+    let selectedWord = null;
+    let matchedPairs = 0;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function init() {
+      const wordList = document.getElementById("words");
+      const defList = document.getElementById("defs");
+
+      wordList.innerHTML = "";
+      defList.innerHTML = "";
+
+      const shuffledChars = shuffle(pairs);
+      const shuffledMeanings = shuffle(pairs.map(p => p.meaning));
+
+      // Создаём иероглифы (слева)
+      shuffledChars.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "word-item";
+        el.dataset.char = item.char;
+        el.textContent = item.char;
+        el.onclick = () => selectWord(el);
+        wordList.appendChild(el);
+      });
+
+      // Создаём значения (справа)
+      shuffledMeanings.forEach(meaning => {
+        const el = document.createElement("div");
+        el.className = "def-item";
+        el.dataset.meaning = meaning;
+        el.textContent = meaning;
+        el.onclick = () => selectDefinition(el);
+        defList.appendChild(el);
+      });
+    }
+
+    function selectWord(el) {
+      if (el.classList.contains("matched")) return;
+      document.querySelectorAll(".word-item.selected").forEach(e => e.classList.remove("selected"));
+      selectedWord = null;
+      el.classList.add("selected");
+      selectedWord = el;
+    }
+
+    function selectDefinition(el) {
+      if (el.classList.contains("matched") || !selectedWord) return;
+
+      const char = selectedWord.dataset.char;
+      const meaning = el.dataset.meaning;
+      const isCorrect = pairs.some(p => p.char === char && p.meaning === meaning);
+
+      if (isCorrect) {
+        el.classList.add("matched");
+        selectedWord.classList.add("matched");
+        selectedWord.onclick = null;
+        el.onclick = null;
+        selectedWord = null;
+        matchedPairs++;
+
+        if (matchedPairs === 10) {
+          const resultEl = document.getElementById("result");
+          resultEl.textContent = "✅ Все пары верны!";
+          resultEl.className = "success";
+          sendResult(true);
+        }
+      } else {
+        document.getElementById("result").textContent = "❌ Ошибка.";
+        setTimeout(() => {
+          document.getElementById("result").textContent = "";
+        }, 1500);
+        selectedWord.classList.remove("selected");
+        selectedWord = null;
+      }
+    }
+
+    function reset() {
+      matchedPairs = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("result").className = "";
+      init();
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task18.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставьте</title>
+</head>
+<body>
+
+  <h2>Сопоставьте иероглиф и значение</h2>
+  <p class="intro">Кликните на иероглиф слева, затем — на значение справа</p>
+
+  <div class="match-container">
+    <div class="column">
+      <h3>Иероглифы</h3>
+      <div id="words"></div>
+    </div>
+    <div class="column">
+      <h3>Значения</h3>
+      <div id="defs"></div>
+    </div>
+  </div>
+
+  <button onclick="reset()">Сбросить</button>
+  <p id="result"></p>
+
+  <script>
+    // Словарь Урока 3 — только ключевые лексемы
+const pairs = [
+  { char: "辛", meaning: "Небесный ствол (8-й); циклический знак" },
+  { char: "大", meaning: "Большой, великий" },
+  { char: "邑", meaning: "Город, поселение" },
+  { char: "六", meaning: "Шесть; шестой" },
+  { char: "月", meaning: "Месяц; луна" }
+];
+
+    let selectedWord = null;
+    let matchedPairs = 0;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function init() {
+      const wordList = document.getElementById("words");
+      const defList = document.getElementById("defs");
+
+      wordList.innerHTML = "";
+      defList.innerHTML = "";
+
+      const shuffledChars = shuffle(pairs);
+      const shuffledMeanings = shuffle(pairs.map(p => p.meaning));
+
+      // Создаём иероглифы (слева)
+      shuffledChars.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "word-item";
+        el.dataset.char = item.char;
+        el.textContent = item.char;
+        el.onclick = () => selectWord(el);
+        wordList.appendChild(el);
+      });
+
+      // Создаём значения (справа)
+      shuffledMeanings.forEach(meaning => {
+        const el = document.createElement("div");
+        el.className = "def-item";
+        el.dataset.meaning = meaning;
+        el.textContent = meaning;
+        el.onclick = () => selectDefinition(el);
+        defList.appendChild(el);
+      });
+    }
+
+    function selectWord(el) {
+      if (el.classList.contains("matched")) return;
+      document.querySelectorAll(".word-item.selected").forEach(e => e.classList.remove("selected"));
+      selectedWord = null;
+      el.classList.add("selected");
+      selectedWord = el;
+    }
+
+    function selectDefinition(el) {
+      if (el.classList.contains("matched") || !selectedWord) return;
+
+      const char = selectedWord.dataset.char;
+      const meaning = el.dataset.meaning;
+      const isCorrect = pairs.some(p => p.char === char && p.meaning === meaning);
+
+      if (isCorrect) {
+        el.classList.add("matched");
+        selectedWord.classList.add("matched");
+        selectedWord.onclick = null;
+        el.onclick = null;
+        selectedWord = null;
+        matchedPairs++;
+
+        if (matchedPairs === 10) {
+          const resultEl = document.getElementById("result");
+          resultEl.textContent = "✅ Все пары верны!";
+          resultEl.className = "success";
+          sendResult(true);
+        }
+      } else {
+        document.getElementById("result").textContent = "❌ Ошибка.";
+        setTimeout(() => {
+          document.getElementById("result").textContent = "";
+        }, 1500);
+        selectedWord.classList.remove("selected");
+        selectedWord = null;
+      }
+    }
+
+    function reset() {
+      matchedPairs = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("result").className = "";
+      init();
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task19.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставьте</title>
+</head>
+<body>
+
+  <h2>Сопоставьте иероглиф и значение</h2>
+  <p class="intro">Кликните на иероглиф слева, затем — на значение справа</p>
+
+  <div class="match-container">
+    <div class="column">
+      <h3>Иероглифы</h3>
+      <div id="words"></div>
+    </div>
+    <div class="column">
+      <h3>Значения</h3>
+      <div id="defs"></div>
+    </div>
+  </div>
+
+  <button onclick="reset()">Сбросить</button>
+  <p id="result"></p>
+
+  <script>
+    // Словарь Урока 3 — только ключевые лексемы
+const pairs = [
+  { char: "生", meaning: "Рождаться; наступающий (о времени)" },
+  { char: "七", meaning: "Семь; седьмой" },
+  { char: "九", meaning: "Девять; девятый" },
+  { char: "求", meaning: "Просить, молить" },
+  { char: "妣", meaning: "Умершая мать, прародительница" }
+];
+
+    let selectedWord = null;
+    let matchedPairs = 0;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function init() {
+      const wordList = document.getElementById("words");
+      const defList = document.getElementById("defs");
+
+      wordList.innerHTML = "";
+      defList.innerHTML = "";
+
+      const shuffledChars = shuffle(pairs);
+      const shuffledMeanings = shuffle(pairs.map(p => p.meaning));
+
+      // Создаём иероглифы (слева)
+      shuffledChars.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "word-item";
+        el.dataset.char = item.char;
+        el.textContent = item.char;
+        el.onclick = () => selectWord(el);
+        wordList.appendChild(el);
+      });
+
+      // Создаём значения (справа)
+      shuffledMeanings.forEach(meaning => {
+        const el = document.createElement("div");
+        el.className = "def-item";
+        el.dataset.meaning = meaning;
+        el.textContent = meaning;
+        el.onclick = () => selectDefinition(el);
+        defList.appendChild(el);
+      });
+    }
+
+    function selectWord(el) {
+      if (el.classList.contains("matched")) return;
+      document.querySelectorAll(".word-item.selected").forEach(e => e.classList.remove("selected"));
+      selectedWord = null;
+      el.classList.add("selected");
+      selectedWord = el;
+    }
+
+    function selectDefinition(el) {
+      if (el.classList.contains("matched") || !selectedWord) return;
+
+      const char = selectedWord.dataset.char;
+      const meaning = el.dataset.meaning;
+      const isCorrect = pairs.some(p => p.char === char && p.meaning === meaning);
+
+      if (isCorrect) {
+        el.classList.add("matched");
+        selectedWord.classList.add("matched");
+        selectedWord.onclick = null;
+        el.onclick = null;
+        selectedWord = null;
+        matchedPairs++;
+
+        if (matchedPairs === 10) {
+          const resultEl = document.getElementById("result");
+          resultEl.textContent = "✅ Все пары верны!";
+          resultEl.className = "success";
+          sendResult(true);
+        }
+      } else {
+        document.getElementById("result").textContent = "❌ Ошибка.";
+        setTimeout(() => {
+          document.getElementById("result").textContent = "";
+        }, 1500);
+        selectedWord.classList.remove("selected");
+        selectedWord = null;
+      }
+    }
+
+    function reset() {
+      matchedPairs = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("result").className = "";
+      init();
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task2.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Собери фразу</title>
+</head>
+<body>
+  <h2>Собери фразу</h2>
+
+  <div class="instructions">
+    <p><strong>Соберите фразу:</strong></p>
+    <p><em>Сегодня племя Гун прислало белых лошадей в Великий город Шан.</em></p>
+  </div>
+
+  <!-- Кнопка для раскрытия подсказок -->
+  <div class="toggle-hint" id="toggle-hint-btn">Показать подсказки</div>
+
+  <!-- Контейнер подсказок (скрыт по умолчанию) -->
+  <div class="hint-container" id="hint-container">
+    <ul class="hint-list">
+      <li>今 — сегодня</li>
+      <li>工方 — племя Гун</li>
+      <li>来 — прислать</li>
+      <li>白马 — белые лошади</li>
+      <li>于 — в (направление движения)</li>
+      <li>大邑商 — Великий город Шан</li>
+    </ul>
+  </div>
+
+  <p><strong>Иероглифы:</strong></p>
+  <div id="char-pool"></div>
+
+  <p><strong>Соберите здесь:</strong></p>
+  <div id="drop-area"></div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result" class="message"></p>
+
+  <script>
+    const expected = ['今', '工', '方', '来', '白', '马', '于', '大', '邑', '商'];
+
+    const allChars = [
+      '今', '工', '方', '来', '白', '马', '于', '大', '邑', '商',
+      '我', '受', '稻', '年', '不', '弗', '春', '王', '卜', '貞',
+      '雨', '其', '争', '吉', '犬', '岁', '入', '告', '勿', '上'
+    ].sort(() => Math.random() - 0.5);
+
+    const toggleBtn = document.getElementById('toggle-hint-btn');
+    const hintContainer = document.getElementById('hint-container');
+    const charPool = document.getElementById('char-pool');
+    const dropArea = document.getElementById('drop-area');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultEl = document.getElementById('result');
+
+    // Переключение подсказок
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = hintContainer.classList.contains('open');
+      hintContainer.classList.toggle('open');
+      toggleBtn.textContent = isOpen ? 'Показать подсказки' : 'Скрыть подсказки';
+    });
+
+    function moveToDropArea(box) {
+      const clone = box.cloneNode(true);
+      clone.draggable = false;
+      clone.style.cursor = 'default';
+      clone.onclick = null;
+
+      box.remove();
+      dropArea.appendChild(clone);
+    }
+
+    function initCharPool() {
+      charPool.innerHTML = '';
+      dropArea.innerHTML = '';
+      resultEl.textContent = '';
+
+      allChars.forEach(char => {
+        const box = document.createElement('div');
+        box.className = 'char-box';
+        box.textContent = char;
+
+        box.addEventListener('click', () => moveToDropArea(box));
+        charPool.appendChild(box);
+      });
+    }
+
+    checkBtn.addEventListener('click', () => {
+      const current = Array.from(dropArea.children).map(el => el.textContent);
+      if (arraysEqual(current, expected)) {
+        resultEl.innerHTML = '✅ Правильно!<br>今工方来白马于大邑商';
+        resultEl.className = 'message success';
+        sendResult(true);
+      } else {
+        resultEl.textContent = '❌ Попробуйте снова.';
+        resultEl.className = 'message';
+        sendResult(false, 'Неверный порядок');
+      }
+    });
+
+    resetBtn.addEventListener('click', initCharPool);
+
+    function arraysEqual(a, b) {
+      return a.length === b.length && a.every((v, i) => v === b[i]);
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Фраза собрана верно" : "Ошибка в порядке")
+      }, "*");
+    }
+
+    // Инициализация
+    initCharPool();
+
+    // Сигнал, что задание загружено
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task20.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставьте</title>
+</head>
+<body>
+
+  <h2>Сопоставьте иероглиф и значение</h2>
+  <p class="intro">Кликните на иероглиф слева, затем — на значение справа</p>
+
+  <div class="match-container">
+    <div class="column">
+      <h3>Иероглифы</h3>
+      <div id="words"></div>
+    </div>
+    <div class="column">
+      <h3>Значения</h3>
+      <div id="defs"></div>
+    </div>
+  </div>
+
+  <button onclick="reset()">Сбросить</button>
+  <p id="result"></p>
+
+  <script>
+    // Словарь Урока 3 — только ключевые лексемы
+const pairs = [
+  { char: "日", meaning: "День; солнце" },
+  { char: "翌", meaning: "Следующий, будущий (о времени)" },
+  { char: "告", meaning: "Сообщать, докладывать" },
+  { char: "中", meaning: "Середина; средний" },
+  { char: "丁", meaning: "Небесный ствол (4-й); циклический знак" }
+];
+
+    let selectedWord = null;
+    let matchedPairs = 0;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function init() {
+      const wordList = document.getElementById("words");
+      const defList = document.getElementById("defs");
+
+      wordList.innerHTML = "";
+      defList.innerHTML = "";
+
+      const shuffledChars = shuffle(pairs);
+      const shuffledMeanings = shuffle(pairs.map(p => p.meaning));
+
+      // Создаём иероглифы (слева)
+      shuffledChars.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "word-item";
+        el.dataset.char = item.char;
+        el.textContent = item.char;
+        el.onclick = () => selectWord(el);
+        wordList.appendChild(el);
+      });
+
+      // Создаём значения (справа)
+      shuffledMeanings.forEach(meaning => {
+        const el = document.createElement("div");
+        el.className = "def-item";
+        el.dataset.meaning = meaning;
+        el.textContent = meaning;
+        el.onclick = () => selectDefinition(el);
+        defList.appendChild(el);
+      });
+    }
+
+    function selectWord(el) {
+      if (el.classList.contains("matched")) return;
+      document.querySelectorAll(".word-item.selected").forEach(e => e.classList.remove("selected"));
+      selectedWord = null;
+      el.classList.add("selected");
+      selectedWord = el;
+    }
+
+    function selectDefinition(el) {
+      if (el.classList.contains("matched") || !selectedWord) return;
+
+      const char = selectedWord.dataset.char;
+      const meaning = el.dataset.meaning;
+      const isCorrect = pairs.some(p => p.char === char && p.meaning === meaning);
+
+      if (isCorrect) {
+        el.classList.add("matched");
+        selectedWord.classList.add("matched");
+        selectedWord.onclick = null;
+        el.onclick = null;
+        selectedWord = null;
+        matchedPairs++;
+
+        if (matchedPairs === 10) {
+          const resultEl = document.getElementById("result");
+          resultEl.textContent = "✅ Все пары верны!";
+          resultEl.className = "success";
+          sendResult(true);
+        }
+      } else {
+        document.getElementById("result").textContent = "❌ Ошибка.";
+        setTimeout(() => {
+          document.getElementById("result").textContent = "";
+        }, 1500);
+        selectedWord.classList.remove("selected");
+        selectedWord = null;
+      }
+    }
+
+    function reset() {
+      matchedPairs = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("result").className = "";
+      init();
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task21.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставьте</title>
+</head>
+<body>
+
+  <h2>Сопоставьте иероглиф и значение</h2>
+  <p class="intro">Кликните на иероглиф слева, затем — на значение справа</p>
+
+  <div class="match-container">
+    <div class="column">
+      <h3>Иероглифы</h3>
+      <div id="words"></div>
+    </div>
+    <div class="column">
+      <h3>Значения</h3>
+      <div id="defs"></div>
+    </div>
+  </div>
+
+  <button onclick="reset()">Сбросить</button>
+  <p id="result"></p>
+
+  <script>
+    // Словарь Урока 3 — только ключевые лексемы
+const pairs = [
+  { char: "戊", meaning: "Небесный ствол (5-й); циклический знак" },
+  { char: "工", meaning: "Работа; племя Гун" },
+  { char: "上", meaning: "Верх; верхний" },
+  { char: "河", meaning: "Река (особенно Хуанхэ)" },
+  { char: "唐", meaning: "Собственное имя: Тан (легендарный правитель)" }
+];
+
+    let selectedWord = null;
+    let matchedPairs = 0;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function init() {
+      const wordList = document.getElementById("words");
+      const defList = document.getElementById("defs");
+
+      wordList.innerHTML = "";
+      defList.innerHTML = "";
+
+      const shuffledChars = shuffle(pairs);
+      const shuffledMeanings = shuffle(pairs.map(p => p.meaning));
+
+      // Создаём иероглифы (слева)
+      shuffledChars.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "word-item";
+        el.dataset.char = item.char;
+        el.textContent = item.char;
+        el.onclick = () => selectWord(el);
+        wordList.appendChild(el);
+      });
+
+      // Создаём значения (справа)
+      shuffledMeanings.forEach(meaning => {
+        const el = document.createElement("div");
+        el.className = "def-item";
+        el.dataset.meaning = meaning;
+        el.textContent = meaning;
+        el.onclick = () => selectDefinition(el);
+        defList.appendChild(el);
+      });
+    }
+
+    function selectWord(el) {
+      if (el.classList.contains("matched")) return;
+      document.querySelectorAll(".word-item.selected").forEach(e => e.classList.remove("selected"));
+      selectedWord = null;
+      el.classList.add("selected");
+      selectedWord = el;
+    }
+
+    function selectDefinition(el) {
+      if (el.classList.contains("matched") || !selectedWord) return;
+
+      const char = selectedWord.dataset.char;
+      const meaning = el.dataset.meaning;
+      const isCorrect = pairs.some(p => p.char === char && p.meaning === meaning);
+
+      if (isCorrect) {
+        el.classList.add("matched");
+        selectedWord.classList.add("matched");
+        selectedWord.onclick = null;
+        el.onclick = null;
+        selectedWord = null;
+        matchedPairs++;
+
+        if (matchedPairs === pairs.length) {
+          const resultEl = document.getElementById("result");
+          resultEl.textContent = "✅ Все пары верны!";
+          resultEl.className = "success";
+          sendResult(true);
+        }
+      } else {
+        document.getElementById("result").textContent = "❌ Ошибка.";
+        setTimeout(() => {
+          document.getElementById("result").textContent = "";
+        }, 1500);
+        selectedWord.classList.remove("selected");
+        selectedWord = null;
+      }
+    }
+
+    function reset() {
+      matchedPairs = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("result").className = "";
+      init();
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task22.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставьте</title>
+</head>
+<body>
+
+  <h2>Сопоставьте иероглиф и транскрипцию</h2>
+  <p class="intro">Кликните на иероглиф слева, затем — на транскрипцию справа</p>
+
+  <div class="match-container">
+    <div class="column">
+      <h3>Иероглифы</h3>
+      <div id="words"></div>
+    </div>
+    <div class="column">
+      <h3>Транскрипция</h3>
+      <div id="defs"></div>
+    </div>
+  </div>
+
+  <button onclick="reset()">Сбросить</button>
+  <p id="result"></p>
+
+  <script>
+    // Словарь Урока 3 — только ключевые лексемы
+const pairs = [
+  { char: "求", meaning: "qiú" },
+  { char: "大", meaning: "dà" },
+  { char: "戊", meaning: "wù" },
+  { char: "于", meaning: "yú" },
+  { char: "七", meaning: "qī" }
+];
+
+    let selectedWord = null;
+    let matchedPairs = 0;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function init() {
+      const wordList = document.getElementById("words");
+      const defList = document.getElementById("defs");
+
+      wordList.innerHTML = "";
+      defList.innerHTML = "";
+
+      const shuffledChars = shuffle(pairs);
+      const shuffledMeanings = shuffle(pairs.map(p => p.meaning));
+
+      // Создаём иероглифы (слева)
+      shuffledChars.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "word-item";
+        el.dataset.char = item.char;
+        el.textContent = item.char;
+        el.onclick = () => selectWord(el);
+        wordList.appendChild(el);
+      });
+
+      // Создаём значения (справа)
+      shuffledMeanings.forEach(meaning => {
+        const el = document.createElement("div");
+        el.className = "def-item";
+        el.dataset.meaning = meaning;
+        el.textContent = meaning;
+        el.onclick = () => selectDefinition(el);
+        defList.appendChild(el);
+      });
+    }
+
+    function selectWord(el) {
+      if (el.classList.contains("matched")) return;
+      document.querySelectorAll(".word-item.selected").forEach(e => e.classList.remove("selected"));
+      selectedWord = null;
+      el.classList.add("selected");
+      selectedWord = el;
+    }
+
+    function selectDefinition(el) {
+      if (el.classList.contains("matched") || !selectedWord) return;
+
+      const char = selectedWord.dataset.char;
+      const meaning = el.dataset.meaning;
+      const isCorrect = pairs.some(p => p.char === char && p.meaning === meaning);
+
+      if (isCorrect) {
+        el.classList.add("matched");
+        selectedWord.classList.add("matched");
+        selectedWord.onclick = null;
+        el.onclick = null;
+        selectedWord = null;
+        matchedPairs++;
+
+        if (matchedPairs === 10) {
+          const resultEl = document.getElementById("result");
+          resultEl.textContent = "✅ Все пары верны!";
+          resultEl.className = "success";
+          sendResult(true);
+        }
+      } else {
+        document.getElementById("result").textContent = "❌ Ошибка.";
+        setTimeout(() => {
+          document.getElementById("result").textContent = "";
+        }, 1500);
+        selectedWord.classList.remove("selected");
+        selectedWord = null;
+      }
+    }
+
+    function reset() {
+      matchedPairs = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("result").className = "";
+      init();
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task23.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставьте</title>
+</head>
+<body>
+
+  <h2>Сопоставьте иероглиф и транскрипцию</h2>
+  <p class="intro">Кликните на иероглиф слева, затем — на транскрипцию справа</p>
+
+  <div class="match-container">
+    <div class="column">
+      <h3>Иероглифы</h3>
+      <div id="words"></div>
+    </div>
+    <div class="column">
+      <h3>Транскрипция</h3>
+      <div id="defs"></div>
+    </div>
+  </div>
+
+  <button onclick="reset()">Сбросить</button>
+  <p id="result"></p>
+
+  <script>
+    // Словарь Урока 3 — только ключевые лексемы
+const pairs = [
+  { char: "生", meaning: "shēng" },
+  { char: "唐", meaning: "táng" },
+  { char: "上", meaning: "shàng" },
+  { char: "乙", meaning: "yǐ" },
+  { char: "告", meaning: "gào" }
+];
+
+    let selectedWord = null;
+    let matchedPairs = 0;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function init() {
+      const wordList = document.getElementById("words");
+      const defList = document.getElementById("defs");
+
+      wordList.innerHTML = "";
+      defList.innerHTML = "";
+
+      const shuffledChars = shuffle(pairs);
+      const shuffledMeanings = shuffle(pairs.map(p => p.meaning));
+
+      // Создаём иероглифы (слева)
+      shuffledChars.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "word-item";
+        el.dataset.char = item.char;
+        el.textContent = item.char;
+        el.onclick = () => selectWord(el);
+        wordList.appendChild(el);
+      });
+
+      // Создаём значения (справа)
+      shuffledMeanings.forEach(meaning => {
+        const el = document.createElement("div");
+        el.className = "def-item";
+        el.dataset.meaning = meaning;
+        el.textContent = meaning;
+        el.onclick = () => selectDefinition(el);
+        defList.appendChild(el);
+      });
+    }
+
+    function selectWord(el) {
+      if (el.classList.contains("matched")) return;
+      document.querySelectorAll(".word-item.selected").forEach(e => e.classList.remove("selected"));
+      selectedWord = null;
+      el.classList.add("selected");
+      selectedWord = el;
+    }
+
+    function selectDefinition(el) {
+      if (el.classList.contains("matched") || !selectedWord) return;
+
+      const char = selectedWord.dataset.char;
+      const meaning = el.dataset.meaning;
+      const isCorrect = pairs.some(p => p.char === char && p.meaning === meaning);
+
+      if (isCorrect) {
+        el.classList.add("matched");
+        selectedWord.classList.add("matched");
+        selectedWord.onclick = null;
+        el.onclick = null;
+        selectedWord = null;
+        matchedPairs++;
+
+        if (matchedPairs === 10) {
+          const resultEl = document.getElementById("result");
+          resultEl.textContent = "✅ Все пары верны!";
+          resultEl.className = "success";
+          sendResult(true);
+        }
+      } else {
+        document.getElementById("result").textContent = "❌ Ошибка.";
+        setTimeout(() => {
+          document.getElementById("result").textContent = "";
+        }, 1500);
+        selectedWord.classList.remove("selected");
+        selectedWord = null;
+      }
+    }
+
+    function reset() {
+      matchedPairs = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("result").className = "";
+      init();
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task24.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставьте</title>
+</head>
+<body>
+
+  <h2>Сопоставьте иероглиф и транскрипцию</h2>
+  <p class="intro">Кликните на иероглиф слева, затем — на транскрипцию справа</p>
+
+  <div class="match-container">
+    <div class="column">
+      <h3>Иероглифы</h3>
+      <div id="words"></div>
+    </div>
+    <div class="column">
+      <h3>Транскрипция</h3>
+      <div id="defs"></div>
+    </div>
+  </div>
+
+  <button onclick="reset()">Сбросить</button>
+  <p id="result"></p>
+
+  <script>
+    // Словарь Урока 3 — только ключевые лексемы
+const pairs = [
+  { char: "工", meaning: "gōng" },
+  { char: "六", meaning: "liù" },
+  { char: "日", meaning: "rì" },
+  { char: "勿", meaning: "wù" },
+  { char: "庚", meaning: "gēng" }
+];
+
+    let selectedWord = null;
+    let matchedPairs = 0;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function init() {
+      const wordList = document.getElementById("words");
+      const defList = document.getElementById("defs");
+
+      wordList.innerHTML = "";
+      defList.innerHTML = "";
+
+      const shuffledChars = shuffle(pairs);
+      const shuffledMeanings = shuffle(pairs.map(p => p.meaning));
+
+      // Создаём иероглифы (слева)
+      shuffledChars.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "word-item";
+        el.dataset.char = item.char;
+        el.textContent = item.char;
+        el.onclick = () => selectWord(el);
+        wordList.appendChild(el);
+      });
+
+      // Создаём значения (справа)
+      shuffledMeanings.forEach(meaning => {
+        const el = document.createElement("div");
+        el.className = "def-item";
+        el.dataset.meaning = meaning;
+        el.textContent = meaning;
+        el.onclick = () => selectDefinition(el);
+        defList.appendChild(el);
+      });
+    }
+
+    function selectWord(el) {
+      if (el.classList.contains("matched")) return;
+      document.querySelectorAll(".word-item.selected").forEach(e => e.classList.remove("selected"));
+      selectedWord = null;
+      el.classList.add("selected");
+      selectedWord = el;
+    }
+
+    function selectDefinition(el) {
+      if (el.classList.contains("matched") || !selectedWord) return;
+
+      const char = selectedWord.dataset.char;
+      const meaning = el.dataset.meaning;
+      const isCorrect = pairs.some(p => p.char === char && p.meaning === meaning);
+
+      if (isCorrect) {
+        el.classList.add("matched");
+        selectedWord.classList.add("matched");
+        selectedWord.onclick = null;
+        el.onclick = null;
+        selectedWord = null;
+        matchedPairs++;
+
+        if (matchedPairs === 10) {
+          const resultEl = document.getElementById("result");
+          resultEl.textContent = "✅ Все пары верны!";
+          resultEl.className = "success";
+          sendResult(true);
+        }
+      } else {
+        document.getElementById("result").textContent = "❌ Ошибка.";
+        setTimeout(() => {
+          document.getElementById("result").textContent = "";
+        }, 1500);
+        selectedWord.classList.remove("selected");
+        selectedWord = null;
+      }
+    }
+
+    function reset() {
+      matchedPairs = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("result").className = "";
+      init();
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task25.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставьте</title>
+</head>
+<body>
+
+  <h2>Сопоставьте иероглиф и транскрипцию</h2>
+  <p class="intro">Кликните на иероглиф слева, затем — на транскрипцию справа</p>
+
+  <div class="match-container">
+    <div class="column">
+      <h3>Иероглифы</h3>
+      <div id="words"></div>
+    </div>
+    <div class="column">
+      <h3>Транскрипция</h3>
+      <div id="defs"></div>
+    </div>
+  </div>
+
+  <button onclick="reset()">Сбросить</button>
+  <p id="result"></p>
+
+  <script>
+    // Словарь Урока 3 — только ключевые лексемы
+const pairs = [
+  { char: "中", meaning: "zhōng" },
+  { char: "邑", meaning: "yì" },
+  { char: "九", meaning: "jiǔ" },
+  { char: "河", meaning: "hé" },
+  { char: "入", meaning: "rù" }
+];
+
+    let selectedWord = null;
+    let matchedPairs = 0;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function init() {
+      const wordList = document.getElementById("words");
+      const defList = document.getElementById("defs");
+
+      wordList.innerHTML = "";
+      defList.innerHTML = "";
+
+      const shuffledChars = shuffle(pairs);
+      const shuffledMeanings = shuffle(pairs.map(p => p.meaning));
+
+      // Создаём иероглифы (слева)
+      shuffledChars.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "word-item";
+        el.dataset.char = item.char;
+        el.textContent = item.char;
+        el.onclick = () => selectWord(el);
+        wordList.appendChild(el);
+      });
+
+      // Создаём значения (справа)
+      shuffledMeanings.forEach(meaning => {
+        const el = document.createElement("div");
+        el.className = "def-item";
+        el.dataset.meaning = meaning;
+        el.textContent = meaning;
+        el.onclick = () => selectDefinition(el);
+        defList.appendChild(el);
+      });
+    }
+
+    function selectWord(el) {
+      if (el.classList.contains("matched")) return;
+      document.querySelectorAll(".word-item.selected").forEach(e => e.classList.remove("selected"));
+      selectedWord = null;
+      el.classList.add("selected");
+      selectedWord = el;
+    }
+
+    function selectDefinition(el) {
+      if (el.classList.contains("matched") || !selectedWord) return;
+
+      const char = selectedWord.dataset.char;
+      const meaning = el.dataset.meaning;
+      const isCorrect = pairs.some(p => p.char === char && p.meaning === meaning);
+
+      if (isCorrect) {
+        el.classList.add("matched");
+        selectedWord.classList.add("matched");
+        selectedWord.onclick = null;
+        el.onclick = null;
+        selectedWord = null;
+        matchedPairs++;
+
+        if (matchedPairs === 10) {
+          const resultEl = document.getElementById("result");
+          resultEl.textContent = "✅ Все пары верны!";
+          resultEl.className = "success";
+          sendResult(true);
+        }
+      } else {
+        document.getElementById("result").textContent = "❌ Ошибка.";
+        setTimeout(() => {
+          document.getElementById("result").textContent = "";
+        }, 1500);
+        selectedWord.classList.remove("selected");
+        selectedWord = null;
+      }
+    }
+
+    function reset() {
+      matchedPairs = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("result").className = "";
+      init();
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task26.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставьте</title>
+</head>
+<body>
+
+  <h2>Сопоставьте иероглиф и транскрипцию</h2>
+  <p class="intro">Кликните на иероглиф слева, затем — на транскрипцию справа</p>
+
+  <div class="match-container">
+    <div class="column">
+      <h3>Иероглифы</h3>
+      <div id="words"></div>
+    </div>
+    <div class="column">
+      <h3>Транскрипция</h3>
+      <div id="defs"></div>
+    </div>
+  </div>
+
+  <button onclick="reset()">Сбросить</button>
+  <p id="result"></p>
+
+  <script>
+    // Словарь Урока 3 — только ключевые лексемы
+const pairs = [
+  { char: "翌", meaning: "yì" },
+  { char: "月", meaning: "yuè" },
+  { char: "丁", meaning: "dīng" },
+  { char: "辛", meaning: "xīn" },
+  { char: "妣", meaning: "bǐ" }
+];
+
+    let selectedWord = null;
+    let matchedPairs = 0;
+
+    function shuffle(arr) {
+      return [...arr].sort(() => Math.random() - 0.5);
+    }
+
+    function init() {
+      const wordList = document.getElementById("words");
+      const defList = document.getElementById("defs");
+
+      wordList.innerHTML = "";
+      defList.innerHTML = "";
+
+      const shuffledChars = shuffle(pairs);
+      const shuffledMeanings = shuffle(pairs.map(p => p.meaning));
+
+      // Создаём иероглифы (слева)
+      shuffledChars.forEach(item => {
+        const el = document.createElement("div");
+        el.className = "word-item";
+        el.dataset.char = item.char;
+        el.textContent = item.char;
+        el.onclick = () => selectWord(el);
+        wordList.appendChild(el);
+      });
+
+      // Создаём значения (справа)
+      shuffledMeanings.forEach(meaning => {
+        const el = document.createElement("div");
+        el.className = "def-item";
+        el.dataset.meaning = meaning;
+        el.textContent = meaning;
+        el.onclick = () => selectDefinition(el);
+        defList.appendChild(el);
+      });
+    }
+
+    function selectWord(el) {
+      if (el.classList.contains("matched")) return;
+      document.querySelectorAll(".word-item.selected").forEach(e => e.classList.remove("selected"));
+      selectedWord = null;
+      el.classList.add("selected");
+      selectedWord = el;
+    }
+
+    function selectDefinition(el) {
+      if (el.classList.contains("matched") || !selectedWord) return;
+
+      const char = selectedWord.dataset.char;
+      const meaning = el.dataset.meaning;
+      const isCorrect = pairs.some(p => p.char === char && p.meaning === meaning);
+
+      if (isCorrect) {
+        el.classList.add("matched");
+        selectedWord.classList.add("matched");
+        selectedWord.onclick = null;
+        el.onclick = null;
+        selectedWord = null;
+        matchedPairs++;
+
+        if (matchedPairs === 10) {
+          const resultEl = document.getElementById("result");
+          resultEl.textContent = "✅ Все пары верны!";
+          resultEl.className = "success";
+          sendResult(true);
+        }
+      } else {
+        document.getElementById("result").textContent = "❌ Ошибка.";
+        setTimeout(() => {
+          document.getElementById("result").textContent = "";
+        }, 1500);
+        selectedWord.classList.remove("selected");
+        selectedWord = null;
+      }
+    }
+
+    function reset() {
+      matchedPairs = 0;
+      document.getElementById("result").textContent = "";
+      document.getElementById("result").className = "";
+      init();
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = init;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task27.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Собери фразу</title>
+</head>
+<body>
+  <div class="instructions">
+    <p><strong>Соберите фразу:</strong></p>
+    <p><em>В день гэн-инь гадатель Цзюй спросил: Войдёт ли правитель в Шан?</em></p>
+  </div>
+
+  <div class="toggle-hint" id="toggle-hint-btn">Показать подсказки</div>
+
+  <div class="hint-container" id="hint-container">
+    <ul class="hint-list">
+      <li>庚寅卜㱿貞 — стандартная формула начала гадания (дата + гадатель)</li>
+      <li>入于商 — «войти в Шан» (入 = войти, 于 = в)</li>
+      <li>王 — «правитель», подлежащее</li>
+      <li>于 — предлог, указывает направление действия (в, к, перед именем места)</li>
+      <li>Порядок: дата → гадание → вопрос о действии с косвенным дополнением места</li>
+    </ul>
+  </div>
+
+  <p><strong>Иероглифы:</strong></p>
+  <div id="char-pool"></div>
+
+  <p><strong>Соберите здесь:</strong></p>
+  <div id="drop-area"></div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result" class="message"></p>
+
+  <script>
+    // Целевая фраза: "В день гэн-инь гадатель Цзюй спросил: войдёт ли правитель в Шан?"
+    // Без пунктуации, как в оракульных надписях
+    const expected = ['庚', '寅', '卜', '㱿', '貞', '王', '入', '于', '商'];
+
+    // Все доступные иероглифы (из Урока 3 и циклических знаков)
+    const allChars = [
+      '庚', '寅', '卜', '㱿', '貞', '王', '入', '于', '商',
+      '辛', '丑', '勿', '大', '邑', '六', '月', '生', '七', '九',
+      '求', '妣', '日', '翌', '告', '中', '丁', '戊', '工', '上',
+      '河', '唐', '乙', '巳', '其', '今', '来', '甲', '午', '大'
+    ].sort(() => Math.random() - 0.5);
+
+    const toggleBtn = document.getElementById('toggle-hint-btn');
+    const hintContainer = document.getElementById('hint-container');
+    const charPool = document.getElementById('char-pool');
+    const dropArea = document.getElementById('drop-area');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultEl = document.getElementById('result');
+
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = hintContainer.classList.contains('open');
+      hintContainer.classList.toggle('open');
+      toggleBtn.textContent = isOpen ? 'Показать подсказки' : 'Скрыть подсказки';
+    });
+
+    function moveToDropArea(box) {
+      const clone = box.cloneNode(true);
+      clone.draggable = false;
+      clone.style.cursor = 'default';
+      clone.onclick = null;
+      box.remove();
+      dropArea.appendChild(clone);
+    }
+
+    function initCharPool() {
+      charPool.innerHTML = '';
+      dropArea.innerHTML = '';
+      resultEl.textContent = '';
+
+      allChars.forEach(char => {
+        const box = document.createElement('div');
+        box.className = 'char-box';
+        box.textContent = char;
+        box.addEventListener('click', () => moveToDropArea(box));
+        charPool.appendChild(box);
+      });
+    }
+
+    checkBtn.addEventListener('click', () => {
+      const current = Array.from(dropArea.children).map(el => el.textContent);
+      if (arraysEqual(current, expected)) {
+        resultEl.innerHTML = '✅ Правильно!<br>庚寅卜㱿貞王入于商';
+        resultEl.className = 'message success';
+        sendResult(true);
+      } else {
+        resultEl.textContent = '❌ Попробуйте снова.';
+        resultEl.className = 'message';
+        sendResult(false, 'Неверный порядок');
+      }
+    });
+
+    resetBtn.addEventListener('click', initCharPool);
+
+    function arraysEqual(a, b) {
+      return a.length === b.length && a.every((v, i) => v === b[i]);
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Фраза собрана верно" : "Ошибка в порядке")
+      }, "*");
+    }
+
+    initCharPool();
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task28.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставь</title>
+</head>
+<body>
+
+  <h2>Сопоставь иероглиф и значение</h2>
+  <p class="instruction">Выберите значение каждого иероглифа из контекста Урока 2</p>
+
+  <div id="pairs-container">
+    <!-- Пары добавятся динамически -->
+  </div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    // Все ключевые иероглифы Урока 2 с краткими, точными значениями
+    const wordBank = [
+  { char: "求", correct: "искать, просить (часто с 于 — обращаться к кому-либо)" },
+  { char: "告", correct: "сообщать, докладывать (часто с 于 — кому-либо)" },
+  { char: "大", correct: "великий, большой (используется как определение к именам предков, напр. 大庚)" },
+  { char: "邑", correct: "город, поселение (в сочетании 大邑商 — Великий город Шан)" },
+  { char: "商", correct: "Шан (столица государства, центр эйкумены)" },
+  { char: "翌", correct: "следующий, будущий (употребляется с датами, напр. 翌庚寅)" },
+  { char: "生", correct: "наступающий (о месяце: 生七 — наступающий седьмой месяц)" },
+  { char: "月", correct: "месяц (может быть количественным или порядковым: 六月 — шестой месяц)" },
+  { char: "日", correct: "день (в значении «сегодня» или в сочетаниях с датами)" },
+  { char: "妣", correct: "покойная мать, предок женского рода" }
+
+    ];
+
+    const allValues = wordBank.map(item => item.correct);
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderPairs() {
+      const container = document.getElementById("pairs-container");
+      container.innerHTML = "";
+
+      const shuffled = shuffleArray(wordBank);
+
+      shuffled.forEach(item => {
+        const pair = document.createElement("div");
+        pair.className = "pair";
+
+        const options = shuffleArray([...allValues]);
+
+        let selectHTML = `<select id="char_${item.char}">
+          <option value="">— выберите —</option>`;
+        
+        options.forEach(value => {
+          selectHTML += `<option value="${value}">${value}</option>`;
+        });
+        
+        selectHTML += `</select>`;
+
+        pair.innerHTML = `<label>${item.char} →</label> ${selectHTML}`;
+        container.appendChild(pair);
+      });
+    }
+
+    function check() {
+      let allFilled = true;
+      let correctCount = 0;
+
+      wordBank.forEach(item => {
+        const select = document.getElementById(`char_${item.char}`);
+        if (!select || !select.value) allFilled = false;
+        if (select?.value === item.correct) correctCount++;
+      });
+
+      const resultEl = document.getElementById("result");
+
+      if (!allFilled) {
+        resultEl.textContent = "Заполните все.";
+        resultEl.className = "error";
+        sendResult(false, "Не все поля заполнены");
+        return;
+      }
+
+      if (correctCount === wordBank.length) {
+        resultEl.textContent = "✅ Все верно! Вы усвоили ключевую лексику Урока 2.";
+        resultEl.className = "success";
+        sendResult(true);
+      } else {
+        const hint = "Подсказка: 受 — получить/дать, 來 — приходить/присылать, 年 — урожай.";
+        resultEl.textContent = "❌ " + hint;
+        resultEl.className = "error";
+        sendResult(false, "Ошибка в сопоставлении");
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = renderPairs;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+
+
+=== 📄 task29.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Что означает 入于商？</title>
+</head>
+<body>
+
+  <h2>Что означает 入于商？</h2>
+  <p class="instruction">В гадательных надписях часто встречается конструкция с предлогом 于. Что означает фраза 入于商?</p>
+
+  <div id="options-container">
+    <!-- Варианты будут добавлены здесь -->
+  </div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    const options = [
+      { 
+        value: "enter-shang", 
+        text: "войти в Шан", 
+        correct: true,
+        explanation: "入于商 — классический пример косвенного дополнения места с предлогом 于. См. Урок 3, 3.1 и 3.2."
+      },
+      { 
+        value: "from-shang", 
+        text: "прийти из Шан", 
+        correct: false,
+        explanation: "于 не выражает исходного пункта. Для «из» использовались другие конструкции, например 自商."
+      },
+      { 
+        value: "about-shang", 
+        text: "говорить о Шане", 
+        correct: false,
+        explanation: "于 может выражать адресата действия, но не тему речи. Это не «о», а «в направлении к»."
+      },
+      { 
+        value: "ruler-enter", 
+        text: "правитель войдёт", 
+        correct: false,
+        explanation: "王 отсутствует. 入于商 — действие и его направление, но не подлежащее."
+      }
+    ];
+
+    let selectedValue = null;
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderOptions() {
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+      selectedValue = null;
+
+      const shuffled = shuffleArray(options);
+
+      shuffled.forEach(option => {
+        const label = document.createElement("label");
+        label.className = "option";
+        label.dataset.value = option.value;
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "answer";
+        input.value = option.value;
+
+        input.onchange = () => {
+          selectedValue = option.value;
+          document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+          label.classList.add('selected');
+        };
+
+        const textNode = document.createTextNode(option.text);
+
+        label.appendChild(input);
+        label.appendChild(textNode);
+        container.appendChild(label);
+      });
+    }
+
+    function check() {
+      const resultEl = document.getElementById("result");
+      resultEl.className = "";
+
+      if (!selectedValue) {
+        resultEl.textContent = "Выберите вариант.";
+        resultEl.className = "error";
+        return;
+      }
+
+      const selectedOption = options.find(opt => opt.value === selectedValue);
+
+      if (selectedOption.correct) {
+        resultEl.innerHTML = '✅ Верно!<br>入于商 — «войти в Шан». Предлог 于 указывает на направление действия — конечный пункт движения. См. Урок 3: 于 — универсальный предлог (3.1), косвенное дополнение места (3.2).';
+        resultEl.className = "success";
+        sendResult(true);
+      } else {
+        resultEl.textContent = `❌ Нет. ${selectedOption.explanation} Правильно: 入于商 = войти в Шан.`;
+        resultEl.className = "error";
+        sendResult(false);
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success,
+        message: message || (success ? "Верно: 入于商 = войти в Шан" : "Ошибка в интерпретации 入于商")
+      }, "*");
+    }
+
+    renderOptions();
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task3.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Собери фразу</title>
+</head>
+<body>
+  <h2>Собери фразу</h2>
+
+  <div class="instructions">
+    <p><strong>Соберите фразу:</strong></p>
+    <p><em>Мы вступим в город в наступающем втором месяце.</em></p>
+  </div>
+
+  <!-- Кнопка для раскрытия подсказок -->
+  <div class="toggle-hint" id="toggle-hint-btn">Показать подсказки</div>
+
+  <!-- Контейнер подсказок (скрыт по умолчанию) -->
+  <div class="hint-container" id="hint-container">
+    <ul class="hint-list">
+      <li>生二月 — в наступающем втором месяце</li>
+      <li>我 — мы</li>
+      <li>入 — вступить</li>
+      <li>于 — в (направление движения)</li>
+      <li>商 — город (Великий город Шан)</li>
+    </ul>
+  </div>
+
+  <p><strong>Иероглифы:</strong></p>
+  <div id="char-pool"></div>
+
+  <p><strong>Соберите здесь:</strong></p>
+  <div id="drop-area"></div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result" class="message"></p>
+
+  <script>
+    const expected = ['生', '二', '月', '我', '入', '于', '商'];
+
+    const allChars = [
+      '生', '二', '月', '我', '入', '于', '商',
+      '今', '来', '白', '马', '工', '方', '大', '邑',
+      '受', '年', '不', '其', '雨', '王', '占', '曰',
+      '告', '勿', '求', '六', '七', '九', '庚', '寅'
+    ].sort(() => Math.random() - 0.5);
+
+    const toggleBtn = document.getElementById('toggle-hint-btn');
+    const hintContainer = document.getElementById('hint-container');
+    const charPool = document.getElementById('char-pool');
+    const dropArea = document.getElementById('drop-area');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultEl = document.getElementById('result');
+
+    // Переключение подсказок
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = hintContainer.classList.contains('open');
+      hintContainer.classList.toggle('open');
+      toggleBtn.textContent = isOpen ? 'Показать подсказки' : 'Скрыть подсказки';
+    });
+
+    function moveToDropArea(box) {
+      const clone = box.cloneNode(true);
+      clone.draggable = false;
+      clone.style.cursor = 'default';
+      clone.onclick = null;
+
+      box.remove();
+      dropArea.appendChild(clone);
+    }
+
+    function initCharPool() {
+      charPool.innerHTML = '';
+      dropArea.innerHTML = '';
+      resultEl.textContent = '';
+
+      allChars.forEach(char => {
+        const box = document.createElement('div');
+        box.className = 'char-box';
+        box.textContent = char;
+
+        box.addEventListener('click', () => moveToDropArea(box));
+        charPool.appendChild(box);
+      });
+    }
+
+    checkBtn.addEventListener('click', () => {
+      const current = Array.from(dropArea.children).map(el => el.textContent);
+      if (arraysEqual(current, expected)) {
+        resultEl.innerHTML = '✅ Правильно!<br>生二月我入于商';
+        resultEl.className = 'message success';
+        sendResult(true);
+      } else {
+        resultEl.textContent = '❌ Попробуйте снова.';
+        resultEl.className = 'message';
+        sendResult(false, 'Неверный порядок');
+      }
+    });
+
+    resetBtn.addEventListener('click', initCharPool);
+
+    function arraysEqual(a, b) {
+      return a.length === b.length && a.every((v, i) => v === b[i]);
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Фраза собрана верно" : "Ошибка в порядке")
+      }, "*");
+    }
+
+    // Инициализация
+    initCharPool();
+
+    // Сигнал, что задание загружено
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task30.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Собери фразу</title>
+  </style>
+</head>
+<body>
+  <h2>Собери фразу</h2>
+
+  <div class="instructions">
+    <p><strong>Соберите фразу:</strong></p>
+    <p><em>Начиная с сегодняшнего дня и кончая днем цзя-чэнь, будет ли дождь? Затем, начиная с дня цзи-сы, мы будем молить о дожде.</em></p>
+  </div>
+
+  <!-- Кнопка для раскрытия подсказок -->
+  <div class="toggle-hint" id="toggle-hint-btn">Показать подсказки</div>
+
+  <!-- Контейнер подсказок (скрыт по умолчанию) -->
+  <div class="hint-container" id="hint-container">
+    <ul class="hint-list">
+      <li>自今至于甲辰 — начиная с сегодняшнего дня и кончая днем цзя-чэнь</li>
+      <li>其雨？ — будет ли дождь?</li>
+      <li>自丁巳 — начиная с дня цзи-сы</li>
+      <li>我求 — мы будем молить</li>
+      <li>其 — частица, указывающая на будущее/возможность (вопрос)</li>
+    </ul>
+  </div>
+
+  <p><strong>Иероглифы:</strong></p>
+  <div id="char-pool"></div>
+
+  <p><strong>Соберите здесь:</strong></p>
+  <div id="drop-area"></div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result" class="message"></p>
+
+  <script>
+    // Изменено: Ожидаемая последовательность теперь соответствует новому, более сложному предложению.
+    const expected = ['自', '今', '至', '于', '甲', '辰', '其', '雨', '自', '丁', '巳', '我', '求'];
+
+    // Изменено: Пул иероглифов обновлен, чтобы включить необходимые для нового предложения.
+    const allChars = [
+      '自', '今', '至', '于', '甲', '辰', '其', '雨', '丁', '巳', '我', '求',
+      '壬', '寅', '卜', '㱿', '貞', '弗', '子', '商', '烖', '基', '方', '弗',
+      '戊', '申', '爭', '帝', '降', '馬', '佑', '工', '洹', '作', '邑', '合',
+      '乙', '亥', '侯', '虎', '得', '汝', '使', '不', '朕', '羌', '余', '弗'
+    ].sort(() => Math.random() - 0.5);
+
+    const toggleBtn = document.getElementById('toggle-hint-btn');
+    const hintContainer = document.getElementById('hint-container');
+    const charPool = document.getElementById('char-pool');
+    const dropArea = document.getElementById('drop-area');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultEl = document.getElementById('result');
+
+
+    // Переключение подсказок
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = hintContainer.classList.contains('open');
+      hintContainer.classList.toggle('open');
+      toggleBtn.textContent = isOpen ? 'Показать подсказки' : 'Скрыть подсказки';
+    });
+
+    function moveToDropArea(box) {
+      const clone = box.cloneNode(true);
+      clone.draggable = false;
+      clone.style.cursor = 'default';
+      clone.onclick = null;
+
+      box.remove();
+      dropArea.appendChild(clone);
+    }
+
+    function initCharPool() {
+      charPool.innerHTML = '';
+      dropArea.innerHTML = '';
+      resultEl.textContent = '';
+
+      allChars.forEach(char => {
+        const box = document.createElement('div');
+        box.className = 'char-box';
+        box.textContent = char;
+
+        box.addEventListener('click', () => moveToDropArea(box));
+        charPool.appendChild(box);
+      });
+    }
+
+    checkBtn.addEventListener('click', () => {
+      const current = Array.from(dropArea.children).map(el => el.textContent);
+      if (arraysEqual(current, expected)) {
+        resultEl.innerHTML = '✅ Правильно!<br>自今至于癸亥王求';
+        resultEl.className = 'message success';
+        sendResult(true);
+      } else {
+        resultEl.textContent = '❌ Попробуйте снова.';
+        resultEl.className = 'message';
+        sendResult(false, 'Неверный порядок');
+      }
+    });
+
+    resetBtn.addEventListener('click', initCharPool);
+
+    function arraysEqual(a, b) {
+      return a.length === b.length && a.every((v, i) => v === b[i]);
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Фраза собрана верно" : "Ошибка в порядке")
+      }, "*");
+    }
+
+    // Инициализация
+    initCharPool();
+
+    // Сигнал, что задание загружено
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task31.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Сопоставь</title>
+</head>
+<body>
+
+  <h2>Сопоставь временной период</h2>
+  <p class="instruction">Сопоставьте древнекитайское выражение с его значением. Все примеры основаны на грамматике Урока 4: <em>自...至于...</em></p>
+
+  <div id="pairs-container">
+    <!-- Пары добавятся динамически -->
+  </div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    // Ключевые выражения из Урока 4 с конструкцией 自...至于...
+    const wordBank = [
+      { 
+        char: "自今至于甲辰", 
+        correct: "начиная с сегодняшнего дня и кончая днем цзя-чэнь" 
+      },
+      { 
+        char: "自今至于丁巳", 
+        correct: "начиная с сегодняшнего дня и кончая днем дин-сы" 
+      },
+      { 
+        char: "自上甲至于中丁", 
+        correct: "начиная с Верхнего Цзя и кончая Средним Дином" 
+      },
+      { 
+        char: "壬寅至于甲辰", 
+        correct: "от дня жэнь-инь до дня цзя-чэнь" 
+      },
+      { 
+        char: "来甲子", 
+        correct: "в будущем году в день цзя-цзы (см. 翌)" 
+      }
+    ];
+
+    const allValues = wordBank.map(item => item.correct);
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderPairs() {
+      const container = document.getElementById("pairs-container");
+      container.innerHTML = "";
+
+      const shuffled = shuffleArray(wordBank);
+
+      shuffled.forEach(item => {
+        const pair = document.createElement("div");
+        pair.className = "pair";
+
+        const options = shuffleArray([...allValues]);
+
+        let selectHTML = `<select id="char_${item.char}">
+          <option value="">— выберите —</option>`;
+        
+        options.forEach(value => {
+          selectHTML += `<option value="${value}">${value}</option>`;
+        });
+        
+        selectHTML += `</select>`;
+
+        pair.innerHTML = `<label>${item.char} →</label> ${selectHTML}`;
+        container.appendChild(pair);
+      });
+    }
+
+    function check() {
+      let allFilled = true;
+      let correctCount = 0;
+
+      wordBank.forEach(item => {
+        const select = document.getElementById(`char_${item.char}`);
+        if (!select || !select.value) allFilled = false;
+        if (select?.value === item.correct) correctCount++;
+      });
+
+      const resultEl = document.getElementById("result");
+
+      if (!allFilled) {
+        resultEl.textContent = "Заполните все.";
+        resultEl.className = "error";
+        sendResult(false, "Не все поля заполнены");
+        return;
+      }
+
+      if (correctCount === wordBank.length) {
+        resultEl.textContent = "✅ Все верно! Вы усвоили конструкцию 自...至于... из Урока 4.";
+        resultEl.className = "success";
+        sendResult(true);
+      } else {
+        const hint = "Подсказка: 自 — от, с; 至于 — до; 翌 — следующий, будущий.";
+        resultEl.textContent = "❌ " + hint;
+        resultEl.className = "error";
+        sendResult(false, "Ошибка в сопоставлении");
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success,
+        message: message || (success ? "Все верно" : "Ошибка")
+      }, "*");
+    }
+
+    window.onload = renderPairs;
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task32.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Что означает 自今至于甲辰？</title>
+</head>
+<body>
+
+  <h2>Что означает 自今至于甲辰？</h2>
+  <p class="instruction">Урок 4 посвящен предлогу 自 и конструкции 自...至于... Что означает этот временной период?</p>
+
+  <div id="options-container">
+    <!-- Варианты будут добавлены здесь -->
+  </div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    const options = [
+      { 
+        value: "from-now-to-jia-chen", 
+        text: "начиная с сегодняшнего дня и кончая днем цзя-чэнь", 
+        correct: true,
+        explanation: "Это прямое значение конструкции 自...至于... для обозначения временного периода. См. Урок 4, 4.2."
+      },
+      { 
+        value: "from-jia-chen-to-now", 
+        text: "начиная с дня цзя-чэнь и кончая сегодняшним днем", 
+        correct: false,
+        explanation: "Порядок в конструкции 自...至于... всегда от начальной точки (自) к конечной (至于). Это не может означать движение назад во времени."
+      },
+      { 
+        value: "on-jia-chen", 
+        text: "в день цзя-чэнь", 
+        correct: false,
+        explanation: "Одного циклического знака (甲辰) было бы достаточно. Конструкция 自...至于... всегда указывает на промежуток времени."
+      },
+      { 
+        value: "from-shang", 
+        text: "из города Шан", 
+        correct: false,
+        explanation: "于 может указывать на место, но 自 в этой конструкции указывает на время. 入于商 — это место, 自今... — это время."
+      }
+    ];
+
+    let selectedValue = null;
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderOptions() {
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+      selectedValue = null;
+
+      const shuffled = shuffleArray(options);
+
+      shuffled.forEach(option => {
+        const label = document.createElement("label");
+        label.className = "option";
+        label.dataset.value = option.value;
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "answer";
+        input.value = option.value;
+
+        input.onchange = () => {
+          selectedValue = option.value;
+          document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+          label.classList.add('selected');
+        };
+
+        const textNode = document.createTextNode(option.text);
+
+        label.appendChild(input);
+        label.appendChild(textNode);
+        container.appendChild(label);
+      });
+    }
+
+    function check() {
+      const resultEl = document.getElementById("result");
+      resultEl.className = "";
+
+      if (!selectedValue) {
+        resultEl.textContent = "Выберите вариант.";
+        resultEl.className = "error";
+        return;
+      }
+
+      const selectedOption = options.find(opt => opt.value === selectedValue);
+
+      if (selectedOption.correct) {
+        resultEl.innerHTML = '✅ Верно!<br>自今至于甲辰 — «начиная с сегодняшнего дня и кончая днем цзя-чэнь». Это ключевая конструкция Урока 4 для обозначения временного периода. Предлог 自 указывает на исходную точку времени.';
+        resultEl.className = "success";
+        sendResult(true);
+      } else {
+        resultEl.textContent = `❌ Нет. ${selectedOption.explanation} Правильно: 自今至于甲辰 = начиная с сегодня и до цзя-чэнь.`;
+        resultEl.className = "error";
+        sendResult(false);
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success,
+        message: message || (success ? "Верно: 自今至于甲辰 = временной период" : "Ошибка в интерпретации конструкции 自...至于...")
+      }, "*");
+    }
+
+    renderOptions();
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task4.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Собери фразу</title>
+</head>
+<body>
+  <h2>Собери фразу</h2>
+
+  <div class="instructions">
+    <p><strong>Соберите фразу:</strong></p>
+    <p><em>Не сообщай правителю о дожде!</em></p>
+  </div>
+
+  <!-- Кнопка для раскрытия подсказок -->
+  <div class="toggle-hint" id="toggle-hint-btn">Показать подсказки</div>
+
+  <!-- Контейнер подсказок (скрыт по умолчанию) -->
+  <div class="hint-container" id="hint-container">
+    <ul class="hint-list">
+      <li>勿 — не (запрет)</li>
+      <li>告 — сообщать</li>
+      <li>雨 — дождь</li>
+      <li>于 — о, правителю (предлог для адресата)</li>
+      <li>王 — правитель</li>
+    </ul>
+  </div>
+
+  <p><strong>Иероглифы:</strong></p>
+  <div id="char-pool"></div>
+
+  <p><strong>Соберите здесь:</strong></p>
+  <div id="drop-area"></div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result" class="message"></p>
+
+  <script>
+    const expected = ['勿', '告', '雨', '于', '王'];
+
+    const allChars = [
+      '勿', '告', '雨', '于', '王',
+      '今', '来', '白', '马', '工', '方', '大', '邑', '商',
+      '我', '受', '年', '不', '其', '求', '六', '月', '入',
+      '生', '七', '九', '日', '翌', '中', '丁', '戊', '上'
+    ].sort(() => Math.random() - 0.5);
+
+    const toggleBtn = document.getElementById('toggle-hint-btn');
+    const hintContainer = document.getElementById('hint-container');
+    const charPool = document.getElementById('char-pool');
+    const dropArea = document.getElementById('drop-area');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultEl = document.getElementById('result');
+
+    // Переключение подсказок
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = hintContainer.classList.contains('open');
+      hintContainer.classList.toggle('open');
+      toggleBtn.textContent = isOpen ? 'Показать подсказки' : 'Скрыть подсказки';
+    });
+
+    function moveToDropArea(box) {
+      const clone = box.cloneNode(true);
+      clone.draggable = false;
+      clone.style.cursor = 'default';
+      clone.onclick = null;
+
+      box.remove();
+      dropArea.appendChild(clone);
+    }
+
+    function initCharPool() {
+      charPool.innerHTML = '';
+      dropArea.innerHTML = '';
+      resultEl.textContent = '';
+
+      allChars.forEach(char => {
+        const box = document.createElement('div');
+        box.className = 'char-box';
+        box.textContent = char;
+
+        box.addEventListener('click', () => moveToDropArea(box));
+        charPool.appendChild(box);
+      });
+    }
+
+    checkBtn.addEventListener('click', () => {
+      const current = Array.from(dropArea.children).map(el => el.textContent);
+      if (arraysEqual(current, expected)) {
+        resultEl.innerHTML = '✅ Правильно!<br>勿告雨于王';
+        resultEl.className = 'message success';
+        sendResult(true);
+      } else {
+        resultEl.textContent = '❌ Попробуйте снова.';
+        resultEl.className = 'message';
+        sendResult(false, 'Неверный порядок');
+      }
+    });
+
+    resetBtn.addEventListener('click', initCharPool);
+
+    function arraysEqual(a, b) {
+      return a.length === b.length && a.every((v, i) => v === b[i]);
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Фраза собрана верно" : "Ошибка в порядке")
+      }, "*");
+    }
+
+    // Инициализация
+    initCharPool();
+
+    // Сигнал, что задание загружено
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task5.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Собери фразу</title>
+</head>
+<body>
+  <h2>Собери фразу</h2>
+
+  <div class="instructions">
+    <p><strong>Соберите фразу:</strong></p>
+    <p><em>Я попросил чумизы у гадателя. Гадатель пришлет чумизу в будущем году.</em></p>
+  </div>
+
+  <!-- Кнопка для раскрытия подсказок -->
+  <div class="toggle-hint" id="toggle-hint-btn">Показать подсказки</div>
+
+  <!-- Контейнер подсказок (скрыт по умолчанию) -->
+  <div class="hint-container" id="hint-container">
+    <ul class="hint-list">
+      <li>我 — я</li>
+      <li>求 — просить</li>
+      <li>于 — у (адресат действия)</li>
+      <li>卜 — гадатель</li>
+      <li>来 — пришлет (каузативное значение)</li>
+      <li>黍 — чумиза</li>
+      <li>来岁 — в будущем году</li>
+    </ul>
+  </div>
+
+  <p><strong>Иероглифы:</strong></p>
+  <div id="char-pool"></div>
+
+  <p><strong>Соберите здесь:</strong></p>
+  <div id="drop-area"></div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result" class="message"></p>
+
+  <script>
+    const expected = ['我', '求', '黍', '于', '卜', '來', '歲', '卜', '來', '黍'];
+
+    const allChars = [
+      '我', '求', '黍', '于', '卜', '來', '歲', '卜', '來', '黍',
+      '今', '白', '马', '工', '方', '大', '邑', '商', '入', '王',
+      '勿', '告', '雨', '受', '年', '不', '其', '六', '月', '生'
+    ].sort(() => Math.random() - 0.5);
+
+    const toggleBtn = document.getElementById('toggle-hint-btn');
+    const hintContainer = document.getElementById('hint-container');
+    const charPool = document.getElementById('char-pool');
+    const dropArea = document.getElementById('drop-area');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultEl = document.getElementById('result');
+
+    // Переключение подсказок
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = hintContainer.classList.contains('open');
+      hintContainer.classList.toggle('open');
+      toggleBtn.textContent = isOpen ? 'Показать подсказки' : 'Скрыть подсказки';
+    });
+
+    function moveToDropArea(box) {
+      const clone = box.cloneNode(true);
+      clone.draggable = false;
+      clone.style.cursor = 'default';
+      clone.onclick = null;
+
+      box.remove();
+      dropArea.appendChild(clone);
+    }
+
+    function initCharPool() {
+      charPool.innerHTML = '';
+      dropArea.innerHTML = '';
+      resultEl.textContent = '';
+
+      allChars.forEach(char => {
+        const box = document.createElement('div');
+        box.className = 'char-box';
+        box.textContent = char;
+
+        box.addEventListener('click', () => moveToDropArea(box));
+        charPool.appendChild(box);
+      });
+    }
+
+    checkBtn.addEventListener('click', () => {
+      const current = Array.from(dropArea.children).map(el => el.textContent);
+      if (arraysEqual(current, expected)) {
+        resultEl.innerHTML = '✅ Правильно!<br>我求黍于卜。來歲卜來黍';
+        resultEl.className = 'message success';
+        sendResult(true);
+      } else {
+        resultEl.textContent = '❌ Попробуйте снова.';
+        resultEl.className = 'message';
+        sendResult(false, 'Неверный порядок');
+      }
+    });
+
+    resetBtn.addEventListener('click', initCharPool);
+
+    function arraysEqual(a, b) {
+      return a.length === b.length && a.every((v, i) => v === b[i]);
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Фраза собрана верно" : "Ошибка в порядке")
+      }, "*");
+    }
+
+    // Инициализация
+    initCharPool();
+
+    // Сигнал, что задание загружено
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task6.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Собери фразу</title>
+</head>
+<body>
+  <h2>Собери фразу</h2>
+
+  <div class="instructions">
+    <p><strong>Соберите фразу:</strong></p>
+    <p><em>Гадатель пришлет лошадей.</em></p>
+  </div>
+
+  <!-- Кнопка для раскрытия подсказок -->
+  <div class="toggle-hint" id="toggle-hint-btn">Показать подсказки</div>
+
+  <!-- Контейнер подсказок (скрыт по умолчанию) -->
+  <div class="hint-container" id="hint-container">
+    <ul class="hint-list">
+      <li>马 — лошадь</li>
+      <li>卜 — гадатель</li>
+      <li>来 — пришлет (каузативное значение)</li>
+    </ul>
+  </div>
+
+  <p><strong>Иероглифы:</strong></p>
+  <div id="char-pool"></div>
+
+  <p><strong>Соберите здесь:</strong></p>
+  <div id="drop-area"></div>
+
+  <div class="controls">
+    <button id="check-btn">Проверить</button>
+    <button id="reset-btn">Сбросить</button>
+  </div>
+
+  <p id="result" class="message"></p>
+
+  <script>
+    const expected = ['卜', '來', '马'];
+
+    const allChars = [
+      '我', '求', '黍', '于', '卜', '來', '歲', '卜', '來', '黍',
+      '今', '白', '马', '工', '方', '大', '邑', '商', '入', '王',
+      '勿', '告', '雨', '受', '年', '不', '其', '六', '月', '生'
+    ].sort(() => Math.random() - 0.5);
+
+    const toggleBtn = document.getElementById('toggle-hint-btn');
+    const hintContainer = document.getElementById('hint-container');
+    const charPool = document.getElementById('char-pool');
+    const dropArea = document.getElementById('drop-area');
+    const checkBtn = document.getElementById('check-btn');
+    const resetBtn = document.getElementById('reset-btn');
+    const resultEl = document.getElementById('result');
+
+    // Переключение подсказок
+    toggleBtn.addEventListener('click', () => {
+      const isOpen = hintContainer.classList.contains('open');
+      hintContainer.classList.toggle('open');
+      toggleBtn.textContent = isOpen ? 'Показать подсказки' : 'Скрыть подсказки';
+    });
+
+    function moveToDropArea(box) {
+      const clone = box.cloneNode(true);
+      clone.draggable = false;
+      clone.style.cursor = 'default';
+      clone.onclick = null;
+
+      box.remove();
+      dropArea.appendChild(clone);
+    }
+
+    function initCharPool() {
+      charPool.innerHTML = '';
+      dropArea.innerHTML = '';
+      resultEl.textContent = '';
+
+      allChars.forEach(char => {
+        const box = document.createElement('div');
+        box.className = 'char-box';
+        box.textContent = char;
+
+        box.addEventListener('click', () => moveToDropArea(box));
+        charPool.appendChild(box);
+      });
+    }
+
+    checkBtn.addEventListener('click', () => {
+      const current = Array.from(dropArea.children).map(el => el.textContent);
+      if (arraysEqual(current, expected)) {
+        resultEl.innerHTML = '✅ Правильно!<br>我求黍于卜。來歲卜來黍';
+        resultEl.className = 'message success';
+        sendResult(true);
+      } else {
+        resultEl.textContent = '❌ Попробуйте снова.';
+        resultEl.className = 'message';
+        sendResult(false, 'Неверный порядок');
+      }
+    });
+
+    resetBtn.addEventListener('click', initCharPool);
+
+    function arraysEqual(a, b) {
+      return a.length === b.length && a.every((v, i) => v === b[i]);
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success: !!success,
+        message: message || (success ? "Фраза собрана верно" : "Ошибка в порядке")
+      }, "*");
+    }
+
+    // Инициализация
+    initCharPool();
+
+    // Сигнал, что задание загружено
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+
+=== 📄 task7.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Задание: 王勿入于商</title>
+</head>
+<body>
+
+  <h2>Что означает 勿 в «王勿入于商»?</h2>
+  <p><strong>Пример: «王勿入于商» — это:</strong></p>
+
+  <div class="pinyin-container">
+    <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+      Показать пиньинь
+    </button>
+    <div class="pinyin-text">wáng wù rù yú shāng</div>
+  </div>
+
+  <div id="answers"></div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    // Варианты ответов: [текст, правильный (true/false)]
+    const options = [
+      { text: "Простое отрицание действия: «Правитель не вступит в Шан»", correct: false },
+      { text: "Модальное отрицание: «Правителю не следует вступать в Шан»", correct: true },
+      { text: "Безличное отрицание: «Не будет вступления в Шан»", correct: false },
+      { text: "Отрицание будущего времени: «Правитель вступит не в Шан»", correct: false }
+    ];
+
+    // Перемешивание массива (Fisher-Yates)
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    // Отображаем перемешанные ответы
+    function renderOptions() {
+      const shuffled = shuffle(options);
+      const container = document.getElementById("answers");
+      container.innerHTML = "";
+
+      shuffled.forEach((opt, index) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q";
+        input.value = opt.correct ? "1" : "0_" + index;
+        input.dataset.correct = opt.correct;
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(opt.text));
+        container.appendChild(label);
+      });
+    }
+
+    // Проверка: правильный ли ответ выбран
+    function check() {
+      const selected = document.querySelector('input[name="q"]:checked');
+      const resultEl = document.getElementById("result");
+
+      if (!selected) {
+        resultEl.textContent = "Выберите вариант.";
+        return;
+      }
+
+      if (selected.dataset.correct === "true") {
+        resultEl.textContent = "✅ Правильно! 勿 выражает модальное отрицание — запрет или рекомендацию, как \"не следует\".";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно. 勿 — это не простое отрицание, а модальное: «не следует», «не надо».";
+        sendResult(false);
+      }
+    }
+
+    // Отправка результата в родительское окно
+    function sendResult(success, message) {
+      window.parent.postMessage({ type: "TASK_RESULT", success, message }, "*");
+    }
+
+    // Генерация ответов при загрузке
+    window.onload = renderOptions;
+  </script>
+</body>
+</html>
+
+<script>
+  window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+</script>
+
+=== 📄 task8.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание: 勿</title>
+<body>
+  <h2>Что означает 勿 в «王勿入于商»?</h2>
+  <p><strong>Пример: «王勿入于商» — это:</strong></p>
+
+  <div class="pinyin-container">
+    <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+      Показать пиньинь
+    </button>
+    <div class="pinyin-text">wáng wù rù yú shāng</div>
+  </div>
+
+  <div id="answers"></div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    const options = [
+      { text: "Правитель не вступит в Шан (простое отрицание)", correct: false },
+      { text: "Правителю не следует вступать в Шан (рекомендация/запрет)", correct: true },
+      { text: "Возможно, правитель не вступит в Шан", correct: false },
+      { text: "Не было вступления в Шан", correct: false }
+    ];
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderOptions() {
+      const shuffled = shuffle(options);
+      const container = document.getElementById("answers");
+      container.innerHTML = "";
+
+      shuffled.forEach((opt, index) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q";
+        input.value = opt.correct ? "1" : "0_" + index;
+        input.dataset.correct = opt.correct;
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(opt.text));
+        container.appendChild(label);
+      });
+    }
+
+    function check() {
+      const selected = document.querySelector('input[name="q"]:checked');
+      const resultEl = document.getElementById("result");
+
+      if (!selected) {
+        resultEl.textContent = "Выберите вариант.";
+        return;
+      }
+
+      if (selected.dataset.correct === "true") {
+        resultEl.textContent = "✅ Правильно! 勿 выражает модальное отрицание: «не следует», «не надо».";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно. 勿 — это не просто «не», а «не следует».";
+        sendResult(false);
+      }
+    }
+
+    function sendResult(success) {
+      window.parent.postMessage({ type: "TASK_RESULT", success }, "*");
+    }
+
+    window.onload = renderOptions;
+  </script>
+</body>
+</html>
+<script>window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");</script>
+
+=== 📄 task9.html ===
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Задание: 勿</title>
+<body>
+<h2>Что означает 于 в «告于王»?</h2>
+<p><strong>Пример: «告于王» — это:</strong></p>
+
+<div class="pinyin-container">
+  <button class="pinyin-toggle" onclick="...">Показать пиньинь</button>
+  <div class="pinyin-text">gào yú wáng</div>
+</div>
+
+  <div id="answers"></div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+  const options = [
+    { text: "Место действия: «сообщить в месте Ван»", correct: false },
+    { text: "Адресат действия: «сообщить правителю»", correct: true },
+    { text: "Средство действия: «с помощью Ван»", correct: false },
+    { text: "Время действия: «в день Ван»", correct: false }
+  ];
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderOptions() {
+      const shuffled = shuffle(options);
+      const container = document.getElementById("answers");
+      container.innerHTML = "";
+
+      shuffled.forEach((opt, index) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "q";
+        input.value = opt.correct ? "1" : "0_" + index;
+        input.dataset.correct = opt.correct;
+
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(opt.text));
+        container.appendChild(label);
+      });
+    }
+
+    function check() {
+      const selected = document.querySelector('input[name="q"]:checked');
+      const resultEl = document.getElementById("result");
+
+      if (!selected) {
+        resultEl.textContent = "Выберите вариант.";
+        return;
+      }
+
+      if (selected.dataset.correct === "true") {
+        resultEl.textContent = "✅ Правильно! 勿 выражает модальное отрицание: «не следует», «не надо».";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Неверно. 勿 — это не просто «не», а «не следует».";
+        sendResult(false);
+      }
+    }
+
+    function sendResult(success) {
+      window.parent.postMessage({ type: "TASK_RESULT", success }, "*");
+    }
+
+    window.onload = renderOptions;
+  </script>
+</body>
+</html>
+<script>window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");</script>
+

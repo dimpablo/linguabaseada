@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Что означает 卜爭?</title>
+</head>
+<body>
+
+  <h2>Что означает 卜爭?</h2>
+  <p class="instruction">В оракульных надписях 卜爭 — это имя гадателя. Что оно означает?</p>
+
+  <div id="options-container">
+    <!-- Варианты будут добавлены здесь -->
+  </div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    const options = [
+      { value: "wang", text: "Гадатель по имени Ван", correct: false },
+      { value: "zheng", text: "Гадатель по имени Чжэн", correct: true },
+      { value: "ruler-zheng", text: "Правитель Чжэн", correct: false },
+      { value: "repeat", text: "Слово «гадать» повторяется", correct: false }
+    ];
+
+    let selectedValue = null;
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function renderOptions() {
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+      selectedValue = null;
+
+      const shuffled = shuffleArray(options);
+
+      shuffled.forEach(option => {
+        const label = document.createElement("label");
+        label.className = "option";
+        label.dataset.value = option.value;
+
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "answer";
+        input.value = option.value;
+
+        input.onchange = () => {
+          selectedValue = option.value;
+          document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+          label.classList.add('selected');
+        };
+
+        const textNode = document.createTextNode(option.text);
+
+        label.appendChild(input);
+        label.appendChild(textNode);
+        container.appendChild(label);
+      });
+    }
+
+    function check() {
+      const resultEl = document.getElementById("result");
+      resultEl.className = "";
+
+      if (!selectedValue) {
+        resultEl.textContent = "Выберите вариант.";
+        resultEl.className = "error";
+        return;
+      }
+
+      if (selectedValue === "zheng") {
+        resultEl.textContent = "✅ Верно! 卜爭 — Чжэн, гадатель.";
+        resultEl.className = "success";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Нет. 爭 здесь — имя, а не «спор».";
+        resultEl.className = "error";
+        sendResult(false);
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success,
+        message: message || (success ? "Верно: 卜爭 — имя Чжэн" : "Ошибка в интерпретации 卜爭")
+      }, "*");
+    }
+
+    renderOptions();
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+

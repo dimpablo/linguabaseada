@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <link rel="stylesheet" href="../../tasks.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Какие предложения — безличные?</title>
+</head>
+<body>
+
+  <h2>Какие предложения — безличные?</h2>
+  <p class="instruction">Выберите предложения без подлежащего — действия происходят сами (погода, судьба и т.п.)</p>
+
+  <div id="options-container">
+    <!-- Варианты будут добавлены динамически -->
+  </div>
+
+  <button onclick="check()">Проверить</button>
+  <p id="result"></p>
+
+  <script>
+    const items = [
+      { id: "yu", text: "雨", isImpersonal: true },
+      { id: "qi-yu", text: "其雨", isImpersonal: true },
+      { id: "wang-zhan-yue", text: "王占曰", isImpersonal: false },
+      { id: "bu-yu", text: "不雨", isImpersonal: true },
+      { id: "yun-yu", text: "允雨", isImpersonal: true }
+    ];
+
+    function shuffleArray(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    const userSelections = {};
+
+    function renderOptions() {
+      const container = document.getElementById("options-container");
+      container.innerHTML = "";
+
+      const shuffled = shuffleArray(items);
+
+      shuffled.forEach(item => {
+        const label = document.createElement("label");
+        label.className = "option";
+        label.dataset.id = item.id;
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = `chk-${item.id}`;
+        checkbox.checked = false;
+
+        checkbox.onchange = () => {
+          userSelections[item.id] = checkbox.checked;
+          label.classList.toggle("checked", checkbox.checked);
+        };
+
+        const textNode = document.createTextNode(item.text);
+
+        label.appendChild(checkbox);
+        label.appendChild(textNode);
+        container.appendChild(label);
+
+        userSelections[item.id] = false;
+      });
+    }
+
+    function check() {
+      const resultEl = document.getElementById("result");
+      resultEl.className = "";
+
+      const allCorrect = items.every(item => {
+        const expected = item.isImpersonal;
+        const actual = !!userSelections[item.id];
+        return expected === actual;
+      });
+
+      if (allCorrect) {
+        resultEl.textContent = "✅ Верно!";
+        resultEl.className = "success";
+        sendResult(true);
+      } else {
+        resultEl.textContent = "❌ Меньше дождя — не значит не безличное.";
+        resultEl.className = "error";
+        sendResult(false, "Ошибка в определении безличных предложений");
+      }
+    }
+
+    function sendResult(success, message) {
+      window.parent.postMessage({
+        type: "TASK_RESULT",
+        success,
+        message: message || (success ? "Верно определены безличные формы" : "Ошибка в определении безличности")
+      }, "*");
+    }
+
+    renderOptions();
+    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<script src="./../dictionary.js">//dictionary.js содержит переменную charData используемую для подсказок таблицы! НЕ УДАЛЯТЬ! КРИТИЧЕСКИ ВАЖЕН!</script>
+<meta charset="utf-8"/>
+<title>Урок 33 — Древнекитайский язык по Крюкову</title>
+<style>
+        body {
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            line-height: 1.8;
+            margin: 50px auto;
+            background-color: #fbf8f0;
+            color: #2c3e50;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+        h1, h2, h3 {
+            color: #1a4f72;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            border-bottom: 2px solid #1a4f72;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5em;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin: 40px 0 20px;
+        }
+        h3 {
+            font-size: 1.2em;
+            color: #2c3e50;
+            border-bottom: none;
+            margin-top: 30px;
+        }
+        .original {
+            background-color: #f0f4f8;
+            padding: 18px 20px;
+            border-left: 6px solid #1a4f72;
+            font-size: 1.08em;
+            line-height: 1.6;
+            border-radius: 0 8px 8px 0;
+        }
+        .text, .grammar, .lexicon, .assignment {
+            margin-bottom: 45px;
+        }
+        .footer {
+            font-size: 0.85em;
+            color: #777;
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            line-height: 1.4;
+        }
+        .example {
+            display: block;
+            margin: 8px 0 8px 15px;
+            font-family: "Courier New", monospace;
+            font-size: 0.95em;
+            color: #1a4f72;
+        }
+        ol {
+            line-height: 1.8;
+        }
+
+        /* === Интерактивные подсказки для иероглифов === */
+        .char-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .char-item {
+            position: relative;
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.1em;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .char-item:hover {
+            background: #e6f2ff;
+        }
+
+        .char-item > span {
+            cursor: help;
+        }
+
+        .inline-pinyin {
+            font-size: 0.85em;
+            color: #555;
+            margin-left: 4px;
+            font-style: italic;
+        }
+
+        .char-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 260px;
+            background: #1a4f72;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            text-align: left;
+            white-space: normal;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+            line-height: 1.5;
+            pointer-events: none;
+        }
+
+        .char-item:hover .char-tooltip {
+            display: block;
+        }
+    </style>
+<style>
+        @font-face {
+            font-family: 'Jiaguwen';
+            src: url('../jiaguwen.ttf') format('truetype');
+            font-style: normal;
+            font-weight: normal;
+            font-display: swap;
+        }
+    </style>
+<style id="2change">
+        .oracle-table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.3em;
+            table-layout: fixed;
+            width: 95%;
+            max-width: 1200px;
+        }
+        .oracle-table td {
+            padding: 6px 8px;
+            border: 1px solid #d4d4d4;
+            text-align: center;
+            position: relative;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+        .line-num, .col-num {
+            background-color: #f0f4f8;
+            color: #1a4f72;
+            font-weight: bold;
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+    </style>
+<style>
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 30px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #1a5fb4;
+        }
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+    </style>
+<style>
+        .char-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 300px;
+            background: #1a4f72;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            text-align: left;
+            white-space: normal;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+            line-height: 1.5;
+        }
+        td:hover .char-tooltip {
+            display: block;
+        }
+        .lesson-badge {
+            display: inline-block;
+            background: #e6f2ff;
+            color: #1a4f72;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        /* Стили для правой фигурной скобки, объединяющей строки справа */
+        .math-example {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+        }
+        .math-content {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            margin-right: 12px; /* Отступ между текстом и скобкой */
+        }
+        .math-content .example {
+            margin: 2px 0;
+            white-space: pre; /* Сохраняем пробелы */
+        }
+        .math-brace {
+            font-size: 2em; /* Большая скобка */
+            line-height: 0.7;
+            color: #1a4f72;
+            font-family: monospace;
+            font-weight: bold;
+            margin: 0;
+        }
+        .math-caption {
+            margin-left: 15px;
+            font-style: italic;
+            color: #1a4f72;
+        }
+        .image-container-inline {
+            float: right;
+            margin: 10px 0 10px 15px;
+            text-align: center;
+            max-width: 40%;
+        }
+        .lesson-image-inline {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .image-caption-inline {
+            font-size: 0.85em;
+            color: #555;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+<body>
+<h1>УРОК 33</h1>
+<!-- ТАБЛИЦА ТЕКСТ УРОКА -->
+<div class="text">
+<h2>Texto da Lição</h2>
+<table class="oracle-table" id="oracleTable"></table>
+</div>
+<div style="text-align: center; margin: 20px 0;">
+<label class="toggle-switch">
+<input id="fontToggle" type="checkbox"/>
+<span class="slider"></span>
+</label>
+<span id="toggleLabel" style="margin-left: 10px; font-family: 'Segoe UI', sans-serif; color: #333;">
+    Обычный вид
+  </span>
+</div>
+<style>
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+  }
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 30px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: #1a5fb4;
+  }
+  input:checked + .slider:before {
+    transform: translateX(30px);
+  }
+</style>
+<style>/* Уменьшаем размер для номеров */
+
+/* Tooltip — без изменений */
+.char-tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 300px;
+    background: #1a4f72;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    text-align: left;
+    white-space: normal;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+    line-height: 1.5;
+}
+
+td:hover .char-tooltip {
+    display: block;
+}
+
+.lesson-badge {
+    display: inline-block;
+    background: #e6f2ff;
+    color: #1a4f72;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-left: 5px;
+}</style>
+<script>
+const lessonText = [
+    "孟子曰許子必種粟而後食乎曰然許",
+    "子必織布然後衣乎曰否許子衣褐許",
+    "子冠乎曰冠曰奚冠曰冠素曰自織之",
+    "與曰否以粟易之曰許子奚為不自織",
+    "曰害於耕曰許子以釜甑爨以鐵耕乎",
+    "曰然自為之與曰否以粟易之以粟易",
+    "械器者不為厲陶冶陶冶亦以其械器",
+    "易粟者豈為厲農夫哉且許子何不為",
+    "陶冶舍皆取諸其宮中而用之何為紛",
+    "紛然與百工交易何許子之不憚煩曰",
+    "百工之事固不可耕且為也然則治天",
+    "下獨可耕且為與有大人之事有小人",
+    "之事且一人之身而百工之所為備如",
+    "必自為而後用之是率天下而路也故",
+    "曰或勞心或勞力勞心者治人勞力者",
+    "治於人治於人者食人治人者食於人",
+    "天下之通義也"
+];
+// Функция для создания таблицы
+function createOracleTable() {
+    const table = document.getElementById('oracleTable');
+    
+    // Создаём строку с номерами колонок
+    const headerRow = document.createElement('tr');
+    
+    // Пустая ячейка для выравнивания с номерами строк
+    const emptyCell = document.createElement('td');
+    emptyCell.className = 'line-num';
+    headerRow.appendChild(emptyCell);
+    
+    // Номера колонок: от 1 до 15
+    for (let i = 1; i <= 15; i++) {
+        const th = document.createElement('td');
+        th.className = 'col-num';
+        th.textContent = i;
+        headerRow.appendChild(th);
+    }
+    table.appendChild(headerRow);
+    
+    // Создаём строки с текстом
+    for (let i = 0; i < lessonText.length; i++) {
+        const row = document.createElement('tr');
+        
+        // Номер строки
+        const lineNumCell = document.createElement('td');
+        lineNumCell.className = 'line-num';
+        lineNumCell.textContent = i + 1;
+        row.appendChild(lineNumCell);
+        
+        // Разбиваем строку на символы
+        const chars = Array.from(lessonText[i]);
+        
+        // Заполняем ячейки для позиций 1–15
+        for (let j = 0; j < 15; j++) {  // Ровно 15 ячеек
+            const td = document.createElement('td');
+            
+            // Если есть символ на этой позиции — ставим его
+            if (j < chars.length && chars[j].trim() !== '') {
+                const char = chars[j];
+                td.textContent = char;
+                
+                if (charData[char]) {
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'char-tooltip';
+                    tooltip.innerHTML = `
+                        <strong>${char}</strong> <em>${charData[char].pinyin}</em><br>
+                        ${charData[char].meaning}<br>
+                        <span class="lesson-badge">Урок ${charData[char].lesson}</span>
+                    `;
+                    td.appendChild(tooltip);
+                }
+            }
+            // Если символа нет — ячейка остаётся пустой (ничего не делаем)
+            row.appendChild(td);
+        }
+        
+        table.appendChild(row);
+    }
+}
+
+// Инициализация таблицы при загрузке страницы
+document.addEventListener('DOMContentLoaded', createOracleTable);
+</script>
+<!-- КОНЕЦ ТАБЛИЦЫ ТЕКСТ УРОКА -->
+<!-- ГРАММАТИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="grammar">
+<h2>COMENTÁRIO DE GRAMÁTICA</h2>
+<h3>33.1. Técnicas de Divisão de Texto: Diálogo
+<p class="original">
+No Mêncio, quase todos os capítulos começam com as palavras
+<span class="example">孟子曰 mèng zǐ yuē</span> "Mêncio disse: '...'" No entanto, o texto desta obra é frequentemente estruturado não como um monólogo, mas como um diálogo.
+Além disso, os nomes dos participantes da conversa são frequentemente omitidos após sua primeira menção. Em alguns casos, o paralelismo de declarações nos permite restaurar a divisão original
+do texto. Consideremos deste ponto de vista o início do texto da lição 33:
+<span class="example">孟子曰許子必種粟而後食乎(1),曰然(2) mèng zǐ
+yuē xǔ zǐ bì zhòng sù ér hòu shí hū yuē rán</span> <span class="example">許子必織布而後衣乎(3),曰否(4) xǔ zǐ bì zhī bù ér hòu yī hū yuē fǒu</span>
+Uma comparação destas partes do texto mostra claramente que o terceiro
+a passagem, como a primeira, é uma questão colocada por Mêncio.
+</p>
+<h3>33.2. Partículas Finais Interrogativas</h3>
+<p class="original">
+As partículas finais interrogativas diferem das partículas neutras, restritivas e exclamativas, pois, ao indicarem o fim de uma frase, questionam a afirmação nela contida.
+O surgimento de partículas interrogativas finais na língua clássica representa, portanto, uma mudança significativa no sistema de meios gramaticais da língua chinesa antiga (inicialmente, como nos lembramos, a pergunta geral não era gramaticalmente
+formada e, portanto, externamente, uma frase afirmativa não era diferente de uma interrogativa).
+As partículas finais interrogativas mais comumente usadas na língua clássica primitiva são <span class="example">乎 hū</span> e <span class="example">與 yǔ</span>.
+Compare: a) <span class="example">許子冠 xǔ zǐ guàn</span> "Xu Zi usa um chapéu."
+<span class="example">許子冠乎 xú zǐ guàn hū</span> "Xu Zi usa chapéu?"
+b) <span class="example">自為之 zì wéi zhī</span> "Ele mesmo o faz."
+<span class="example">自為之與 zì wéi zhī yǔ</span> "Ele mesmo o faz?" A palavra funcional <span class="example">與 yǔ</span> é, portanto, usada no chinês antigo clássico nas três funções a seguir: a) uma conjunção que indica uma relação coordenativa entre substantivos; b) uma preposição que indica união; c) uma partícula interrogativa final.
+Além disso, <span class="example">與 yǔ</span> também pode ser usado como uma palavra nocional
+"dar" (um predicativo que requer um objeto duplo), por exemplo: <span class="example">天子不能以天下與人 tiān zǐ bù néng yǐ tiān xià yǔ rén</span>
+"O Filho do Céu não pode entregar o Império Celestial a [outra]
+pessoa."
+A palavra funcional <span class="example">乎 hū</span> também é ambígua. Embora relativamente raro, é usado como preposição sinônimo de <span class="example">於 yú</span>
+(no Mêncio, a preposição <span class="example">於 yú</span> é registrada 497 vezes, enquanto <span class="example">乎 hū</span> com o mesmo significado é registrada apenas 44 vezes): <span class="example">出乎爾者反乎爾者也 chū hū ěr zhě fǎn hū ěr zhě yě</span> "O que vem de você retornará a você."
+</p>
+<h3>33.3. Os Predicativos de Lugar <span class="example">然 rán</span> e <span class="example">否 fǒu</span></h3>
+<p class="original">
+A palavra <span class="example">然 rán</span> no chinês antigo clássico
+forma um modificador adverbial de modo (32.3); também funciona como uma palavra substituta, duplicando o predicativo. Em russo,
+pode ser traduzida como "ser assim", "existir de tal forma".
+Como qualquer palavra com função predicativa, <span class="example">然 rán</span> pode ser negada, portanto, <span class="example">不然 bù rán</span> "ser diferente", "parecer
+diferente". No entanto, no chinês clássico, há também um predicado negativo especial correspondente a <span class="example">不然 bù rán</span>. Essa palavra é
+<span class="example">否 fǒu</span>.
+Um caso especial de uso de <span class="example">然 rán</span> e <span class="example">否 fǒu</span> é seu uso para expressar uma resposta curta a uma pergunta geral.
+Neste caso, <span class="example">然 rán</span> pode ser traduzido como "sim" e <span class="example">否 fǒu</span> como "não": <span class="example">許子以釜甑爨乎 xǔ zǐ yǐ fǔ zèng cuàn hū</span> “Xuzi cozinha comida usando caldeirão e vaporizador?” <span class="example">然 rán</span> "Sim."
+<span class="example">自為之與 zì wéi zhī yǔ</span> "Ele mesmo os faz?" <span class="example">否 fǒu</span> "Não."
+</p>
+<h3>33,4. As frases <span class="example">然後 rán hòu</span> e <span class="example">而後 ér hòu</span></h3>
+<p class="original">
+O predicado de lugar <span class="example">然 rán</span> é usado na frase <span class="example">然
+後 rán hòu</span>, que é colocada entre dois predicados e indica
+a sequência temporal e lógica das ações expressas por eles (a segunda ação não apenas segue a primeira, mas
+também é seu resultado):
+<span class="example">權然後知輕重 quán rán hòu zhī qīng zhòng</span> "Eles pesam
+e então sabem: "Um objeto é leve ou pesado."
+<span class="example">人恒過然後能改 rén héng guò rán hòu néng gǎi</span> "Uma pessoa deve cometer muitos erros, e só então ela
+ser capaz de corrigir [seu erro]."
+A frase <span class="example">而後 ér hòu</span> é usada com um significado próximo ao acima: <span class="example">或百步而後止 huò bǎi bù ér hòu zhǐ</span> "Alguns [correram] cem passos e depois pararam."
+</p>
+<h3>33,5. A frase <span class="example">然則rán zé</span></h3>
+<p class="original">
+O pronome <span class="example">然 rán</span> pode ser um predicado e, portanto, funcionar como uma frase impessoal completa.
+É nessa função que ele aparece no sintagma <span class="example">然則 rán zé</span>, que é uma oração subordinada e uma conjunção subordinativa que introduz a oração principal:
+<span class="example">然則廢釁鐘與 rán zé f èi xīn zhōng yǔ</span> "[Se assim] for,
+então a unção do sino com sangue sacrificial
+deve ser abolida?" O sintagma <span class="example">然則 rán zé</span> sempre inicia uma frase
+complexa e, portanto, pode ser usado
+como critério para dividir um texto.
+</p>
+<h3>33.6. A palavra interrogativa <span class="example">奚 xī</span></h3>
+<p class="original">
+A palavra interrogativa <span class="example">奚 xī</span> tem significado semelhante a <span class="example">何 hé</span> (26.3). Pode ser: a) um atributo de um substantivo: <span class="example">奚故 xī gù</span> "Qual é o motivo?" b) um atributo de um predicado: <span class="example">子奚不為政 zǐ xī bù wéi zhèng</span> "Por que você não cuida dos assuntos do governo?" c) complemento: <span class="example">水奚自至 shǔi xī zì zhì</span> "Para onde corre a água?" Assim como <span class="example">何 hé</span>, a palavra interrogativa <span class="example">奚 xī</span> não é usada
+como sujeito denotando uma pessoa animada
+(neste caso, o já conhecido pronome <span class="example">誰 shúi</span> é usado, veja 27.1).
+Assim como <span class="example">何 hé</span>, ao substituir o objeto indireto pelas preposições <span class="example">與 yǔ</span>, <span class="example">以 yǐ</span>, <span class="example">為 wèi</span>, o pronome interrogativo <span class="example">奚 xī</span> sempre precede a preposição correspondente:
+<span class="example">奚為喜而不寐 xī wèi xǐ ér bù mèi</span> "Por que você estava tão feliz
+que não conseguia dormir?" Se a palavra interrogativa <span class="example">奚 xī</span> substituir um objeto direto, ela será invertida e colocada antes do predicado: <span class="example">許子奚冠 xǔ zǐ xī guàn</span> "O que Xuzi usa como toucado?"
+
+<h3>33.7. A Palavra Funcional <span class="example">且 qiě</span></h3>
+<p class="original">
+Encontramos a palavra <span class="example">且 qiě</span> como uma conjunção conectando
+predicativos (25.3). Ela também é usada como uma palavra funcional indicando uma conexão entre duas orações,
+a segunda das quais contém um argumento adicional em apoio à ideia expressa na primeira. Em russo, <span class="example">且 qiě</span> neste caso pode ser traduzido como "além", "sem mencionar..."
+etc.: <span class="example">周公之過不亦宜乎,且古之君子過則改之 zhōu
+gōng zhī guò bù yì yí hū, qiě gǔ zhī jūn zǐ guò zé gǎi zhī</span> "O erro de Zhou Gong não foi inevitável? Sem mencionar
+que se os nobres de antigamente cometiam um erro, eles o corrigiam."
+</p>
+<h3>33,8. A palavra funcional <span class="example">諸 zhū</span></h3>
+<p class="original">
+O caractere <span class="example">諸 zhū</span> é usado no chinês clássico para escrever não apenas um pronome definitivo (28.1), mas também uma palavra que é uma contração de duas palavras funcionais <span class="example">之於 zhī yú</span>.
+Neste caso, <span class="example">諸 zhū</span> é usado para indicar um objeto direto e uma preposição antes de um objeto indireto:
+<span class="example">據此心加諸彼而已 jù cǐ xīn jiā zhū bǐ ér yǐ</span> "pegue esse sentimento e aplique-o aos outros, isso é tudo" (<span class="example">加諸彼 jiā
+zhū bǐ</span>=<span class="example">加之於彼 jiā zhī yú bǐ</span>).
+</p>
+<h3>33,9. A construção <span class="example">何...之 hé... zhī</span></h3>
+<p class="original">
+Uma frase na qual o verbo interrogativo <span class="example">何 hé</span> se refere ao predicado pode ser apresentada de uma forma diferente.
+Ao introduzir o verbo funcional <span class="example">之 zhī</span> (25.4), podemos
+transformar o sujeito e o predicado em um sintagma nominal que funciona como um predicado nominal, e o sujeito se torna
+o verbo interrogativo <span class="example">何 hé</span>.
+Por exemplo, a frase <span class="example">許子何不憚煩 xǔ zǐ hé bù dàn f án</span>
+"Por que Xuzi não está envergonhado com esta circunstância?"
+pode ser transformada na frase <span class="example">何許子之不憚煩 hé xǔ zǐ zhī bù dàn fán</span>, que tem o mesmo significado.
+</p>
+<h3>33.10. Preposição <span class="example">於 yú</span> (continuação)</h3>
+<p class="original">
+Nas línguas arcaicas e pré-clássicas, não havia marcadores especiais para a forma passiva. O significado ativo ou passivo
+de um predicativo era determinado exclusivamente pelo contexto, em particular pela presença ou ausência de um objeto: <span class="example">茲雨不唯我禍 zī yǔ bù wéi wǒ huò</span> "Esta chuva não nos fará mal?" (frase ativa)
+<span class="example">雀其禍 què qí huò</span> "Que será prejudicado?" (frase passiva)
+No chinês clássico, a preposição <span class="example">於 yú</span> começou a ser usada em orações passivas. Neste caso, a palavra que denota o sujeito da ação ocupa a posição de complemento:
+<span class="example">勞力者治於人 láo lì zhě zhì yú rén</span> "Aquele que exerce
+sua força é governado pelo povo."
+Deve-se enfatizar que, enquanto em línguas arcaicas e pré-clássicas a preposição <span class="example">於 yú</span> (<span class="example">于 yú</span>) era opcional, em uma frase passiva da língua clássica esta preposição não pode ser omitida
+sem alterar o significado da frase: <span class="example">我見於王 wǒ jiàn yú wáng</span> "Sou aceito pelo rei."
+<span class="example">我見王 wǒ jiàn wáng</span> "Eu aceitei o wang."
+</p>
+<h3>11/33. O pronome definitivo <span class="example">或 huò</span></h3>
+<p class="original">
+A palavra <span class="example">或 huò</span> significa "alguém", "alguém", etc. Assim como <span class="example">各 gè</span> "todos", este pronome definitivo sempre vem depois do substantivo ao qual se refere, mas também pode ser usado independentemente: <span class="example">或百步而後止 huò bǎi bù ér hòu zhǐ</span> "Alguns correram cem passos e só então pararam."
+</p>
+</p></h3></div>
+<h2>СПИСОК СЛОВ УРОКА</h2>
+<div class="char-list"></div>
+<script>
+    // Укажи номер урока здесь
+    const LESSON = parseInt((window.location.pathname.match(/\/lesson(\d+)(?:\/|$)/) || [])[1] || '1');
+
+    // Находим все иероглифы этого урока из charData
+    const lessonChars = Object.entries(charData)
+        .filter(([char, data]) => data.lesson === LESSON)
+        .sort(([charA, dataA], [charB, dataB]) => {
+            // Сортировка по пиньиню (опционально)
+            return dataA.pinyin.localeCompare(dataB.pinyin, 'zh');
+        });
+
+    // Получаем контейнер
+    const charList = document.querySelector('.char-list');
+
+    // Очищаем (на всякий случай)
+    charList.innerHTML = '';
+
+    // Генерируем элементы
+    lessonChars.forEach(([char, data]) => {
+        const item = document.createElement('div');
+        item.className = 'char-item';
+
+        item.innerHTML = `
+            <span>${char}<span class="inline-pinyin">${data.pinyin}</span></span>
+            <div class="char-tooltip">${data.meaning}</div>
+        `;
+
+        charList.appendChild(item);
+    });
+</script>
+
+<div class="lexicon">
+<h2>COMENTÁRIO LEXICAL</h2>
+<h3>33.A. A Doutrina Filosófica de Xu Xing</h3>
+<p class="original">
+Um contemporâneo de Mêncio, um certo Xu Xing (Xu Tzu), defendia o retorno à antiga ordem, quando cada pessoa produzia tudo o que precisava para a vida diária e, portanto, era independente de seus pares. Segundo
+Xu Tzu, cada membro da sociedade deveria cultivar a terra por si mesmo, e isso os libertaria da opressão dos outros.
+Mêncio se opôs fortemente ao conceito de Xu Tzu. Ele demonstrou a inconsistência lógica
+e a natureza contraditória de suas visões.
+No entanto, ao criticar corretamente a teoria utópica de Xu Xing, Mêncio simultaneamente chegou à conclusão
+da perpetuidade da diferenciação social na sociedade e considerou tal divisão uma "lei universal" do Império Celestial. </p>
+<div style="text-align: center; margin: 20px 0;">
+<img "="" (a="" a="" a)="" alt="" antigo="" b)="" baixo-relevo="" caldeirão="" chinês;="" class="original" com="" cozinhando="" da="" de="" e="" era="" fogão="" han)="" modelo="" panela="" partir="" src="./img/page_9_img_1.jpeg " style="border: none; padding: 0; max-width: 100%;" um="" uma="" vapor":=""/>
+<p class="footer" style="margin-top: 8px; border-top: none; padding-top: 0;">"Cozinhando com um<br/>caldeirão e uma panela a vapor": a) modelo de um antigo fogão chinês; b) culinária (em baixo-relevo da era Han)</p>
+</div>
+<div class="image-container-inline">
+<img alt="Cozinhando com uma Panela e um Vaporizador (釜甑爨)" class="lesson-image-inline" src="fuzengcuan.jpg"/>
+<div class="image-caption-inline">"Cozinhando com uma Panela e um Vaporizador": a) uma maquete de um antigo fogão de cozinha chinês; b) Culinária (a partir de um baixo-relevo da era Han)</div>
+
+</div></div>
+<div class="assignment">
+<h2>TRABALHO PARA ESTUDO INDEPENDENTE</h2>
+<ol>
+<li>Reescreva o texto, adicionando pontuação.</li>
+<li>Faça uma análise gramatical do texto.</li>
+<li>Traduza o texto para o russo.</li>
+<li>Liste todas as palavras interrogativas do chinês antigo que você conhece e indique suas características gramaticais.</li>
+</ol>
+</div>
+<div class="footer">
+Livro didático: V. A. Kryukov - Chinês Antigo Arcaico.<br>
+Recuperado usando OCR, preservando o estilo do autor e adicionando pinyin.<br>
+Todos os caracteres são das Lições 1 a 33 ou de caracteres cíclicos (甲子 – 癸亥).
+</br></br></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggle = document.getElementById('fontToggle');
+        const label = document.getElementById('toggleLabel');
+        const styleSheet = document.getElementById('2change');
+
+        const normalCSS = `
+            .oracle-table {
+                border-collapse: collapse;
+                margin: 20px auto;
+                font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+                font-size: 1.3em;
+                table-layout: fixed;
+                width: 95%;
+                max-width: 1200px;
+            }
+            .oracle-table td {
+                padding: 6px 8px;
+                border: 1px solid #d4d4d4;
+                text-align: center;
+                position: relative;
+                word-break: keep-all;
+                white-space: nowrap;
+            }
+            .line-num, .col-num {
+                background-color: #f0f4f8;
+                color: #1a4f72;
+                font-weight: bold;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+                font-size: 0.85em;
+                white-space: nowrap;
+            }
+        `;
+
+        const oracleCSS = `
+            .oracle-table {
+                border-collapse: collapse;
+                margin: 20px auto;
+                font-family: 'Jiaguwen', 'Noto Serif CJK SC', 'KaiTi', serif;
+                font-size: 1.3em;
+                table-layout: fixed;
+                width: 95%;
+                max-width: 1200px;
+            }
+            .oracle-table td {
+                padding: 6px 8px;
+                border: 1px solid #d4d4d4;
+                text-align: center;
+                position: relative;
+                word-break: keep-all;
+                white-space: nowrap;
+            }
+            .line-num, .col-num {
+                background-color: #f0f4f8;
+                color: #1a4f72;
+                font-weight: bold;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+                font-size: 0.85em;
+                white-space: nowrap;
+            }
+        `;
+
+        styleSheet.textContent = normalCSS;
+
+        toggle.addEventListener('change', function () {
+            if (toggle.checked) {
+                styleSheet.textContent = oracleCSS;
+                label.textContent = 'Оракульный вид';
+            } else {
+                styleSheet.textContent = normalCSS;
+                label.textContent = 'Обычный вид';
+            }
+        });
+    });
+</script>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const table = document.getElementById('oracleTable');
+        if (!table) return;
+
+        const rows = table.querySelectorAll('tr');
+        rows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            cells.forEach(cell => {
+                // Получаем текстовое содержимое ячейки, включая скрытые элементы, и удаляем пробелы
+                const cellText = cell.textContent.trim();
+                
+                // Проверяем, является ли содержимое ячейки только "_"
+                if (cellText === '_') {
+                    // Делаем текст невидимым, очищая textContent
+                    // Это удалит текстовый узел "_" , но оставит другие элементы (например, подсказки)
+                    cell.textContent = ''; 
+                }
+                // Проверяем, является ли содержимое ячейки только "|"
+                else if (cellText === '|') {
+                    // Меняем фоновый цвет на пастельно-бордовый
+                    cell.style.backgroundColor = '#e0bfb8'; // Пример пастельно-бордового цвета
+                    // Делаем текст (символ "|") невидимым, очищая textContent
+                    cell.textContent = '';
+                }
+            });
+        });
+    });
+</script>
+<script id="help" src="../help.js"></script>
+</html>

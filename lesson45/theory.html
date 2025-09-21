@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<script src="./../dictionary.js">//dictionary.js содержит переменную charData используемую для подсказок таблицы! НЕ УДАЛЯТЬ! КРИТИЧЕСКИ ВАЖЕН!</script>
+<meta charset="utf-8"/>
+<title>Урок 45 — Древнекитайский язык по Крюкову</title>
+<style>
+        body {
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            line-height: 1.8;
+            margin: 50px auto;
+            background-color: #fbf8f0;
+            color: #2c3e50;
+            max-width: 1000px;
+            padding: 0 20px;
+        }
+        h1, h2, h3 {
+            color: #1a4f72;
+            font-weight: normal;
+            letter-spacing: 0.5px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 1.8em;
+            border-bottom: 2px solid #1a4f72;
+            padding-bottom: 15px;
+            margin-bottom: 40px;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5em;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+            margin: 40px 0 20px;
+        }
+        h3 {
+            font-size: 1.2em;
+            color: #2c3e50;
+            border-bottom: none;
+            margin-top: 30px;
+        }
+        .original {
+            background-color: #f0f4f8;
+            padding: 18px 20px;
+            border-left: 6px solid #1a4f72;
+            font-size: 1.08em;
+            line-height: 1.6;
+            border-radius: 0 8px 8px 0;
+        }
+        .text, .grammar, .lexicon, .assignment {
+            margin-bottom: 45px;
+        }
+        .footer {
+            font-size: 0.85em;
+            color: #777;
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 20px;
+            border-top: 1px dashed #ccc;
+            line-height: 1.4;
+        }
+        .example {
+            display: block;
+            margin: 8px 0 8px 15px;
+            font-family: "Courier New", monospace;
+            font-size: 0.95em;
+            color: #1a4f72;
+        }
+        ol {
+            line-height: 1.8;
+        }
+
+        /* === Интерактивные подсказки для иероглифов === */
+        .char-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .char-item {
+            position: relative;
+            display: inline-block;
+            background: #f0f4f8;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.1em;
+            text-align: center;
+            transition: background-color 0.2s;
+        }
+
+        .char-item:hover {
+            background: #e6f2ff;
+        }
+
+        .char-item > span {
+            cursor: help;
+        }
+
+        .inline-pinyin {
+            font-size: 0.85em;
+            color: #555;
+            margin-left: 4px;
+            font-style: italic;
+        }
+
+        .char-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 260px;
+            background: #1a4f72;
+            color: white;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            text-align: left;
+            white-space: normal;
+            z-index: 10;
+            box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+            line-height: 1.5;
+            pointer-events: none;
+        }
+
+        .char-item:hover .char-tooltip {
+            display: block;
+        }
+    </style>
+<style>
+        @font-face {
+            font-family: 'Jiaguwen';
+            src: url('../jiaguwen.ttf') format('truetype');
+            font-style: normal;
+            font-weight: normal;
+            font-display: swap;
+        }
+    </style>
+<style id="2change">
+        .oracle-table {
+            border-collapse: collapse;
+            margin: 20px auto;
+            font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+            font-size: 1.3em;
+            table-layout: fixed;
+            width: 95%;
+            max-width: 1200px;
+        }
+        .oracle-table td {
+            padding: 6px 8px;
+            border: 1px solid #d4d4d4;
+            text-align: center;
+            position: relative;
+            word-break: keep-all;
+            white-space: nowrap;
+        }
+        .line-num, .col-num {
+            background-color: #f0f4f8;
+            color: #1a4f72;
+            font-weight: bold;
+            font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+    </style>
+<style>
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 30px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 30px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 22px;
+            width: 22px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #1a5fb4;
+        }
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+    </style>
+<style>
+        .char-tooltip {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: 300px;
+            background: #1a4f72;
+            color: white;
+            padding: 12px 15px;
+            border-radius: 6px;
+            font-size: 0.9em;
+            text-align: left;
+            white-space: normal;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+            line-height: 1.5;
+        }
+        td:hover .char-tooltip {
+            display: block;
+        }
+        .lesson-badge {
+            display: inline-block;
+            background: #e6f2ff;
+            color: #1a4f72;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        /* Стили для правой фигурной скобки, объединяющей строки справа */
+        .math-example {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            font-size: 0.95em;
+        }
+        .math-content {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            margin-right: 12px; /* Отступ между текстом и скобкой */
+        }
+        .math-content .example {
+            margin: 2px 0;
+            white-space: pre; /* Сохраняем пробелы */
+        }
+        .math-brace {
+            font-size: 2em; /* Большая скобка */
+            line-height: 0.7;
+            color: #1a4f72;
+            font-family: monospace;
+            font-weight: bold;
+            margin: 0;
+        }
+        .math-caption {
+            margin-left: 15px;
+            font-style: italic;
+            color: #1a4f72;
+        }
+        .image-container-inline {
+            float: right;
+            margin: 10px 0 10px 15px;
+            text-align: center;
+            max-width: 40%;
+        }
+        .lesson-image-inline {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .image-caption-inline {
+            font-size: 0.85em;
+            color: #555;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        .clearfix::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        table.data-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+            font-size: 0.95em;
+        }
+        table.data-table th, table.data-table td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+        table.data-table th {
+            background-color: #f0f4f8;
+            color: #1a4f72;
+            font-weight: bold;
+        }
+        table.data-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+<h1>УРОК 45</h1>
+<!-- ТАБЛИЦА ТЕКСТ УРОКА -->
+<div class="text">
+<h2>Texto da Lição</h2>
+<table class="oracle-table" id="oracleTable"></table>
+</div>
+<div style="text-align: center; margin: 20px 0;">
+<label class="toggle-switch">
+<input id="fontToggle" type="checkbox"/>
+<span class="slider"></span>
+</label>
+<span id="toggleLabel" style="margin-left: 10px; font-family: 'Segoe UI', sans-serif; color: #333;">
+    Обычный вид
+  </span>
+</div>
+<style>
+  .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+  }
+  .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 30px;
+  }
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+  }
+  input:checked + .slider {
+    background-color: #1a5fb4;
+  }
+  input:checked + .slider:before {
+    transform: translateX(30px);
+  }
+</style>
+<style>/* Уменьшаем размер для номеров */
+
+/* Tooltip — без изменений */
+.char-tooltip {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 300px;
+    background: #1a4f72;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 6px;
+    font-size: 0.9em;
+    text-align: left;
+    white-space: normal;
+    z-index: 100;
+    box-shadow: 0 4px 12px rgba(26, 79, 114, 0.3);
+    line-height: 1.5;
+}
+
+td:hover .char-tooltip {
+    display: block;
+}
+
+.lesson-badge {
+    display: inline-block;
+    background: #e6f2ff;
+    color: #1a4f72;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-left: 5px;
+}</style>
+<script>
+const lessonText = [
+    "魏公子無忌者魏昭王少子而魏安釐",
+    "王異母弟也公子爲人仁而下士士無",
+    "賢不肖皆謙而禮交之魏有隱士曰侯",
+    "嬴年七十家貧爲大梁夷門監者公子",
+    "於是乃置酒大會賓客坐定公子從車",
+    "騎虛左自迎夷門侯生侯生又謂公子",
+    "曰臣有客在市屠中願枉車騎過之公",
+    "子引車入市侯生下見其客朱亥故久",
+    "立與其客語微察公子公子顏色愈和",
+    "當是時魏將相宗室賓客滿堂待公子",
+    "舉酒市人皆觀公子執轡從騎皆竊罵",
+    "侯生侯生視公子色終不變乃就車至",
+    "家公子引侯生坐上坐徧贊賓客賓客",
+    "皆驚公子起爲壽侯生前侯生因謂公",
+    "子曰今日嬴之爲公子亦足矣嬴乃夷",
+    "門抱關者也而公子親枉車騎自迎嬴",
+    "於衆人廣坐之中然嬴欲就公子之名",
+    "故久立公子車騎市中過客以觀公子",
+    "公子愈恭市人皆以嬴爲小人而以公",
+    "子爲長者能下士也"
+];
+// Функция для создания таблицы
+function createOracleTable() {
+    const table = document.getElementById('oracleTable');
+    
+    // Создаём строку с номерами колонок
+    const headerRow = document.createElement('tr');
+    
+    // Пустая ячейка для выравнивания с номерами строк
+    const emptyCell = document.createElement('td');
+    emptyCell.className = 'line-num';
+    headerRow.appendChild(emptyCell);
+    
+    // Номера колонок: от 1 до 15
+    for (let i = 1; i <= 15; i++) {
+        const th = document.createElement('td');
+        th.className = 'col-num';
+        th.textContent = i;
+        headerRow.appendChild(th);
+    }
+    table.appendChild(headerRow);
+    
+    // Создаём строки с текстом
+    for (let i = 0; i < lessonText.length; i++) {
+        const row = document.createElement('tr');
+        
+        // Номер строки
+        const lineNumCell = document.createElement('td');
+        lineNumCell.className = 'line-num';
+        lineNumCell.textContent = i + 1;
+        row.appendChild(lineNumCell);
+        
+        // Разбиваем строку на символы
+        const chars = Array.from(lessonText[i]);
+        
+        // Заполняем ячейки для позиций 1–15
+        for (let j = 0; j < 15; j++) {  // Ровно 15 ячеек
+            const td = document.createElement('td');
+            
+            // Если есть символ на этой позиции — ставим его
+            if (j < chars.length && chars[j].trim() !== '') {
+                const char = chars[j];
+                td.textContent = char;
+                
+                if (charData[char]) {
+                    const tooltip = document.createElement('div');
+                    tooltip.className = 'char-tooltip';
+                    tooltip.innerHTML = `
+                        <strong>${char}</strong> <em>${charData[char].pinyin}</em><br>
+                        ${charData[char].meaning}<br>
+                        <span class="lesson-badge">Урок ${charData[char].lesson}</span>
+                    `;
+                    td.appendChild(tooltip);
+                }
+            }
+            // Если символа нет — ячейка остаётся пустой (ничего не делаем)
+            row.appendChild(td);
+        }
+        
+        table.appendChild(row);
+    }
+}
+
+// Инициализация таблицы при загрузке страницы
+document.addEventListener('DOMContentLoaded', createOracleTable);
+</script>
+<!-- КОНЕЦ ТАБЛИЦЫ ТЕКСТ УРОКА -->
+<!-- ГРАММАТИЧЕСКИЙ КОММЕНТАРИЙ -->
+<div class="grammar">
+<h2>COMENTÁRIO DE GRAMÁTICA</h2>
+<h3>45.1. Um caso especial do verbo funcional 皆 jiē
+<p class="original">
+Acima (38.7), observou-se que o verbo funcional 皆 jiē vem depois do sujeito e indica que todos os objetos ou pessoas expressas pelo sujeito realizam a ação indicada pelo predicado.
+Um caso especial do verbo funcional 皆 jiē é que este último pode se referir não ao sujeito, mas a um objeto preposicional. De qualquer forma, 皆 jiē sempre vem depois da palavra com a qual está semanticamente relacionado e precede o predicado: 士皆謙而禮交之 shì jiē qiān ér lǐ jiāo zhī "Ele era modesto com todos os seus subordinados e se comunicava com eles de acordo com as regras de etiqueta" (o objeto preposicional é duplicado aqui pelo pronome 之 zhī).
+</p>
+<h3>45.2. Uma construção com o predicativo 無 wú</h3>
+<p class="original">
+Se o predicativo 無 wú for seguido por dois substantivos antônimos, então
+toda a construção tem o significado "se... ou", "ambos... e", por exemplo: 士無賢不肖 shì wú xián bù xiāo "pessoas — tanto sábias quanto tolas".
+</p>
+<h3>45.3. A Palavra Funcional 當 dāng (continuação)</h3>
+<p class="original">
+Além do fato de 當 dāng ser usado no chinês clássico como um predicativo modal (44.4), ele é frequentemente usado para
+formar um modificador adverbial de tempo. Aparentemente, 當 dāng pode ser considerado como uma preposição que introduz frases nominais e predicativas: 當在宋也予將有遠行 dāng zài sòng yě yú jiāng yǒu yuǎn xíng “Quando eu estava em Song, pretendia empreender uma longa jornada.”
+Mas o modificador adverbial de tempo mais comum inclui a construção 當...時 dāng... shí (sempre fica apenas no início de uma frase): 當是時諸侯以公子賢多客不敢加兵謀魏 dāng shì shí
+zhū hóu yǐ gōng zǐ xián duō kè bù gǎn jiā bīng móu wèi “Naquele
+Naquela época, Zhuhou não se atreveu a enviar tropas e tramar nada contra Wei, porque o filho do governante [Wei] era sábio e tinha muitos convidados aproveitadores.”
+當此之時寇賊並起 dāng cǐ zhī shí kòu zéi bìng qǐ "Naquela época, bandidos apareciam aqui e ali."
+Em relação ao último exemplo, observe que o pronome demonstrativo 此 cǐ "este" é anexado ao objeto definido pela palavra funcional 之 zhī — um fenômeno não observado até o período clássico tardio.
+</p>
+<h3>45.4. A conjunção adversativa 然 rán</h3>
+<p class="original">
+A palavra 然 rán pode ser usada no chinês clássico como uma conjunção adversativa, formando uma frase que contém uma mensagem que contradiz a anterior. Corresponde
+para o russo "mas", "e mesmo assim", etc.: 衛青霍去病亦以外戚貴幸,然頗用才能自進 wèi qīng huò qù bìng yì yǐ wài qì guì xìng, rán pō yòng cái néng zì jìn "Wei Qing e Huo Qubing também gozavam do favor do imperador porque eram seus parentes do sexo feminino, mas ganharam destaque em grande parte graças às suas habilidades." ān zhī yù lì zhī guì hū “Comandei um exército de um milhão, mas como poderia saber
+então qual é o posto que um carcereiro ocupa?” A conjunção adversativa 然 rán é frequentemente combinada com 雖 suī "embora": 荊軻雖遊酒人乎,然其為人沈深好書 j īng kē suī yóu
+jiǔ rén hū, rán qí wéi rén shěn shēn hào shū "Embora Jing Ke fosse associado a bêbados, ele era equilibrado por natureza
+e tinha uma propensão para ler livros."
+</p>
+<h3>45,5. A palavra funcional 愈 yù
+<p class="original">
+Quando é necessário demonstrar que uma propriedade ou estado particular
+é expresso em um dado momento de forma mais intensa do que antes, a palavra funcional 愈 yù é usada no chinês clássico:
+錯以此愈貴 cuò yǐ cǐ yù guì "Por isso, [Chao] Tso ocupou uma posição ainda mais elevada."
+人有畏影惡跡而去之走者,舉足愈數而跡愈多 ren
+yǒu wèi yǐng è j ī ér qù zhī zǒu zhě, jú zú yù shù ér j ī yù duō "Havia um homem que tinha medo de sua sombra, que não gostava de sua sombra
+pegadas e correu para se livrar delas. Mas quanto mais ele movia os pés, mais pegadas havia."
+Na última frase, a repetição da palavra funcional 愈 yù antes dos dois predicados transmite um significado correspondente à expressão russa "do que... aquilo".
+</p>
+</h3></h3></div>
+<h2>СПИСОК СЛОВ УРОКА</h2>
+<div class="char-list"></div>
+<script>
+    // Укажи номер урока здесь
+    const LESSON = parseInt((window.location.pathname.match(/\/lesson(\d+)(?:\/|$)/) || [])[1] || '1');
+
+    // Находим все иероглифы этого урока из charData
+    const lessonChars = Object.entries(charData)
+        .filter(([char, data]) => data.lesson === LESSON)
+        .sort(([charA, dataA], [charB, dataB]) => {
+            // Сортировка по пиньиню (опционально)
+            return dataA.pinyin.localeCompare(dataB.pinyin, 'zh');
+        });
+
+    // Получаем контейнер
+    const charList = document.querySelector('.char-list');
+
+    // Очищаем (на всякий случай)
+    charList.innerHTML = '';
+
+    // Генерируем элементы
+    lessonChars.forEach(([char, data]) => {
+        const item = document.createElement('div');
+        item.className = 'char-item';
+
+        item.innerHTML = `
+            <span>${char}<span class="inline-pinyin">${data.pinyin}</span></span>
+            <div class="char-tooltip">${data.meaning}</div>
+        `;
+
+        charList.appendChild(item);
+    });
+</script>
+
+<div class="lexicon">
+<h2>COMENTÁRIO LEXICO</h2>
+<h3>45.A. O Príncipe Wei Wuji</h3>
+<p class="original">
+O filho mais novo do governante Wei Zhao Wang, chamado Wuji,
+era meio-irmão de Anli Wang (276–243 a.C.), durante cujo reinado se destacou como um importante estadista. Wuji recebeu o título de Xinling-jun.
+Como a maioria dos aristocratas da época, Wuji mantinha um grande número de "hóspedes" em sua casa, com quem podia contar em momentos de necessidade. Lendas históricas o retratam como um homem que valorizava a sinceridade dos sentimentos e desprezava as manifestações externas de sua altíssima posição social.
+</p>
+<h3>45.B. Guarda no Portão Yimen</h3>
+<p class="original">
+Grandes cidades do Período da Primavera e do Outono normalmente tinham vários portões, cada um com seu próprio nome. A capital do rei Zhou, por exemplo, tinha 12 portões.
+Os portões eram fechados à noite. Portanto, guardas especiais eram designados para eles, abrindo-os pela manhã e trancando-os à noite.
+</p>
+<h3>45.B. O Eremita Hou Ying</h3>
+<p class="original">
+A palavra 隱士 yǐn shì, mais tarde usada para significar "eremita", tinha um significado ligeiramente diferente durante a era Zhangguo. Era usado para descrever indivíduos que possuíam habilidades e elevadas qualidades humanas, mas que, por uma razão ou outra, não serviam ao governante, e se ocupavam cargos, eram insignificantes e completamente inadequados. Tal pessoa era, por exemplo, um certo Hou Ying, guarda do Portão Yimen, na capital do Reino Wei.
+</p>
+<h3>45.G. Acomodando um Convidado à Esquerda</h3>
+<p class="original">
+O assento de honra (上坐 shàng zuò) na China antiga ficava à direita do anfitrião, então a pessoa sentada à direita do governante era seu
+"braço direito". No entanto, em uma carruagem, a proporção de assentos era invertida: o assento da esquerda era considerado honroso. Xinling-jun, quando foi buscar Hou Ying, deixou o assento da esquerda em sua carruagem vazio, demonstrando assim seu respeito.
+</p>
+<h3>45.D. A Carruagem e os Cavaleiros
+<p class="original">
+Ao contrário das carruagens Yin e Zhou, nas quais os cavaleiros ficavam em pé, as carruagens do período Zhanguo eram sentadas, não em pé. Um aristocrata que saía de casa geralmente levava consigo vários cavaleiros para acompanhar a carruagem. <div class="image-container-inline">
+<img alt="A Partida de um Aristocrata (Baixo-relevo Chinês Antigo)" class="lesson-image-inline" src="./img/page_6_img_1.png"/>
+<div class="image-caption-inline">A Partida de um Aristocrata (Baixo-relevo Chinês Antigo)</div>
+<div class="clearfix"></div>
+
+</div></p></h3></div>
+<div class="assignment">
+<h2>TAREFA PARA ESTUDO INDEPENDENTE</h2>
+<ol>
+<li>Reescreva o texto, adicionando pontuação.</li>
+<li>Faça uma análise gramatical do texto.</li>
+<li>Traduza o texto para o russo.</li>
+<li>Explique os critérios que você usou para dividir o texto desta lição em frases.</li>
+</ol>
+</div>
+<div class="footer">
+Livro didático: V. A. Kryukov — Chinês Antigo Arcaico.<br>
+Reconstruído usando OCR, preservando o estilo do autor e adicionando pinyin.<br>
+Todos os caracteres são das Lições 1 a 45 ou de caracteres cíclicos (甲子 – 癸亥).
+</br></br></div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggle = document.getElementById('fontToggle');
+        const label = document.getElementById('toggleLabel');
+        const styleSheet = document.getElementById('2change');
+
+        const normalCSS = `
+            .oracle-table {
+                border-collapse: collapse;
+                margin: 20px auto;
+                font-family: 'Noto Serif CJK SC', 'KaiTi', serif;
+                font-size: 1.3em;
+                table-layout: fixed;
+                width: 95%;
+                max-width: 1200px;
+            }
+            .oracle-table td {
+                padding: 6px 8px;
+                border: 1px solid #d4d4d4;
+                text-align: center;
+                position: relative;
+                word-break: keep-all;
+                white-space: nowrap;
+            }
+            .line-num, .col-num {
+                background-color: #f0f4f8;
+                color: #1a4f72;
+                font-weight: bold;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+                font-size: 0.85em;
+                white-space: nowrap;
+            }
+        `;
+
+        const oracleCSS = `
+            .oracle-table {
+                border-collapse: collapse;
+                margin: 20px auto;
+                font-family: 'Jiaguwen', 'Noto Serif CJK SC', 'KaiTi', serif;
+                font-size: 1.3em;
+                table-layout: fixed;
+                width: 95%;
+                max-width: 1200px;
+            }
+            .oracle-table td {
+                padding: 6px 8px;
+                border: 1px solid #d4d4d4;
+                text-align: center;
+                position: relative;
+                word-break: keep-all;
+                white-space: nowrap;
+            }
+            .line-num, .col-num {
+                background-color: #f0f4f8;
+                color: #1a4f72;
+                font-weight: bold;
+                font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+                font-size: 0.85em;
+                white-space: nowrap;
+            }
+        `;
+
+        styleSheet.textContent = normalCSS;
+
+        toggle.addEventListener('change', function () {
+            if (toggle.checked) {
+                styleSheet.textContent = oracleCSS;
+                label.textContent = 'Оракульный вид';
+            } else {
+                styleSheet.textContent = normalCSS;
+                label.textContent = 'Обычный вид';
+            }
+        });
+    });
+</script>
+<script id="help" src="../help.js"></script>
+</body>
+</html>
