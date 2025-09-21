@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Чат</title>
+  <title>Chat</title>
   <style>
-    /* === ФИКС .theory-box В МОИХ СООБЩЕНИЯХ === */
+    /* === CORREÇÃO .theory-box NAS MINHAS MENSAGENS === */
     .msg-from-me .theory-box {
       background-color: #cce6ef !important;
       border-color: #99d1e0 !important;
@@ -23,7 +23,7 @@
       background-color: #be97ec !important;
     }
 
-    /* Фикс цвета текста в source-text внутри МОИХ сообщений */
+    /* Correção da cor do texto em source-text dentro das MINHAS mensagens */
     .msg-from-me .source-text {
       background-color: #cce6ef !important;
       color: #00505c !important;
@@ -31,7 +31,7 @@
       font-weight: bold;
     }
 
-    /* Фикс для слов внутри моих сообщений */
+    /* Correção para palavras dentro das minhas mensagens */
     .msg-from-me .words-container,
     .msg-from-me .answer-container {
       background-color: #cce6ef !important;
@@ -93,7 +93,7 @@
       align-self: flex-start;
     }
 
-    /* === СТИЛИ ДЛЯ ЗАДАНИЙ === */
+    /* === ESTILOS PARA TAREFAS === */
     .task-container {
       background-color: #fffdfb;
       padding: 12px;
@@ -220,7 +220,7 @@
       margin: 2px 0;
     }
 
-    /* === КОНТРОЛЫ ЧАТА === */
+    /* === CONTROLES DO CHAT === */
     #chat-controls {
       display: flex;
       padding: 10px;
@@ -247,7 +247,7 @@
       background: #006064;
     }
 
-    /* === ПАНЕЛЬ ВСТАВКИ ИЗ URL === */
+    /* === PAINEL DE INSERÇÃO DA URL === */
     #payload-preview {
       padding: 10px;
       margin: 10px;
@@ -277,7 +277,7 @@
       cursor: pointer;
     }
 
-        /* Стиль для мерцающего красного инпута */
+        /* Estilo para o input vermelho piscando */
     .input-error {
       border: 2px solid #ff4d4d;
       animation: blink 0.5s ease-in-out 3;
@@ -292,20 +292,20 @@
 <body>
 
   <div id="chat-header">
-    <h3 id="chat-name">Выберите собеседника</h3>
+    <h3 id="chat-name">Selecione um contato</h3>
   </div>
 
   <div id="messages-list"></div>
 
   <div id="chat-controls">
-    <input type="text" id="message-input" placeholder="Введите сообщение..." />
-    <button id="send-message-btn">Отправить</button>
+    <input type="text" id="message-input" placeholder="Digite uma mensagem..." />
+    <button id="send-message-btn">Enviar</button>
   </div>
 
-  <!-- Панель вставки из URL -->
+  <!-- Painel de inserção da URL -->
   <div id="payload-preview" style="display: none;">
     <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
-      <strong>📎 Задание из ссылки</strong>
+      <strong>📎 Tarefa do link</strong>
       <button id="close-payload">✕</button>
     </div>
     <div id="payload-content"></div>
@@ -313,8 +313,8 @@
 
   <!-- Firebase SDK -->
 <script type="module">
-  import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js';
-  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js';
+  import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js  ';
+  import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js  ';
   import {
     getFirestore,
     collection,
@@ -327,7 +327,7 @@
     updateDoc,
     arrayUnion,
     getDocs
-  } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js';
+  } from 'https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js  ';
 
   const firebaseConfig = {
     apiKey: "AIzaSyBvyxPtx5PICYk60HUCERw5Cxh1TyCcZCY",
@@ -346,7 +346,7 @@
   let currentUser = null;
   let otherUser = null;
 
-  // === ФУНКЦИИ ПАРСЕРА ЗАДАНИЙ ===
+  // === FUNÇÕES DO PARSER DE TAREFAS ===
 
   function normalizeAnswer(text, isChineseOutput) {
     let normalized = text.toLowerCase();
@@ -454,7 +454,7 @@
       const iframe = document.createElement('iframe');
       iframe.className = 'char-frame';
       iframe.src = `./lesson1/tasks/task1.html#${encodeURIComponent(taskData.char)}`;
-      iframe.title = `Иероглиф ${taskData.char}`;
+      iframe.title = `Caractere chinês ${taskData.char}`;
       iframe.style.width = '120%';
       iframe.style.height = '400px';
       bubble.appendChild(iframe);
@@ -475,13 +475,13 @@
     const taskType = document.createElement('div');
     taskType.className = 'task-type';
     taskType.textContent = taskData.direction === 'original-to-translation'
-      ? 'Перевод с китайского на русский'
-      : 'Перевод с русского на китайский';
+      ? 'Tradução do chinês para o russo'
+      : 'Tradução do russo para o chinês';
     container.appendChild(taskType);
 
     const sourceText = document.createElement('div');
     sourceText.className = 'source-text';
-    sourceText.textContent = taskData.source.replace(/^["']|["']$/g, ''); // Убираем кавычки
+    sourceText.textContent = taskData.source.replace(/^["']|["']$/g, ''); // Remover aspas
     container.appendChild(sourceText);
 
     const wordsContainer = document.createElement('div');
@@ -510,8 +510,8 @@
     const resultMessage = document.createElement('div');
     resultMessage.className = 'result-message info';
     resultMessage.textContent = taskData.direction === 'translation-to-original'
-      ? 'Соберите перевод из доступных иероглифов'
-      : 'Соберите перевод из доступных слов';
+      ? 'Monte a tradução com os caracteres disponíveis'
+      : 'Monte a tradução com as palavras disponíveis';
     container.appendChild(resultMessage);
 
     return container;
@@ -535,12 +535,12 @@
 
       if (normalizedUser === normalizedCorrect) {
         resultMessage.className = 'result-message success';
-        resultMessage.textContent = '✅ Верно!';
+        resultMessage.textContent = '✅ Correto!';
       } else {
         resultMessage.className = 'result-message info';
         resultMessage.textContent = taskData.direction === 'translation-to-original'
-          ? 'Соберите перевод из доступных иероглифов'
-          : 'Соберите перевод из доступных слов';
+          ? 'Monte a tradução com os caracteres disponíveis'
+          : 'Monte a tradução com as palavras disponíveis';
       }
     }
 
@@ -575,7 +575,7 @@
     });
   }
 
-  // === НОВАЯ ЛОГИКА: АВТОМАТИЧЕСКАЯ ВСТАВКА ИЗ URL ===
+  // === NOVA LÓGICA: INSERÇÃO AUTOMÁTICA DA URL ===
 
   function getPayloadFromHash() {
     const match = window.location.hash.match(/^#chat\/[^\/]+\/(.*)$/);
@@ -607,8 +607,8 @@
 
       previewPanel.style.display = 'block';
     } catch (e) {
-      console.error("Ошибка парсинга payload:", e);
-      payloadContent.innerHTML = '<p style="color: red">❌ Ошибка разбора задания</p>';
+      console.error("Erro ao analisar payload:", e);
+      payloadContent.innerHTML = '<p style="color: red">❌ Erro ao analisar a tarefa</p>';
       previewPanel.style.display = 'block';
     }
   }
@@ -622,8 +622,8 @@
     }
   }
 
-  // === ОСНОВНАЯ ЛОГИКА ЧАТА ===
-  let currentPayload = null; // Будет хранить payload из URL
+  // === LÓGICA PRINCIPAL DO CHAT ===
+  let currentPayload = null; // Armazenará o payload da URL
 
   function getOtherUserIdFromHash() {
     const match = window.location.hash.match(/^#chat\/([^\/]+)(?:\/.*)?$/);
@@ -631,20 +631,20 @@
   }
 
   function onHashChange() {
-    console.log("[onHashChange] Вызвано");
+    console.log("[onHashChange] Chamado");
     const otherUserId = getOtherUserIdFromHash();
     if (!otherUserId) {
-      document.getElementById('chat-name').textContent = "Выберите собеседника";
+      document.getElementById('chat-name').textContent = "Selecione um contato";
       document.getElementById('messages-list').innerHTML = '';
       return;
     }
 
     if (!currentUser) {
-      console.log("[onHashChange] currentUser ещё не загружен, ждём...");
+      console.log("[onHashChange] currentUser ainda não carregado, aguardando...");
       return;
     }
 
-    console.log(`[onHashChange] Загружаем чат с пользователем: ${otherUserId}`);
+    console.log(`[onHashChange] Carregando chat com usuário: ${otherUserId}`);
     loadChatAndStartListening(otherUserId);
   }
 
@@ -656,30 +656,30 @@
 
       if (userSnap.exists()) {
         otherUser = { id: userSnap.id, ...userSnap.data() };
-        document.getElementById('chat-name').textContent = otherUser.displayName || otherUser.email || 'Неизвестный';
+        document.getElementById('chat-name').textContent = otherUser.displayName || otherUser.email || 'Desconhecido';
       } else {
-        document.getElementById('chat-name').textContent = "Пользователь не найден";
+        document.getElementById('chat-name').textContent = "Usuário não encontrado";
         return;
       }
 
       startListeningToMessages(otherUserId);
       markMessagesAsRead(otherUserId);
 
-      // === Автоматическая обработка payload ===
+      // === Processamento automático do payload ===
       const payload = getPayloadFromHash();
       if (payload) {
-        // --- ИЗМЕНЕНИЕ: Сохраняем payload в глобальную переменную вместо вставки в input ---
+        // --- ALTERAÇÃO: Salvar payload em variável global em vez de inserir no input ---
         currentPayload = payload;
         showPreview(payload);
       } else {
-        // --- ИЗМЕНЕНИЕ: Если в URL нет payload, сбрасываем переменную и скрываем панель ---
+        // --- ALTERAÇÃO: Se não houver payload na URL, redefinir variável e ocultar painel ---
         currentPayload = null;
         document.getElementById('payload-preview').style.display = 'none';
       }
 
     } catch (e) {
-      console.error("[loadChatAndStartListening] Ошибка:", e);
-      document.getElementById('chat-name').textContent = "Ошибка подключения";
+      console.error("[loadChatAndStartListening] Erro:", e);
+      document.getElementById('chat-name').textContent = "Erro de conexão";
     }
   }
 
@@ -737,7 +737,7 @@
       messages.sort((a, b) => a.timestamp - b.timestamp);
       renderMessages(messages);
     }, (error) => {
-      console.error("[onSnapshot] Ошибка подписки:", error);
+      console.error("[onSnapshot] Erro na assinatura:", error);
     });
   }
 
@@ -764,7 +764,7 @@
         }
       }
     } catch (e) {
-      console.error("[markMessagesAsRead] Ошибка:", e);
+      console.error("[markMessagesAsRead] Erro:", e);
     }
   }
 
@@ -772,30 +772,30 @@
     const input = document.getElementById('message-input');
     const text = input.value.trim();
 
-    // --- ИЗМЕНЕНИЕ: Проверка на пустое поле и мерцание ---
+    // --- ALTERAÇÃO: Verificação de campo vazio e piscar ---
     if (!text) {
-      // Добавляем класс для мерцания
+      // Adicionar classe para piscar
       input.classList.add('input-error');
-      // Убираем класс через 2 секунды, чтобы анимация успела завершиться
+      // Remover classe após 2 segundos para que a animação termine
       setTimeout(() => {
         input.classList.remove('input-error');
       }, 2000);
-      return; // Не отправляем сообщение
+      return; // Não enviar mensagem
     }
 
     if (!otherUser || !currentUser) return;
 
-    // --- ИЗМЕНЕНИЕ: Формируем финальный текст сообщения ---
+    // --- ALTERAÇÃO: Formar o texto final da mensagem ---
 let finalText = text;
 if (currentPayload) {
-  finalText += currentPayload; // currentPayload уже содержит ’‘’‘ ... ’‘’‘
+  finalText += currentPayload; // currentPayload já contém ’‘’‘ ... ’‘’‘
 }
 
     const userPair = [currentUser.uid, otherUser.id].sort().join('_');
     const messageData = {
       from: currentUser.uid,
       to: otherUser.id,
-      // --- ИЗМЕНЕНИЕ: Отправляем finalText вместо text ---
+      // --- ALTERAÇÃO: Enviar finalText em vez de text ---
       text: finalText,
       timestamp: Date.now(),
       participants: [currentUser.uid, otherUser.id],
@@ -806,11 +806,11 @@ if (currentPayload) {
     try {
       await addDoc(collection(db, 'messages'), messageData);
       input.value = '';
-      // --- ИЗМЕНЕНИЕ: После успешной отправки очищаем currentPayload и скрываем панель ---
+      // --- ALTERAÇÃO: Após envio bem-sucedido, limpar currentPayload e ocultar painel ---
       currentPayload = null;
       document.getElementById('payload-preview').style.display = 'none';
     } catch (e) {
-      alert("Ошибка отправки: " + e.message);
+      alert("Erro ao enviar: " + e.message);
     }
   }
 
@@ -819,7 +819,7 @@ if (currentPayload) {
     if (e.key === 'Enter') sendMessage();
   });
 
-  // === Инициализация при загрузке ===
+  // === Inicialização ao carregar ===
 window.addEventListener('load', () => {
   onAuthStateChanged(auth, async (user) => {
     if (user) {
@@ -828,7 +828,7 @@ window.addEventListener('load', () => {
         currentUser = { uid: user.uid, ...userDoc.data() };
         onHashChange();
       } else {
-        alert("Профиль не найден");
+        alert("Perfil não encontrado");
         window.location.href = './index.html';
       }
     } else {
@@ -836,12 +836,12 @@ window.addEventListener('load', () => {
     }
   });
 
-  // === Добавляем обработчик для кнопки закрытия payload ===
+  // === Adicionar manipulador para o botão de fechar payload ===
   document.getElementById('close-payload').addEventListener('click', () => {
     const previewPanel = document.getElementById('payload-preview');
     previewPanel.style.display = 'none';
     currentPayload = null;
-    console.log("[close-payload] Payload отменён, возвращаемся к обычному вводу.");
+    console.log("[close-payload] Payload cancelado, retornando ao modo normal.");
   });
 });
 
