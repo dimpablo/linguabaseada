@@ -1116,4 +1116,27 @@ statsContainer.innerHTML = `
   console.log('✅ Tamanhos de fonte reduzidos em 3px e otimizados!');
 })();
 </script>
+
+<script>
+  // Дождемся полной загрузки DOM
+  document.addEventListener('DOMContentLoaded', function() {
+    // Найдем все круги, содержащие слово "Exercícios"
+    const exerciseCircles = document.querySelectorAll('.unit-circle.unit-exercise');
+
+    exerciseCircles.forEach(circle => {
+      // Проверим, содержит ли текст элемента "Exercícios"
+      // (на случай, если класс unit-exercise используется не только для этого)
+      if (circle.textContent.includes('Exercícios')) {
+        // Найдем родительский <td> с классом unit-row
+        let parentRow = circle.closest('.unit-row');
+        if (parentRow) {
+          // Сделаем его невидимым
+          parentRow.style.display = 'none';
+          // Альтернатива: parentRow.style.visibility = 'hidden';
+          // Альтернатива: parentRow.hidden = true;
+        }
+      }
+    });
+  });
+</script>
 </html>

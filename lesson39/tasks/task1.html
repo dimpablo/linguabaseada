@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <title>Задание 1: Рисование</title>
-  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+  <title>Exercício 1: Desenho</title>
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js  "></script>
   <style>
     body, html {
       margin: 0;
@@ -57,7 +57,7 @@
       height: 300px;
     }
 
-    /* === Мерцающий overlay === */
+    /* === Overlay piscando === */
     #feedback-overlay {
       pointer-events: none;
       position: fixed;
@@ -89,30 +89,30 @@
 </head>
 <body>
 
-<!-- Заставка -->
+<!-- Tela de abertura -->
 <div id="splash-screen">
-  <h1>Нарисуй здесь</h1>
-  <p>любой иероглиф из словаря урока!</p>
+  <h1>Desenhe aqui</h1>
+  <p>qualquer caractere chinês do dicionário da lição!</p>
 </div>
 
-<!-- Контейнер для HanziWriter -->
+<!-- Container para HanziWriter -->
 <div id="character-target-div"></div>
 
-<!-- Overlay для мерцания -->
+<!-- Overlay para piscar -->
 <div id="feedback-overlay"></div>
 
 <script>
-  // ✅ Универсальная функция отправки результата и баллов
+  // ✅ Função universal para enviar resultado e pontos
   function sendResult(success, message, points = 0) {
     window.parent.postMessage({
       type: "TASK_RESULT",
       success: !!success,
-      message: message || (success ? "Задание выполнено" : "Ошибка"),
-      points: points // ✅ Отправляем баллы
+      message: message || (success ? "Exercício concluído" : "Erro"),
+      points: points // ✅ Envia os pontos
     }, "*");
   }
 
-  // ✅ Функция мерцания экрана
+  // ✅ Função para piscar a tela
   function flashScreen(color) {
     const overlay = document.getElementById('feedback-overlay');
     overlay.className = '';
@@ -137,24 +137,24 @@
     setTimeout(() => {
       const hash = window.location.hash.slice(1);
       if (!hash) {
-        splashP.textContent = "⚠️ Не указан иероглиф";
-        sendResult(false, "Не указан иероглиф", 0);
+        splashP.textContent = "⚠️ Caractere chinês não especificado";
+        sendResult(false, "Caractere chinês não especificado", 0);
         return;
       }
 
       const char = decodeURIComponent(hash);
 
-      // Показываем иероглиф
+      // Mostra o caractere chinês
       splashH1.textContent = char;
 
-      // === Попробуем загрузить данные для иероглифа ===
+      // === Tenta carregar os dados do caractere chinês ===
       HanziWriter.loadCharacterData(char)
         .then(charData => {
-          // ✅ Данные есть — запускаем квиз
+          // ✅ Dados existem — inicia o quiz
           splashScreen.style.display = 'none';
           characterDiv.style.display = 'block';
 
-          // Считаем количество штрихов
+          // Conta o número de traços
           strokeCount = charData.strokes.length;
 
           const writer = HanziWriter.create('character-target-div', char, {
@@ -171,27 +171,27 @@
             leniency: 2.0,
 
             onCorrectStroke: function(strokeData) {
-              // ✅ +1 балл за каждый правильный штрих
+              // ✅ +1 ponto por traço correto
               totalPointsEarned += 1;
-              console.log(`✅ Штрих ${strokeData.strokeNum} — +1 балл`);
+              console.log(`✅ Traço ${strokeData.strokeNum} — +1 ponto`);
             },
 
             onMistake: function(strokeData) {
-              console.log("❌ Ошибка на штрихе", strokeData.strokeNum);
+              console.log("❌ Erro no traço", strokeData.strokeNum);
               flashScreen('error');
               mistakes++;
             },
 
             onComplete: function(summaryData) {
-              console.log("🎯 Квиз завершён:", summaryData);
+              console.log("🎯 Quiz concluído:", summaryData);
               flashScreen('success');
 
-              // ✅ +2 балла за полное завершение
+              // ✅ +2 pontos por conclusão completa
               totalPointsEarned += 2;
 
               sendResult(
                 true,
-                `Иероглиф "${char}" нарисован верно`,
+                `Caractere chinês "${char}" desenhado corretamente`,
                 totalPointsEarned
               );
             }
@@ -199,41 +199,41 @@
 
         })
         .catch(err => {
-          // ❌ Данных нет — древний иероглиф
-          console.warn(`🚫 Нет данных для иероглифа: ${char}`, err);
+          // ❌ Não há dados — caractere chinês antigo
+          console.warn(`🚫 Não há dados para o caractere chinês: ${char}`, err);
 
-          // === ОСТАВЛЯЕМ ЗАСТАВКУ, МЕНЯЕМ ТЕКСТ ===
+          // === MANTÉM A TELA DE ABERTURA, ALTERA O TEXTO ===
           splashP.innerHTML = `
-            Очень древний и редкий иероглиф 😔<br>
-            Софт не поддерживает его отрисовку.<br>
-            <strong>Придётся выписать его от руки ✍️</strong>
+            Caractere chinês muito antigo e raro 😔<br>
+            O software não suporta sua renderização.<br>
+            <strong>Você terá que escrevê-lo à mão ✍️</strong>
           `;
 
-          // Мерцание — ошибка
+          // Piscar — erro
           flashScreen('error');
 
-          // ✅ Ничего не штрафуем и не награждаем
+          // ✅ Nada é penalizado nem recompensado
           setTimeout(() => {
             sendResult(
               true,
-              `Древний иероглиф "${char}" — задание пропущено (нет данных)`,
-              0 // 🟢 0 баллов — не вина пользователя
+              `Caractere chinês antigo "${char}" — exercício ignorado (sem dados)`,
+              0 // 🟢 0 pontos — não é culpa do usuário
             );
           }, 1200);
         });
     }, 1000);
   };
 
-  // Обработка пропуска (например, если пользователь закрыл окно без завершения)
+  // Tratamento para ignorar (por exemplo, se o usuário fechar a janela sem concluir)
   window.addEventListener('beforeunload', () => {
     if (totalPointsEarned === 0 && mistakes > 0) {
-      // ❌ Пропуск с ошибками — штраф -1
-      sendResult(false, "Задание пропущено", -1);
+      // ❌ Ignorado com erros — penalidade -1
+      sendResult(false, "Exercício ignorado", -1);
     }
   });
 </script>
 
-<!-- Сигналы родительскому окну -->
+<!-- Sinais para a janela pai -->
 <script>
   window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
   window.parent.postMessage({ type: "DO_HANZI", valid: true }, "*");
