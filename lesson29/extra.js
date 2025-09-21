@@ -4,22 +4,22 @@ var extra = {
         {
             "number": 1,
             "original": "予既知爾所欲告予",
-            "translation": "Я уже знаю все, о чем ты хочешь сказать!"
+            "translation": "Eu já sei tudo o que você quer me dizer!"
         },
         {
             "number": 2,
             "original": "予則既知之",
-            "translation": "А я-то уже знаю это."
+            "translation": "E eu já sei disso."
         },
         {
             "number": 3,
             "original": "彼人何以問予所之",
-            "translation": "На каком основании тот человек спрашивает меня, куда я иду?"
+            "translation": "Com base em quê aquela pessoa me pergunta aonde vou?"
         },
         {
             "number": 4,
             "original": "爾誰與之衛",
-            "translation": "С кем ты поехала в Вэй?"
+            "translation": "Com quem você foi para Wei?"
         }
     ]
 };

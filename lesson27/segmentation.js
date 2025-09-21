@@ -6,67 +6,67 @@ var SentenceData = {
       "number": 1,
       "original": "習習谷風以陰以雨黽勉同心不宜有怒",
       "transliteration": "xí xí gǔ fēng yǐ yīn yǐ yǔ mǐn miǎn tóng xīn bù yí yǒu nù",
-      "translation": "Ветер с восточной подул стороны, дождь благодатный принес, пролетев... Сердцем в согласии жить мы должны. Чтоб не рождались ни злоба, ни гнев."
+      "translation": "O vento do vale sopra suavemente, trazendo chuva e sombra refrescante... Devemos esforçar-nos para viver em harmonia. Não devemos nutrir raiva nem ira."
     },
     {
       "number": 2,
       "original": "采葑采菲無以下體德音莫違及爾同死",
       "transliteration": "cǎi fēng cǎi fēi wú yǐ xià tǐ dé yīn mò wéi jí ěr tóng sǐ",
-      "translation": "Репу и редьку мы рвали вдвоем — бросишь ли репу с плохим корешком?.. Имя свое не порочила я, думала: вместе с тобою умрем."
+      "translation": "Colhendo repolhos e rabanetes juntos — abandonarias o repolho por suas raízes ruins?... Nunca maculei minha reputação, pensando: morreremos juntos."
     },
     {
       "number": 3,
       "original": "行道遲遲中心有違不遠伊邇薄送我畿",
       "transliteration": "xíng dào chí chí zhōng xīn yǒu wéi bù yuǎn yī ěr bó sòng wǒ jī",
-      "translation": "Тихо иду по дороге... Гляди, гнев и печаль я сокрыла в груди. Не далеко ты со мною прошел, лишь до порога меня проводил."
+      "translation": "Caminho lentamente pela estrada... Veja, escondi a tristeza e o ressentimento no coração. Não foste longe comigo, apenas me acompanhaste até o limiar."
     },
     {
       "number": 4,
       "original": "誰謂荼苦其甘如薺宴爾新婚如兄如弟",
       "transliteration": "shuí wèi tú kǔ qí gān rú jì yàn ěr xīn hūn rú xiōng rú dì",
-      "translation": "Горьким растет, говорят, молочай — стал он мне слаще пастушьей травы! С новой женою пируете вы! Будто бы братья, друг другу верны,"
+      "translation": "Dizem que o crisântemo amargo é amargo — tornou-se para mim mais doce que a erva-doce! Banqueteais com a nova esposa! Como irmãos e companheiros fiéis,"
     },
     {
       "number": 5,
       "original": "涇以渭濁湜湜其沚宴爾新婚",
       "transliteration": "jīng yǐ wèi zhuó shí shí qí zhǐ yàn ěr xīn hūn",
-      "translation": "Мутною кажется Цзин перед Вэй, там лишь, где мель, ее воды чисты. С новой женою пируете вы,"
+      "translation": "O Jing parece turvo diante do Wei, mas onde há bancos rasos, suas águas são claras. Banqueteais com a nova esposa,"
     },
     {
       "number": 6,
       "original": "反以我為讎既阻我德不我屑以賈用不售",
       "transliteration": "fǎn yǐ wǒ wéi chóu jì zǔ wǒ dé bù wǒ xiè yǐ gǔ yòng bù shòu",
-      "translation": "Верно, нечистою счел меня ты? Брошенная я, и что будет со мной? — некому стало меня пожалеть! Если поток и широк и глубок — к берегу вынесут лодка иль плот; если же мелок и узок поток — путник легко по воде побредет..."
+      "translation": "Agora me vês como inimiga? Abandonada, e o que será de mim? — ninguém se compadece de mim! Se o riacho é largo e profundo — barco ou balsa me levarão à margem; se é raso e estreito — o viajante facilmente caminhará pela água..."
     },
     {
       "number": 7,
       "original": "毋逝我梁毋發我笱我躬不閱遑恤我後",
       "transliteration": "wú shì wǒ liáng wú fā wǒ gǒu wǒ gōng bù yuè huáng xù wǒ hòu",
-      "translation": "Пусть на запруду не ходит она ставить мою бамбуковую сеть... Брошена я, и что будет со мной? — некому стало меня пожалеть!"
+      "translation": "Não andes na minha barragem nem abras a minha cesta de bambu... Estou abandonada, e o que será de mim? — ninguém se compadece de mim!"
     },
     {
       "number": 8,
       "original": "昔育恐育鞠及爾顛覆既生既育比予于毒",
       "transliteration": "xī yù kǒng yù jū jí ěr diān fù jì shēng jì yù bǐ yǔ yú dú",
-      "translation": "Был и достаток у нас, и нужда, много я знала трудов и забот. Я на коленях служила больным в дни, когда смерть посещала народ. Нежить меня и любить ты не смог, стал, как с врагом, ты со мною жесток. Славу мою опорочил, и вот — я, как товар, не распроданный в срок."
+      "translation": "Houve prosperidade e também necessidade, conheci muitos trabalhos e cuidados. Ajoelhada, servi os doentes nos dias em que a morte visitava o povo. Não conseguiste amar-me nem respeitar-me, tornaste-te cruel como um inimigo. Maculaste minha honra, e agora — sou como mercadoria não vendida no tempo certo."
     },
     {
       "number": 9,
       "original": "何有何亡黽勉求之既貽我肄",
       "transliteration": "hé yǒu hé wáng mǐn miǎn qiú zhī jì yí wǒ yì",
-      "translation": "Прежде была мне лишь бедность страшна, гибель, казалось, несет нам она... Выросла я у тебя; и одна стала отравой для мужа жена."
+      "translation": "Antes a pobreza me assustava, a ruína parecia trazer-nos destruição... Cresci contigo; e sozinha tornei-me veneno para o marido."
     },
     {
       "number": 10,
       "original": "我有旨蓄亦以御冬宴爾新婚以我御窮",
       "transliteration": "wǒ yǒu zhǐ xù yì yǐ yù dōng yàn ěr xīn hūn yǐ wǒ yù qióng",
-      "translation": "Как он хорош, мой запас овощей! Зимней порой защитит от беды. С новой женою пируете вы — я лишь защитой была от нужды."
+      "translation": "Como é belo meu estoque de vegetais! Na estação fria protegerá da miséria. Banqueteais com a nova esposa — eu apenas fui vosso refúgio na adversidade."
     },
     {
       "number": 11,
       "original": "有洸有潰既貽我肄不念昔者伊余來塈",
       "transliteration": "yǒu guāng yǒu kuì jì yí wǒ yì bù niàn xī zhě yī yú lái xì",
-      "translation": "Гневен со мной ты и грубый такой, только трудом одарил и тоской. Или забыл ты, что было давно? Что лишь со мною обрел ты покой?"
+      "translation": "Foste irado e grosseiro comigo, apenas me deixaste cansaço e amargura. Esqueceste acaso o que houve no passado? Que somente comigo encontraste paz?"
     }
   ]
 }

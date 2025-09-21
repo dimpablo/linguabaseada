@@ -4,22 +4,22 @@ var extra = {
         {
             "number": 1,
             "original": "乃父史大之子而作册令之孙",
-            "translation": "Твой отец — сын историографа Да, внук архивариуса Лина."
+            "translation": "Teu pai é filho do historiador Da, neto do arquivista Ling."
         },
         {
             "number": 2,
             "original": "大哉禹之烈",
-            "translation": "О, как велики заслуги Юя!"
+            "translation": "Oh, quão grandiosos são os méritos de Yu!"
         },
         {
             "number": 3,
             "original": "钟雖小克用祀我皇祖皇考",
-            "translation": "Хотя колокол и мал, он может быть использован для принесения жертв нашим достославным предкам."
+            "translation": "Embora o sino seja pequeno, pode ser usado para oferecer sacrifícios aos nossos gloriosos antepassados."
         },
         {
             "number": 4,
             "original": "汝他人是疋",
-            "translation": "Ты помогал другим!"
+            "translation": "Tu ajudavas os outros!"
         }
     ]
 };

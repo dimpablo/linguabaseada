@@ -4,12 +4,12 @@ var extra = {
         {
             "number": 1,
             "original": "吾學爨於吾母，而吾母則學於鄭人",
-            "translation": "Я учился готовить еду у моей матери, а она — у человека из царства Чжэн."
+            "translation": "Eu aprendi a cozinhar com minha mãe, e ela aprendeu com um homem do reino de Zheng."
         },
         {
             "number": 2,
             "original": "我見此人遂曰此善射者也",
-            "translation": "Я увидел этого человека и сказал: «Это отличный стрелок!»"
+            "translation": "Eu vi esta pessoa e disse: «Este é um arqueiro excelente!»"
         }
     ]
 };

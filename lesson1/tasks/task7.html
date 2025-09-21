@@ -1,121 +1,120 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="../../tasks.css">
-  <meta charset="UTF-8" />
-  <title>Что означает 允?</title>
+<link rel="stylesheet" href="../../tasks.css">
+<meta charset="UTF-8" />
+<title>O que significa 允?</title>
 </head>
 <body>
 
-  <h2>Что означает 允?</h2>
+<h2>O que significa 允?</h2>
 
-  <div class="oracle-text">癸丑允其雨</div>
+<div class="oracle-text">Oracle-texto para o conteúdo</div>
 <div class="pinyin-container">
-  <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">
-    Показать пиньинь ▼
-  </button>
-  <div class="pinyin-text">
-    guǐ chǒu yǔn qí yǔ
-  </div>
+<button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded')">
+Mostrar pinyin ▼
+</button>
+<div class="pinyin-text">
+guǐ chǒu yǔn qí yǔ
+</div>
 </div>
 
-  <div class="options" id="options-container">
-    <!-- Варианты будут добавлены динамически и в случайном порядке -->
-  </div>
+<div class="options" id="options-container">
+<!-- As opções serão adicionadas dinamicamente e aleatoriamente -->
+</div>
 
-  <button onclick="check()">Проверить</button>
-  <p id="result"></p>
+<button onclick="check()">Verificar</button>
+<p id="result"></p>
 
-  <script>
-    // Все варианты с указанием правильного
-    const options = [
-      { value: "correct", text: "Действительно пошёл дождь", correct: true },
-      { value: "rain", text: "Будет дождь", correct: false },
-      { value: "no-rain", text: "Не будет дождя", correct: false },
-      { value: "said", text: "Правитель сказал", correct: false }
-    ];
+<script>
+// Todas as opções com o valor correto
+const options = [
+{ value: "correct", text: "Começou a chover mesmo", correct: true },
+{ value: "rain", text: "Vai chover", correct: false },
+{ value: "no-rain", text: "Não vai chover", correct: false },
+{ value: "said", text: "O governante disse", correct: false }
+];
 
-    let selectedValue = null;
+let selectedValue = null;
 
-    // Функция случайного перемешивания
-    function shuffleArray(array) {
-      const arr = [...array];
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
+// Função de embaralhamento aleatório
+function shuffleArray(array) {
+const arr = [...array];
+for (let i = arr.length - 1; i > 0; i--) {
+const j = Math.floor(Math.random() * (i + 1));
+[arr[i], arr[j]] = [arr[j], arr[i]];
+}
+return arr;
+}
 
-    // Отображение перемешанных вариантов
-    function renderOptions() {
-      const container = document.getElementById("options-container");
-      container.innerHTML = "";
+// Exibe opções mistas
+function renderOptions() {
+const container = document.getElementById("options-container");
+container.innerHTML = "";
 
-      const shuffled = shuffleArray(options);
+const shuffled = shuffleArray(options);
 
-      shuffled.forEach(option => {
-        const label = document.createElement("label");
-        label.className = "option";
+shuffled.forEach(option => {
+const label = document.createElement("label");
+label.className = "option";
 
-        const input = document.createElement("input");
-        input.type = "radio";
-        input.name = "q";
-        input.value = option.value;
+const input = document.createElement("input");
+input.type = "radio";
+input.name = "q";
+input.value = option.value;
 
-        input.onchange = () => {
-          selectedValue = option.value;
-          // Убираем выделение
-          document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
-          // Выделяем выбранный
-          label.classList.add('selected');
-        };
+input.onchange = () => {
+selectedValue = option.value;
+// Remove a seleção
+document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+// Seleciona o selecionado
+label.classList.add('selected');
+};
 
-        const text = document.createTextNode(option.text);
-        label.appendChild(input);
-        label.appendChild(text);
-        container.appendChild(label);
-      });
-    }
+const text = document.createTextNode(option.text);
+label.appendChild(input);
+label.appendChild(text);
+container.appendChild(label);
+});
+}
 
-    function check() {
-      if (!selectedValue) {
-        document.getElementById("result").textContent = "Выберите вариант ответа.";
-        document.getElementById("result").className = "error";
-        return;
-      }
+function check() {
+if (!selectedValue) {
+document.getElementById("result").textContent = "Selecione uma opção de resposta.";
+document.getElementById("result").className = "error";
+return;
+}
 
-      const isCorrect = selectedValue === "correct";
+const isCorrect = selectedValue === "correct";
 
-      const resultEl = document.getElementById("result");
-      if (isCorrect) {
-        resultEl.textContent = "✅ Правильно! 允 — подтверждение события, «и в самом деле пошёл дождь».";
-        resultEl.className = "success";
-        sendResult(true);
-      } else {
-        resultEl.textContent = "❌ Неверно. 允 означает «действительно», «и в самом деле» — это подтверждение, а не предсказание.";
-        resultEl.className = "error";
-        sendResult(false, "Ошибка в интерпретации 允");
-      }
-    }
+const resultEl = document.getElementById("result");
+if (isCorrect) {
+resultEl.textContent = "✅ Correto! 允 é uma confirmação do evento, "choveu mesmo."";
+resultEl.className = "sucesso";
+sendResult(true);
+} else {
+resultEl.textContent = "❌ Incorreto. 允 significa "realmente", "de fato" é uma confirmação, não uma previsão.";
+resultEl.className = "error";
+sendResult(false, "Erro na interpretação de Tarefa");
+}
+}
 
-    function sendResult(success, message) {
-      window.parent.postMessage(
-        {
-          type: "TASK_RESULT",
-          success,
-          message: message || (success ? "Верно интерпретировано 允" : "Ошибка в интерпретации 允")
-        },
-        "*"
-      );
-    }
+function sendResult(success, message) {
+window.parent.postMessage(
+{
+type: "TASK_RESULT",
+success,
+message: message || (success ? "Task interpretado corretamente" : "Erro na interpretação de Tarefa")
+},
+"*"
+);
+}
 
-    // Перемешиваем и рендерим при загрузке
-    window.onload = renderOptions;
+// Embaralhar e renderizar ao carregar
+window.onload = renderOptions;
 
-    // Сигнализируем, что задание существует
-    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
-  </script>
+// Sinalizar que a tarefa existe
+window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+</script>
 </body>
 </html>
-

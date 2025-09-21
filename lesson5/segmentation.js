@@ -6,103 +6,103 @@ var SentenceData = {
             "number": 1,
             "original": "辛卯卜㱿貞帝其熯我",
             "transliteration": "xīn mǎo bǔ què zhēn dì qí hàn wǒ",
-            "translation": "В день синь-мао гадатель Цзюэ задал вопрос: «Верховное божество накажет нас засухой?»"
+            "translation": "No dia xin-mao, o adivinho Que fez uma consulta: «O Deus Supremo nos castigará com seca?»"
         },
         {
             "number": 2,
             "original": "貞帝不我熯",
             "transliteration": "zhēn dì bù wǒ hàn",
-            "translation": "Вопрос: «Верховное божество не накажет нас засухой?»"
+            "translation": "Consulta: «O Deus Supremo não nos castigará com seca?»"
         },
         {
             "number": 3,
             "original": "戊申卜爭貞帝其降我熯",
             "transliteration": "wù shēn bǔ zhēng zhēn dì qí jiàng wǒ hàn",
-            "translation": "В день у-шэнь гадатель Чжэн задал вопрос: «Верховное божество нашлет на нас засуху?»"
+            "translation": "No dia wu-shen, o adivinho Zheng fez uma consulta: «O Deus Supremo enviará seca sobre nós?»"
         },
         {
             "number": 4,
             "original": "貞帝不我降熯",
             "transliteration": "zhēn dì bù wǒ jiàng hàn",
-            "translation": "Вопрос: «Верховное божество не нашлет на нас засуху?»"
+            "translation": "Consulta: «O Deus Supremo não enviará seca sobre nós?»"
         },
         {
             "number": 5,
             "original": "甲辰卜爭貞我伐馬方",
             "transliteration": "jiǎ chén bǔ zhēng zhēn wǒ fá mǎ fāng",
-            "translation": "В день цзя-чэнь гадатель Чжэн задал вопрос: «Мы пойдем походом на племя Ма-фан?»"
+            "translation": "No dia jia-chen, o adivinho Zheng fez uma consulta: «Iremos em expedição militar contra o povo Ma-fang?»"
         },
         {
             "number": 6,
             "original": "帝受我佑",
             "transliteration": "dì shòu wǒ yòu",
-            "translation": "Ниспошлет ли нам Верховное божество свою помощь?"
+            "translation": "O Deus Supremo concederá sua proteção a nós?"
         },
         {
             "number": 7,
             "original": "貞勿伐工方",
             "transliteration": "zhēn wù fá gōng fāng",
-            "translation": "Вопрос: «Нам не следует идти походом на племя Гун-фан?»"
+            "translation": "Consulta: «Não devemos atacar o povo Gong-fang?»"
         },
         {
             "number": 8,
             "original": "帝不我其受佑",
             "transliteration": "dì bù wǒ qí shòu yòu",
-            "translation": "Верховное божество не ниспошлет нам помощи?"
+            "translation": "O Deus Supremo não nos concederá proteção?"
         },
         {
             "number": 9,
             "original": "貞洹其作茲邑禍",
             "transliteration": "zhēn huán qí zuò zī yì huò",
-            "translation": "Вопрос: «Река Хуань причинит вред этому городу?»"
+            "translation": "Consulta: «O rio Huan causará desastre a esta cidade?»"
         },
         {
             "number": 10,
             "original": "洹弗作茲邑禍",
             "transliteration": "huán fú zuò zī yì huò",
-            "translation": "Река Хуань не причинит вреда этому городу?"
+            "translation": "O rio Huan não causará desastre a esta cidade?"
         },
         {
             "number": 11,
             "original": "貞帝其作王禍",
             "transliteration": "zhēn dì qí zuò wáng huò",
-            "translation": "Вопрос: «Верховное божество причинит вред вану?»"
+            "translation": "Consulta: «O Deus Supremo causará desgraça ao rei?»"
         },
         {
             "number": 12,
             "original": "余受馬方佑",
             "transliteration": "yú shòu mǎ fāng yòu",
-            "translation": "Я окажу помощь племени Ма-фан?"
+            "translation": "Eu ajudarei o povo Ma-fang?"
         },
         {
             "number": 13,
             "original": "乙亥卜㱿貞王曰侯虎余其得汝使",
             "transliteration": "yǐ hài bǔ què zhēn wáng yuē hóu hǔ yú qí dé rǔ shǐ",
-            "translation": "В день и-хай гадатель Цзюэ задал вопрос: «Скажет ли ван: „Хоу Ху, я сохраняю тебе посла“»?"
+            "translation": "No dia yi-hai, o adivinho Que fez uma consulta: «O rei dirá: 'Marquês Hu, eu manterei seu embaixador'?»"
         },
         {
             "number": 15,
             "original": "余不其合以乃使",
             "transliteration": "yú bù qí hé yǐ nǎi shǐ",
-            "translation": "Я не встречусь с тобой. Приведи твоего посла!"
+            "translation": "Eu não me encontrarei contigo. Traz o teu embaixador!"
         },
         {
             "number": 16,
             "original": "甲辰卜王貞羌弗烖朕使",
             "transliteration": "jiǎ chén bǔ wáng zhēn qiāng fú zāi zhèn shǐ",
-            "translation": "В день цзя-чэнь гадали, правитель задал вопрос: «Цяны не нанесут поражения моему послу?»"
+            "translation": "No dia jia-chen, o rei adivinhou: «Os Qiang não derrotarão meu embaixador?»"
         },
         {
             "number": 17,
             "original": "其烖余",
             "transliteration": "qí zāi yú",
-            "translation": "Он подведет меня?"
+            "translation": "Ele me trairá?"
         },
         {
             "number": 18,
             "original": "不余烖",
             "transliteration": "bù yú zāi",
-            "translation": "Не подведет меня?"
+            "translation": "Ele não me trairá?"
         }
     ]
 };

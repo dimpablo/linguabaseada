@@ -6,97 +6,97 @@ var SentenceData = {
             "number": 1,
             "original": "貞身其有疾",
             "transliteration": "zhēn shēn qí yǒu jī",
-            "translation": "Вопрос: «Будет ли болеть тело?»"
+            "translation": "Consulta: «O corpo ficará doente?»"
         },
         {
             "number": 2,
             "original": "貞身亡疾",
             "transliteration": "zhēn shēn wú jī",
-            "translation": "Вопрос: «Тело не будет болеть?»"
+            "translation": "Consulta: «O corpo não ficará doente?»"
         },
         {
             "number": 3,
             "original": "乙酉卜大貞及茲二月有大雨",
             "transliteration": "yǐ yǒu bǔ dà zhēn jí zī èr yuè yǒu dà yǔ",
-            "translation": "В день и-ю гадатель Да задал вопрос: «Когда наступит этот второй месяц, будут ли большие дожди?»"
+            "translation": "No dia yi-you, o adivinho Da fez uma consulta: «Quando chegar este segundo mês, haverá grandes chuvas?»"
         },
         {
             "number": 4,
             "original": "辛未卜中貞黍年有足雨",
             "transliteration": "xīn wèi bǔ zhōng zhēn shǔ nián yǒu zú yǔ",
-            "translation": "В день синь-вэй гадатель Чжун задал вопрос: «Будет ли урожай чумизы иметь достаточно дождя?»"
+            "translation": "No dia xin-wei, o adivinho Zhong fez uma consulta: «O milheto terá chuva suficiente para uma boa colheita?»"
         },
         {
             "number": 5,
             "original": "癸未貞旬亡禍",
             "transliteration": "guǐ wèi zhēn xún wú huò",
-            "translation": "В день гуй-вэй задали вопрос: «Не будет ли несчастья в течение декады?»"
+            "translation": "No dia gui-wei, fizeram uma consulta: «Não haverá desgraça durante a década?»"
         },
         {
             "number": 6,
             "original": "癸丑卜出貞旬有祟",
             "transliteration": "guǐ chǒu bǔ chū zhēn xún yǒu suì",
-            "translation": "В день гуй-чоу гадатель Чу задал вопрос: «Будет ли вред в течение декады?»"
+            "translation": "No dia gui-chou, o adivinho Chu fez uma consulta: «Haverá males durante a década?»"
         },
         {
             "number": 7,
             "original": "乙丑卜㱿貞茲邑亡振",
             "transliteration": "yǐ chǒu bǔ què zhēn zī yì wú zhèn",
-            "translation": "В день и-чоу гадатель Цзюэ задал вопрос: «Не нападут ли на этот город?»"
+            "translation": "No dia yi-chou, o adivinho Que fez uma consulta: «Não serão atacados nesta cidade?»"
         },
         {
             "number": 8,
             "original": "癸卯卜旅貞今日亡來艱",
             "transliteration": "guǐ mǎo bǔ lǚ zhēn jīn rì wú lái jiān",
-            "translation": "В день гуй-мао гадатель Люй задал вопрос: «Сегодня не будет опасности, пришедшей откуда бы то ни было?»"
+            "translation": "No dia gui-mao, o adivinho Lü fez uma consulta: «Hoje não virá perigo de lugar algum?»"
         },
         {
             "number": 9,
             "original": "甲辰卜永貞西土其有降熯",
             "transliteration": "jiǎ chén bǔ yǒng zhēn xī tǔ qí yǒu jiàng hàn",
-            "translation": "В день цзя-чэнь гадатель Юн задал вопрос: «На западных землях не будет посланной свыше засухи?»"
+            "translation": "No dia jia-chen, o adivinho Yong fez uma consulta: «Nas terras ocidentais haverá seca enviada do céu?»"
         },
         {
             "number": 10,
             "original": "貞冓眔㱿其有禍",
             "transliteration": "zhēn gòu dà què qí yǒu huò",
-            "translation": "Вопрос: «У Гоу и Цзюэ будет несчастье?»"
+            "translation": "Consulta: «Gou e Que terão desgraça?»"
         },
         {
             "number": 11,
             "original": "貞冓眔㱿不其以羌",
             "transliteration": "zhēn gòu dà què bù qí yǐ qiāng",
-            "translation": "Вопрос: «Гоу и Цзюэ не приведут цянов?»"
+            "translation": "Consulta: «Gou e Que não trarão os Qiang?»"
         },
         {
             "number": 12,
             "original": "貞冓叶王使",
             "transliteration": "zhēn gòu yè wáng shǐ",
-            "translation": "Вопрос: «Гоу выполнит поручение вана?»"
+            "translation": "Consulta: «Gou cumprirá a missão do rei?»"
         },
         {
             "number": 13,
             "original": "貞冓眔㱿弗其叶王使",
             "transliteration": "zhēn gòu dà què fú qí yè wáng shǐ",
-            "translation": "Вопрос: «Гоу и Цзюэ не выполнят поручение вана?»"
+            "translation": "Consulta: «Gou e Que não cumprirão a missão do rei?»"
         },
         {
             "number": 14,
             "original": "貞告于妣己眔妣庚",
             "transliteration": "zhēn gào yú bǐ jǐ dà bǐ gēng",
-            "translation": "Вопрос: «Сообщить прародительнице Цзи и прародительнице Гэн?»"
+            "translation": "Consulta: «Informar a ancestral bisavó Ji e a ancestral bisavó Geng?»"
         },
         {
             "number": 15,
             "original": "其祐兄丙眔子癸",
             "transliteration": "qí yòu xiōng bǐng dà zǐ guǐ",
-            "translation": "«Принести жертвы брату Бину и сыну Гую?»"
+            "translation": "«Oferecer sacrifícios ao irmão Bing e ao filho Gui?»"
         },
         {
             "number": 16,
             "original": "其祐妣丙眔大乙",
             "transliteration": "qí yòu bǐ bǐng dà dà yǐ",
-            "translation": "«Принести жертвы прародительнице Бин и Великому И?»"
+            "translation": "«Oferecer sacrifícios a ancestral bisavó Bing e ao Grande Yi?»"
         }
     ]
 };

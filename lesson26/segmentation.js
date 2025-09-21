@@ -6,67 +6,67 @@ var SentenceData = {
       "number": 1,
       "original": "汧殹沔沔烝彼淖淵鰋鯉處之君子漁之",
       "transliteration": "qiān yī miǎn miǎn zhēng bǐ nào yuān yǎn lǐ chù zhī jūn zǐ yú zhī",
-      "translation": "Текут воды реки Цянь, велик этот мутный поток, водятся в нем сомы и карпы, и достойные люди ловят их."
+      "translation": "As águas do rio Qian fluem poderosas, vasto é este turbulento riacho. Nele habitam bagres e carpas, e homens virtuosos as pescam."
     },
     {
       "number": 2,
       "original": "澫有小魚其遊散散帛魚樂樂黃白其鯾",
       "transliteration": "wàn yǒu xiǎo yú qí yóu sǎn sǎn bó yú lè lè huáng bái qí biān",
-      "translation": "В заводи — мелкая рыбешка плавает и плещется. Светлыми пятнами — белая рыба, плавники ее желтые и белые."
+      "translation": "Na enseada há peixinhos que nadam e brincam. Peixes brancos alegres, suas barbatanas amarelas e brancas."
     },
     {
       "number": 3,
       "original": "其魚唯何唯鱮唯鯉何以橐之唯楊及柳",
       "transliteration": "qí yú wéi hé wéi xù wéi lǐ hé yǐ tuó zhī wéi yáng jí liǔ",
-      "translation": "Что же за рыба это? Это лини и карпы. А во что же сложить их? В корзину из веток тополя и ивы."
+      "translation": "Que peixe é este? São tainhas e carpas. E em que colocá-los? Em cestos de ramos de salgueiro e salgueiro-branco."
     },
     {
       "number": 4,
       "original": "泛彼柏舟亦泛其流",
       "transliteration": "fàn bǐ bǎi zhōu yì fàn qí liú",
-      "translation": "Так кипарисовый челн уплывает легко — он по теченью один уплывает далеко!"
+      "translation": "Assim o barco de cipreste flutua facilmente — ele segue a correnteza sozinho, navegando para longe!"
     },
     {
       "number": 5,
       "original": "耿耿不寐如有隱憂",
       "transliteration": "gěng gěng bù mèi rú yǒu yǐn yōu",
-      "translation": "Вся я в тревоге и ночью заснуть не могу, словно объята тяжелою тайной тоской,"
+      "translation": "Estou toda em ansiedade e não consigo dormir à noite, como se estivesse consumida por uma tristeza oculta,"
     },
     {
       "number": 6,
       "original": "微我無酒以敖以遊",
       "transliteration": "wēi wǒ wú jiǔ yǐ áo yǐ yóu",
-      "translation": "Не оттого, что вина не нашлось у меня или в забавах найти б не сумела покой."
+      "translation": "Não é porque não tenho vinho ou não consigo encontrar diversão para acalmar meu coração."
     },
     {
       "number": 7,
       "original": "我心匪鑒不可以茹亦有兄弟不可以據",
       "transliteration": "wǒ xīn fěi jiàn bù kě yǐ rú yì yǒu xiōng dì bù kě yǐ jù",
-      "translation": "Сердце не зеркало, всей не раскроет оно скорби моей, что таится в его глубине. К братьям пойти? — Но и братья родные мои быть не сумеют надежной опорою мне!"
+      "translation": "Meu coração não é um espelho que revele toda a minha tristeza oculta. Ir aos meus irmãos? — Mas mesmo os irmãos não conseguem ser apoio confiável para mim!"
     },
     {
       "number": 8,
       "original": "我心匪石不可轉也",
       "transliteration": "wǒ xīn fěi shí bù kě zhuǎn yě",
-      "translation": "Сердце мое ведь не камень, что к почве приник. Сердце мое ведь не скатишь, как камень с холма!"
+      "translation": "Meu coração não é uma pedra fixa ao solo. Meu coração não se pode rolar como uma pedra morro abaixo!"
     },
     {
       "number": 9,
       "original": "我心匪席不可卷也",
       "transliteration": "wǒ xīn fěi xí bù kě juǎn yě",
-      "translation": "Сердце мое — не вплетенный в циновку тростник, сердце мое не свернуть, как циновки в домах!"
+      "translation": "Meu coração não é junco tecido em esteira, meu coração não se pode enrolar como as esteiras nas casas!"
     },
     {
       "number": 10,
       "original": "威儀棣棣不可選也",
       "transliteration": "wēi yí dì dì bù kě xuǎn yě",
-      "translation": "Вид величав мой, поступки разумны всегда — в чем упрекнуть меня можно? Не знаю сама."
+      "translation": "Minha aparência é majestosa, meus passos são sempre sensatos — em que me podem censurar? Nem eu mesma sei."
     },
     {
       "number": 11,
       "original": "陟彼砠矣我僕痡矣云何吁矣",
       "transliteration": "zhì bǐ jū yǐ wǒ pú pū yǐ yún hé xū yǐ",
-      "translation": "Еду ль на гору я — за горою мой милый, но коней обессилела горная даль, и возница теряет последние силы, и на сердце такая печаль."
+      "translation": "Quando vou à montanha — além da montanha está meu amado, mas os cavalos da montanha já estão exaustos, o cocheiro perde as últimas forças, e no coração há tamanha melancolia."
     }
   ]
 }

@@ -7,31 +7,31 @@ var SentenceData = {
       "number": 1,
       "original": "視民不恌王孫遺者擇其吉金自作和鐘終翰且颺元鳴孔皇用享以孝於我皇祖文考",
       "transliteration": "shì mín bù tiāo wáng sūn yí zhě zé qí jí jīn zì zuò hé zhōng zhōng hàn qiě yáng yuán míng kǒng huáng yòng xiǎng yǐ xiào yú wǒ huáng zǔ wén kǎo",
-      "translation": "Янь-эр, непорочный сын Гэна, правителя царства Сюй, выбрал свой благостный металл и сам изготовил звонкий колокол. Он переливчатый и звонкий, и звук его величественный. Я буду пользоваться им при жертвоприношениях моим достославным предкам и благородному отцу."
+      "translation": "Yan-er, filho virtuoso de Xuwang Geng, que governa o povo com integridade, escolheu metal auspicioso e fabricou pessoalmente este sino harmonioso. Ele é brilhante e ressoante, com som majestoso. Usarei para oferecer sacrifícios aos meus gloriosos antepassados e ao meu nobre pai."
     },
     {
       "number": 2,
       "original": "闌闌和鐘用宴以喜用樂嘉賓父兄及我朋友",
       "transliteration": "lán lán hé zhōng yòng yàn yǐ xǐ yòng lè jiā bīn fù xiōng jí wǒ péng yǒu",
-      "translation": "Этот звонкий колокол доставит мне радость на пирах, он будет радовать добрых гостей и старших родственников, а также моих друзей."
+      "translation": "Este sino harmonioso trará alegria aos banquetes, alegrará os nobres convidados, irmãos mais velhos e também meus amigos."
     },
     {
       "number": 3,
       "original": "皇皇熙熙萬年無期永保鼓之",
       "transliteration": "huáng huáng xī xī wàn nián wú qī yǒng bǎo gǔ zhī",
-      "translation": "В течение десяти тысяч лет без конца десять тысяч поколений потомков будут вечно хранить его и звонить в него!"
+      "translation": "Por dez mil anos sem fim, dez mil gerações de descendentes eternamente o guardarão e tocarão!"
     },
     {
       "number": 4,
       "original": "徐王庚之淑子沇兒擇其吉金自作和鐘終翰且颺元鳴孔皇孔嘉元成用盤飲酒和會百姓淑于威儀惠于盟祀",
       "transliteration": "xú wáng gēng zhī shū zǐ yǎn ér zé qí jí jīn zì zuò hé zhōng zhōng hàn qiě yáng yuán míng kǒng huáng kǒng jiā yuán chéng yòng pán yǐn jiǔ hé huì bǎi xìng shū yú wēi yí huì yú méng sì",
-      "translation": "Согласие слышу я в криках оленей, что сочные травы на поле едят. Прекрасных гостей я сегодня встречаю — на гуслях играют и шэны звучат, и трубки у шэнов настроены в лад, корзины подарков расставлены в ряд. Те люди мне путь совершенств показали; я вижу любовь их, и счастлив, и рад."
+      "translation": "O filho virtuoso de Xuwang Geng, Yan-er, escolheu metal auspicioso e fabricou este sino harmonioso. Brilhante e ressonante, com som majestoso e excelente, perfeito em sua forma. Usa-o para beber vinho em banquetes, unir o povo, manter dignidade ceremonial e honrar os juramentos sagrados."
     },
     {
       "number": 5,
       "original": "吾以宴以喜以樂嘉賓父兄及我朋友皇皇熙熙萬年無期眉壽無期",
       "transliteration": "wú yǐ yàn yǐ xǐ yǐ lè jiā bīn fù xiōng jí wǒ péng yǒu huáng huáng xī xī wàn nián wú qī méi shòu wú qī",
-      "translation": "Согласие слышу я в криках оленей, что сочные травы едят на полях. Прекрасных гостей я сегодня встречаю, их доблесть сверкает, им славу суля, для всех благородных пример подражанья, народ поучая, пороки целя, отменным их ныне вином угощаю, прекрасных гостей на пиру веселя. Согласие слышу я в криках оленей, что травы едят на полях поутру. Прекрасных гостей я сегодня встречаю, и слышу и цитры и гуслей игру, я слышу и цитры и гуслей игру, согласье и радость в удел изберу. Отменным я ныне вином угощаю, прекрасных гостей веселю на пиру."
+      "translation": "Eu me deleito em banquetes e festas, alegrando os nobres convidados, irmãos mais velhos e meus amigos. Glorioso e próspero, por dez mil anos sem fim, com longa vida sem limite."
     }
   ]
 }

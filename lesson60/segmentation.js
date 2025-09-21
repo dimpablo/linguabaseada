@@ -6,61 +6,61 @@ var SentenceData = {
       "number": 1,
       "original": "甄沖字叔讓，中山人，為雲杜令，未至惠懷縣，忽有一人來通云：「社郎須臾便至。」",
       "transliteration": "",
-      "translation": "Чжэнь Чун, по прозвищу Шужан, родом из Чжуншаня, был назначен начальником уезда Юньду. Не доехав до уезда Хуйхуай, он вдруг увидел человека, который доложил: «Сын Духа Земли сейчас прибудет»."
+      "translation": "Zhen Chong, de nome cortês Shu Rang, natural de Zhongshan, foi nomeado magistrado do condado de Yundu. Antes de chegar ao condado de Huihuai, de repente apareceu um homem que anunciou: «O filho do Espírito da Terra chegará em breve»."
     },
     {
       "number": 2,
       "original": "年少，容貌美淨。既坐，寒温，云：「大人見使，貪慕高援，欲以妹與君婚，故來宣此意。」",
       "transliteration": "",
-      "translation": "Юноша был молод и красив лицом. Усевшись, он обменялся с Чжэнем вежливыми приветствиями и сказал: «Отец послал меня — он жаждет породниться с вами и желает выдать за вас свою сестру. Вот зачем я здесь»."
+      "translation": "O jovem era belo e de aparência limpa. Após sentar-se e trocar cumprimentos, disse: «Meu pai me enviou — ele deseja aliança nobre e quer casar sua irmã com você. Por isso vim anunciar esta intenção»."
     },
     {
       "number": 3,
       "original": "甄愕然曰：「僕長大，且已有家，何緣此理？」社郎復云：「僕妹年少，且令色少雙，必欲得佳對，云何見拒？」甄曰：「僕老翁，現有婦，豈容違越？」相與反覆數過，甄殊無動意。社郎有恚色，云：「大人當自來，恐不得違爾。」",
       "transliteration": "",
-      "translation": "Чжэнь изумился: «Я уже взрослый человек, да и женат — как такое возможно?» Сын Духа ответил: «Моя сестра молода и красива, каких мало — она достойна лучшего мужа. Почему вы отказываетесь?» Чжэнь сказал: «Я уже старик, у меня есть жена — как я могу нарушить верность?» Они долго спорили, но Чжэнь оставался непреклонен. Сын Духа разгневался: «Сейчас приедет отец — вам не удастся противиться ему»."
+      "translation": "Zhen ficou surpreso: «Eu já sou adulto e casado — como isso é possível?» O filho do Espírito respondeu: «Minha irmã é jovem e de beleza rara — ela merece um bom marido. Por que se recusa?» Zhen disse: «Sou um velho, tenho esposa — como posso ser infiel?» Discutiram repetidamente, mas Zhen permaneceu inflexível. O filho do Espírito ficou irritado: «Meu pai virá pessoalmente — você não conseguirá resistir»."
     },
     {
       "number": 4,
-      "original": "既去，便見兩岸有人著幘捉馬鞭，羅列相隨，行從甚多。社公尋至，鹵簿導從如方伯，乘馬輿，青幢赤絡，覆車數乘。女乘四望車，錦步障數十張，婢子八人夾車前，衣服文彩，所未嘗見。",
+      "original": "既去，便見兩岸有人著幘捉馬鞭，羅列相隨，行從甚多。社公尋至，鹵簿導從如方伯，乘馬輿，青幢赤絡，覆車數乘。女乘四望車，錦步障數十張，婢子八人夾車前，衣服文彩，所未嘱見。",
       "transliteration": "",
-      "translation": "Когда тот ушел, на обоих берегах появились люди в повязках с плетками, стройно следовавшие друг за другом — свита была огромна. Вскоре прибыл сам Дух Земли — с почетным эскортом, как у областного правителя: в повозке, запряженной лошадьми с зелеными бунчуками и красными уздечками, за ним ехало несколько крытых экипажей. Его дочь ехала в открытой карете, окруженной десятками парчовых ширм; восемь служанок шли впереди по обе стороны, в одеждах невиданной красоты."
+      "translation": "Quando ele partiu, viu-se gente em ambos os bancos do rio usando faixas e chicotes, alinhados e seguindo em grande número. Logo chegou o próprio Espírito da Terra — com séquito solene, como governador provincial: em carruagem puxada por cavalos, com estandartes verdes e rédeas vermelhas, várias carruagens cobertas. Sua filha viajava numa carruagem aberta, cercada por dezenas de cortinas de seda; oito criadas caminhavam à frente dos dois lados, com roupas de cores e padrões nunca vistos."
     },
     {
       "number": 5,
       "original": "便於甄旁邊岸上張幔屋，舒席。社公下，隱膝几，坐白氈坐褥，玉唾壺，以玳瑁為手巾籠，捉白塵尾。女郎却在東岸，黄門白拂夾車立，婢子悉在前。",
       "transliteration": "",
-      "translation": "На берегу рядом с Чжэнем разбили шатер и расстелили циновки. Дух Земли сошел, сел на белый войлочный коврик, опершись на столик; перед ним — нефритовая плевательница, черепаховая шкатулка для платков, в руках — белая мухогонка. Его дочь оставалась на восточном берегу — вокруг ее повозки стояли евнухи с опахалами, а впереди — служанки."
+      "translation": "Ergueram uma tenda com cortinas na margem próxima a Zhen e estenderam esteiras. O Espírito da Terra desceu, sentou-se num colchão de feltro branco apoiado numa mesa baixa; diante dele havia um cuspidouro de jade, uma caixa de tartaruga para toalhas, segurando um leque branco. A jovem senhorita permaneceu na margem leste — eunucos com leques brancos ficaram ao redor da carruagem, e as criadas estavam todas à frente."
     },
     {
       "number": 6,
       "original": "社公引佐吏令前坐，當六十人，命作樂，器悉如琉璃。社公謂甄曰：「僕有陋女，情所鍾愛。以君體德令茂，貪結親援，因遺小兒，已具宣此旨。」",
       "transliteration": "",
-      "translation": "Дух Земли приказал своим помощникам — человек шестьдесят — сесть впереди, велел начать музыку: инструменты были словно из стекла. Он обратился к Чжэню: «У меня есть дочь, хоть и скромная, но мне она бесконечно дорога. Восхищаясь вашими добродетелями, я желаю породниться с вами — поэтому и послал сына объявить вам об этом»."
+      "translation": "O Espírito da Terra chamou seus auxiliares — cerca de sessenta pessoas — para sentar-se à frente, ordenou que começassem a música: os instrumentos eram como de vidro. Disse a Zhen: «Tenho uma filha humilde, mas muito querida. Admirando suas virtudes, desejo aliança consigo — por isso enviei meu filho para anunciar isto»."
     },
     {
       "number": 7,
       "original": "甄曰：「僕既老悴，已有室家，兒子且大。雖貪貴聘，不敢聞命。」社公復云：「僕女年始二十，姿色淑令，四德克備。今在岸上，勿復為煩，但當成禮耳。」",
       "transliteration": "",
-      "translation": "Чжэнь ответил: «Я уже стар и изможден, у меня есть семья, сын уже взрослый. Хотя я и почитаю вашу милость, не смею принять это предложение». Дух Земли возразил: «Моей дочери двадцать лет, она прекрасна и обладает всеми четырьмя добродетелями. Она сейчас на берегу — не усложняйте, давайте просто совершим обряд»."
+      "translation": "Zhen respondeu: «Já sou velho e cansado, tenho família, meu filho já é adulto. Embora aprecie sua generosidade, não ousarei aceitar esta proposta». O Espírito da Terra retrucou: «Minha filha tem vinte anos, é bela e possui as quatro virtudes. Está agora na margem — não complique, apenas realizemos o casamento»."
     },
     {
       "number": 8,
       "original": "甄拒之轉苦，謂是邪魅，便拔刀橫膝上，以死拒之，不復與語。社公大怒，便令呼三斑兩虎來，張口正赤，號呼裂地，徑跳上，如此者數十次。相守至天明，無如之何，便去。",
       "transliteration": "",
-      "translation": "Чжэнь отвергал предложение всё упорнее, решив, что имеет дело с демоном: выхватил меч, положил его поперек колен — готов умереть, но не уступить, и больше не отвечал. Дух Земли в ярости велел позвать двух пятнистых тигров. Те рычали, разевали красные пасти, царапали землю, прыгали на него — так повторялось десятки раз. Они сторожили его до рассвета, но ничего не смогли сделать — и ушли."
+      "translation": "Zhen rejeitou cada vez mais firmemente, achando que era um demônio: sacou a espada, colocou-a transversalmente nos joelhos — preferia morrer a ceder, e não respondeu mais. O Espírito da Terra enfureceu-se e ordenou que chamassem dois tigres malhados. Eles rugiam, abriam as bocas vermelhas, gritavam rasgando a terra, saltavam nele — assim repetiram dezenas de vezes. Vigilaram até o amanhecer, mas nada puderam fazer — e partiram."
     },
     {
       "number": 9,
       "original": "留一牽車，將數十人，欲以迎甄。甄便移至惠懷上縣中住所。迎車及人至門，中有一人著單衣幘，向之揖云：「於此便住，不得前。」甄停十餘日，方敢去。故見一人著幘捉馬鞭，隨至家。",
       "transliteration": "",
-      "translation": "Оставили одну повозку и несколько десятков человек, чтобы сопровождать Чжэня. Он переехал в уездный город Хуйхуай. Повозка и люди остановились у его ворот. Один человек в простой одежде и повязке поклонился ему и сказал: «Оставайтесь здесь — дальше ехать нельзя». Чжэнь прождал более десяти дней и только потом осмелился уехать. Все это время за ним следовал человек в повязке с плеткой — до самого дома."
+      "translation": "Deixaram uma carruagem e várias dezenas de pessoas para acompanhar Zhen. Ele se mudou para a residência no centro do condado de Huihuai. Quando a carruagem e as pessoas chegaram à porta, um homem de roupa simples e faixa fez um cumprimento e disse: «Fique aqui — não pode prosseguir». Zhen ficou mais de dez dias e só então ousou partir. Durante todo esse tempo, via-se um homem com faixa segurando chicote seguindo até sua casa."
     },
     {
       "number": 10,
       "original": "至家少日，而婦病，遂亡。",
       "transliteration": "",
-      "translation": "Вернувшись домой, через несколько дней его жена заболела — и умерла."
+      "translation": "Ao chegar em casa, poucos dias depois sua esposa adoeceu — e faleceu."
     }
   ]
-}
+};

@@ -1,54 +1,53 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="../../tasks.css">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Сказуемое</title>
+<link rel="stylesheet" href="../../tasks.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Predicado</title>
 </head>
 <body>
 
-  <h2>Найди предикат</h2>
-  <p><strong>己卯卜貞雨？</strong></p>
+<h2>Encontre o predicado</h2>
+<p><strong>Como encontrar o predicado?</strong></p>
 
-  <div class="pinyin-container">
-    <button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
-      Показать пиньинь
-    </button>
-    <div class="pinyin-text">jǐ mǎo bu zhēn yǔ?</div>
-  </div>
+<div class="pinyin-container">
+<button class="pinyin-toggle" onclick="this.nextElementSibling.classList.toggle('expanded'); this.classList.toggle('expanded')">
+Mostrar pinyin
+</button>
+<div class="pinyin-text">O que é isso?</div>
+</div>
 
-  <p class="question">Какое слово — предикат?</p>
+<p class="question">Qual ​​palavra é um predicado?</p>
 
-  <div class="buttons">
-    <button onclick="answer('雨')">雨</button>
-    <button onclick="answer('貞')">貞</button>
-    <button onclick="answer('卜')">卜</button>
-    <button onclick="answer('己卯')">己卯</button>
-  </div>
+<div class="buttons">
+<button onclick="answer('雨')">雨</button>
+<button onclick="answer('貞')">貞</button>
+<button onclick="answer('卜')">卜</button>
+<button onclick="answer('己卯')">己卯</button>
+</div>
 
-  <p id="result"></p>
+<p id="result"></p>
 
-  <script>
-    function answer(sel) {
-      const resultEl = document.getElementById("result");
-      if (sel === "雨") {
-        resultEl.textContent = "✅ Верно! 雨 — предикат: «будет дождь?»";
-        sendResult(true);
-      } else {
-        resultEl.textContent = "❌ Неверно. Что отвечает на вопрос «что будет?»";
-        sendResult(false, "Ошибка в определении сказуемого");
-      }
-    }
+<script>
+function answer(sel) {
+const resultEl = document.getElementById("result");
+if (sel === "Tarefa") {
+resultEl.textContent = "✅ Correto! Tarefa é o predicado: "vai chover?"";
+sendResult(true);
+} else {
+resultEl.textContent = "❌ Incorreto. O que responde à pergunta "o que vai acontecer?"";
+sendResult(false, "Erro na definição do predicado");
+}
+}
 
-    function sendResult(success, message) {
-      window.parent.postMessage({ type: "TASK_RESULT", success, message }, "*");
-    }
+function sendResult(success, message) {
+window.parent.postMessage({ type: "TASK_RESULT", success, message }, "*");
+}
 
-    // Сигнал о существовании задания
-    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
-  </script>
+// Sinaliza a existência da tarefa
+window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
+</script>
 
 </body>
 </html>
-

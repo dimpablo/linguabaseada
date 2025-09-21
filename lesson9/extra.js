@@ -1,4 +1,4 @@
-{
+var extra = {
     "lesson": 9,
     "sentences": [
         {

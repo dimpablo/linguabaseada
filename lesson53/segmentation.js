@@ -6,337 +6,337 @@ var SentenceData = {
       "number": 1,
       "original": "新婦初來時",
       "transliteration": "",
-      "translation": "«Когда впервые прибыла сюда,"
+      "translation": "«Quando cheguei aqui pela primeira vez,"
     },
     {
       "number": 2,
       "original": "小姑抬扶床",
       "transliteration": "",
-      "translation": "Сестра была еще совсем ребенком."
+      "translation": "Minha cunhada era ainda uma criança."
     },
     {
       "number": 3,
       "original": "今日被驅遣",
       "transliteration": "",
-      "translation": "Теперь же стала взрослою она."
+      "translation": "Agora ela cresceu e está tão alta quanto eu."
     },
     {
       "number": 4,
       "original": "小姑如我長",
       "transliteration": "",
-      "translation": "Усердно и сердечно за свекровью"
+      "translation": "Servimos diligentemente a sogra"
     },
     {
       "number": 5,
       "original": "勤心養公姥",
       "transliteration": "",
-      "translation": "Ходили мы, когда я здесь жила,"
+      "translation": "E nos ajudávamos mutuamente"
     },
     {
       "number": 6,
       "original": "好自相扶將",
       "transliteration": "",
-      "translation": "Любя друг друга и трудясь совместно."
+      "translation": "Quando eu vivia aqui,"
     },
     {
       "number": 7,
       "original": "初七及下九",
       "transliteration": "",
-      "translation": "Так пусть в седьмой луне седьмого дня"
+      "translation": "Então, no sétimo dia do sétimo mês"
     },
     {
       "number": 8,
       "original": "嬉戲莫相忘",
       "transliteration": "",
-      "translation": "И в праздничные дни девяток нижних"
+      "translation": "E nos dias festivos do nono dia,"
     },
     {
       "number": 9,
       "original": "出門登車去",
       "transliteration": "",
-      "translation": "Друг друга мы припомним, веселясь!»"
+      "translation": "Não se esqueçam de brincar juntas!»"
     },
     {
       "number": 10,
       "original": "涕落百餘行",
       "transliteration": "",
-      "translation": "В повозку села, выйдя за ворота,"
+      "translation": "Saiu de casa e entrou na carruagem,"
     },
     {
       "number": 11,
       "original": "府吏馬在前",
       "transliteration": "",
-      "translation": "Струились слезы сотнями ручьев."
+      "translation": "Lágrimas caíram em centenas de fileiras."
     },
     {
       "number": 12,
       "original": "新婦車在後",
       "transliteration": "",
-      "translation": "Жена в повозке следовала сзади,"
+      "translation": "A esposa seguia na carruagem atrás,"
     },
     {
       "number": 13,
       "original": "俱會大道口",
       "transliteration": "",
-      "translation": "Скакал верхом чиновник впереди,"
+      "translation": "O funcionário cavalgava à frente,"
     },
     {
       "number": 14,
       "original": "下馬入車中",
       "transliteration": "",
-      "translation": "При въезде на широкий дальний тракт"
+      "translation": "Ao chegarem na estrada principal,"
     },
     {
       "number": 15,
       "original": "低頭共耳語",
       "transliteration": "",
-      "translation": "Прощальное свиданье совершилось."
+      "translation": "O encontro de despedida aconteceu."
     },
     {
       "number": 16,
       "original": "誓不相隔卿",
       "transliteration": "",
-      "translation": "В повозку горестно садится муж,"
+      "translation": "O marido entrou tristemente na carruagem,"
     },
     {
       "number": 17,
       "original": "且暫還家去",
       "transliteration": "",
-      "translation": "К жене склонился, на ухо ей шепчет:"
+      "translation": "Curvou-se para a esposa e sussurrou ao ouvido:"
     },
     {
       "number": 18,
       "original": "吾今且赴府",
       "transliteration": "",
-      "translation": "«Клянусь остаться верным навсегда."
+      "translation": "«Juro que serei fiel para sempre."
     },
     {
       "number": 19,
       "original": "不久當還歸",
       "transliteration": "",
-      "translation": "Домой ты отправляешься на время,"
+      "translation": "Você está voltando temporariamente para casa,"
     },
     {
       "number": 20,
       "original": "誓天不相負",
       "transliteration": "",
-      "translation": "Как будто посещая отчий дом,"
+      "translation": "Como se estivesse visitando a casa dos pais,"
     },
     {
       "number": 21,
       "original": "十七遣汝嫁",
       "transliteration": "",
-      "translation": "Как ухожу в приказ и я на время."
+      "translation": "E eu vou ao escritório temporariamente."
     },
     {
       "number": 22,
       "original": "謂言無誓違",
       "transliteration": "",
-      "translation": "Ты вскоре возвратишься вновь ко мне."
+      "translation": "Você logo voltará para mim."
     },
     {
       "number": 23,
       "original": "汝今何罪過",
       "transliteration": "",
-      "translation": "Так поклянемся вместе перед небом"
+      "translation": "Vamos jurar juntos diante do céu"
     },
     {
       "number": 24,
       "original": "不迎而自歸",
       "transliteration": "",
-      "translation": "Друг другу никогда не изменять!»"
+      "translation": "Que nunca nos trairemos mutuamente!»"
     },
     {
       "number": 25,
       "original": "蘭芝慚阿母",
       "transliteration": "",
-      "translation": "Чиновнику жена его сказала:"
+      "translation": "A esposa disse ao marido:"
     },
     {
       "number": 26,
       "original": "兒實無罪過",
       "transliteration": "",
-      "translation": "«Благодарю за верность и любовь,"
+      "translation": "«Agradeço por sua fidelidade e amor,"
     },
     {
       "number": 27,
       "original": "阿母大悲摧",
       "transliteration": "",
-      "translation": "И если вы исполните обет свой,"
+      "translation": "E se você cumprir este juramento,"
     },
     {
       "number": 28,
       "original": "還家十餘日",
       "transliteration": "",
-      "translation": "То вскоре вас увижу я опять."
+      "translation": "Logo o verei novamente."
     },
     {
       "number": 29,
       "original": "新婦謂府吏",
       "transliteration": "",
-      "translation": "Вы будьте, как утес, большим и крепким,"
+      "translation": "Você deve ser como uma rocha sólida,"
     },
     {
       "number": 30,
       "original": "感君區區懷",
       "transliteration": "",
-      "translation": "Пусть будет камышинкою жена."
+      "translation": "E eu serei como o junco."
     },
     {
       "number": 31,
       "original": "君既若見錄",
       "transliteration": "",
-      "translation": "Утес нельзя ни повернуть, ни сдвинуть,"
+      "translation": "A rocha não pode ser virada ou movida,"
     },
     {
       "number": 32,
       "original": "不久望君來",
       "transliteration": "",
-      "translation": "Мягка тростинка, но крепка, как шелк."
+      "translation": "O junco é flexível, mas forte como seda."
     },
     {
       "number": 33,
       "original": "君當作磐石",
       "transliteration": "",
-      "translation": "Брат заменил отца в моем семействе,"
+      "translation": "Meu irmão mais velho substituiu meu pai,"
     },
     {
       "number": 34,
       "original": "妾當作蒲葦",
       "transliteration": "",
-      "translation": "Он грозен в гневе, как небесный гром."
+      "translation": "Ele é violento na raiva, como trovão."
     },
     {
       "number": 35,
       "original": "蒲葦紉如絲",
       "transliteration": "",
-      "translation": "Боюсь, со мной не станет он считаться"
+      "translation": "Temo que ele não aceite minha vontade"
     },
     {
       "number": 36,
       "original": "磐石無轉移",
       "transliteration": "",
-      "translation": "И замуж выйти будет принуждать...»"
+      "translation": "E me force a me casar...»"
     },
     {
       "number": 37,
       "original": "我有親父兄",
       "transliteration": "",
-      "translation": "Вошла Ланьчжи в знакомые ворота,"
+      "translation": "Lanzhi entrou pelos portões familiares,"
     },
     {
       "number": 38,
       "original": "性行暴如雷",
       "transliteration": "",
-      "translation": "Достоинства и чести лишена."
+      "translation": "Sem dignidade e honra."
     },
     {
       "number": 39,
       "original": "恐不任我意",
       "transliteration": "",
-      "translation": "Всплеснула мать руками в изумленье:"
+      "translation": "A mãe bateu palmas em surpresa:"
     },
     {
       "number": 40,
       "original": "逆以煎君懷",
       "transliteration": "",
-      "translation": "«Не думала, что так вернется дочь!"
+      "translation": "«Não pensei que você voltaria assim!"
     },
     {
       "number": 41,
       "original": "入門上家堂",
       "transliteration": "",
-      "translation": "В тринадцать лет ты ткать уже училась,"
+      "translation": "Aos treze anos você já aprendeu a tecer,"
     },
     {
       "number": 42,
       "original": "進退無顏儀",
       "transliteration": "",
-      "translation": "В четырнадцать кроить уже умела,"
+      "translation": "Aos catorze sabia cortar roupas,"
     },
     {
       "number": 43,
       "original": "阿母大拊掌",
       "transliteration": "",
-      "translation": "В пятнадцать лет играть умела ты"
+      "translation": "Aos quinze sabia tocar"
     },
     {
       "number": 44,
       "original": "不圖子自歸",
       "transliteration": "",
-      "translation": "На звучной двадцатитрехструнной цитре,"
+      "translation": "Na citra de vinte e três cordas,"
     },
     {
       "number": 45,
       "original": "十三教汝織",
       "transliteration": "",
-      "translation": "В шестнадцать знала “Ицзин” и “Лицзи”,"
+      "translation": "Aos dezesseis conhecia rituais e etiquetas,"
     },
     {
       "number": 46,
       "original": "十四能裁衣",
       "transliteration": "",
-      "translation": "В семнадцать лет тебя вручили мужу,"
+      "translation": "Aos dezessete você foi dada em casamento,"
     },
     {
       "number": 47,
       "original": "十五彈箜篌",
       "transliteration": "",
-      "translation": "И не было проступков у тебя!"
+      "translation": "E nunca cometeu erros!"
     },
     {
       "number": 48,
       "original": "十六知禮儀",
       "transliteration": "",
-      "translation": "Но если ты ни в чем не провинилась,"
+      "translation": "Mas se você não fez nada de errado,"
     },
     {
       "number": 49,
       "original": "十七遣汝嫁",
       "transliteration": "",
-      "translation": "То как тебя вернули, отвечай!»"
+      "translation": "Então por que foi devolvida, responda!»"
     },
     {
       "number": 50,
       "original": "縣令遣媒來",
       "transliteration": "",
-      "translation": "«Ланьчжи стыдится матери упреков,"
+      "translation": "«Lanzhi se envergonha das repreensões da mãe,"
     },
     {
       "number": 51,
       "original": "云有第三郎",
       "transliteration": "",
-      "translation": "Но нет на мне воистину вины!»"
+      "translation": "Mas realmente não tenho culpa alguma!»"
     },
     {
       "number": 52,
       "original": "窈窕世無雙",
       "transliteration": "",
-      "translation": "И мать родная впала в скорбь большую."
+      "translation": "E a mãe caiu em profunda tristeza."
     },
     {
       "number": 53,
       "original": "年始十八九",
       "transliteration": "",
-      "translation": "Прошло всего лишь десять с лишним дней,"
+      "translation": "Passaram apenas dez dias e alguns,"
     },
     {
       "number": 54,
       "original": "便言多令才",
       "transliteration": "",
-      "translation": "А уж начальник округа шлет свата"
+      "translation": "E o prefeito enviou um casamenteiro"
     },
     {
       "number": 55,
       "original": "阿母謂阿女",
       "transliteration": "",
-      "translation": "Сказать, что у него есть третий сын,"
+      "translation": "Dizendo que tem um terceiro filho,"
     },
     {
       "number": 56,
       "original": "汝可去應之",
       "transliteration": "",
-      "translation": "«Ты можешь дать ему свое согласье»."
+      "translation": "«Você pode aceitar o pedido dele.»"
     }
   ]
 };

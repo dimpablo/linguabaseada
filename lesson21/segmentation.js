@@ -6,109 +6,109 @@ var SentenceData = {
       "number": 1,
       "original": "秦公曰",
       "transliteration": "qín gōng yuē",
-      "translation": "Циньский гун сказал:"
+      "translation": "O Duque de Qin disse:"
     },
     {
       "number": 2,
       "original": "丕顯朕皇祖受命十又二公不墜在下",
       "transliteration": "pī xiǎn zhèn huáng zǔ shòu mìng shí yòu èr gōng bù zhuì zài xià",
-      "translation": "Мои великие достославные предки получили мандат, и двенадцать гунов не уронили себя в глазах своих предков,"
+      "translation": "Meus gloriosos antepassados receberam o mandato, e os doze duques não se desonraram perante seus predecessores,"
     },
     {
       "number": 3,
       "original": "嚴恭受天命保業厥秦事蠻夏",
       "transliteration": "yán gōng shòu tiān mìng bǎo yè jué qín shì mán xià",
-      "translation": "строго следовали полученному ими Небесному мандату, охраняли свое царство Цинь, подчиняли себе и мань, и ся."
+      "translation": "seguiram rigorosamente o Mandato Celestial recebido, protegeram seu reino de Qin, subjugaram tanto os man quanto os xia."
     },
     {
       "number": 4,
       "original": "曰余雖小子",
       "transliteration": "yuē yú suī xiǎo zǐ",
-      "translation": "Гун сказал: «Хотя я и малый ребенок,"
+      "translation": "O duque disse: «Embora eu seja apenas uma criança,"
     },
     {
       "number": 5,
       "original": "穆穆秉明德叡敷明刑",
       "transliteration": "mù mù bǐng míng dé ruì fū míng xíng",
-      "translation": "я почтительно следую просветленной добродетели, стремлюсь распространить светлые образцы для подражания,"
+      "translation": "reverentemente sigo a virtude iluminada, esforço-me por difundir modelos exemplares,"
     },
     {
       "number": 6,
       "original": "虔敬朕祀以受多福",
       "transliteration": "qián jìng zhèn sì yǐ shòu duō fú",
-      "translation": "с уважением совершаю свои жертвоприношения. Это приносит мне много счастья,"
+      "translation": "com respeito realizo meus sacrifícios. Isso me traz muita felicidade,"
     },
     {
       "number": 7,
       "original": "協和萬民",
       "transliteration": "xié hé wàn mín",
-      "translation": "я добиваюсь гармонии среди десяти тысяч подданных."
+      "translation": "consigo harmonia entre os dez mil súditos."
     },
     {
       "number": 8,
       "original": "夙夕烈烈恒恒",
       "transliteration": "sù xī liè liè héng héng",
-      "translation": "Днем и ночью я постоянно в трудах,"
+      "translation": "De dia e de noite trabalho constantemente,"
     },
     {
       "number": 9,
       "original": "萬姓是敕咸畜百辟胤士",
       "transliteration": "wàn xìng shì chì xián chù bǎi pì yìn shì",
-      "translation": "издаю указы десяти тысячам родов, собираю вокруг себя правителей и достойных мужей."
+      "translation": "emito decretos para dez mil clãs, reúno ao meu redor governantes e homens virtuosos."
     },
     {
       "number": 10,
       "original": "文武鎮靜不廷柔變百邦",
       "transliteration": "wén wǔ zhèn jìng bù tíng róu biàn bǎi bāng",
-      "translation": "Исполненный могущества, я мирными и военными средствами привожу в спокойствие племена, не прибывающие к моему двору, оказываю влияние на многие государства,"
+      "translation": "Dotado de poder, pacifico com meios pacíficos e militares as tribos que não vinham à minha corte, exerço influência sobre muitos estados,"
     },
     {
       "number": 11,
       "original": "于秦執事作淑和鐘",
       "transliteration": "yú qín zhí shì zuò shū hé zhōng",
-      "translation": "осуществляю власть в Цинь. В память об этом я и изготовил звонкий колокол»."
+      "translation": "exerço autoridade em Qin. Em memória disso, fabriquei este sino harmonioso.»"
     },
     {
       "number": 12,
       "original": "晉公曰",
       "transliteration": "jìn gōng yuē",
-      "translation": "Цзиньский гун сказал:"
+      "translation": "O Duque de Jin disse:"
     },
     {
       "number": 13,
       "original": "我皇祖唐公膺受大命左右武王",
       "transliteration": "wǒ huáng zǔ táng gōng yīng shòu dà mìng zuǒ yòu wǔ wáng",
-      "translation": "Мой великий предок, Тан-гун, получил великий мандат, он помогал У-вану"
+      "translation": "Meu glorioso antepassado, o Duque Tang, recebeu o grande mandato, ajudou Wu-wang"
     },
     {
       "number": 14,
       "original": "薄伐百蠻廣治四方",
       "transliteration": "bó fá bǎi mán guǎng zhì sì fāng",
-      "translation": "совершать походы против многих мань, повсеместно управлять племенами четырех сторон света."
+      "translation": "a realizar expedições contra muitos povos bárbaros, governou amplamente as tribos das quatro direções."
     },
     {
       "number": 15,
       "original": "至于大廷莫不來王",
       "transliteration": "zhì yú dà tíng mò bù lái wáng",
-      "translation": "И они прибывали в большой дворец, не было ни одного племени, которое бы не прибыло к вану»."
+      "translation": "Eles chegavam ao grande palácio, não havia tribo alguma que não viesse ao rei.»"
     },
     {
       "number": 16,
       "original": "公曰",
       "transliteration": "gōng yuē",
-      "translation": "Гун сказал:"
+      "translation": "O duque disse:"
     },
     {
       "number": 17,
       "original": "余唯今小子敢帥刑先王秉德智變萬邦",
       "transliteration": "yú wéi jīn xiǎo zǐ gǎn shuài xíng xiān wáng bǐng dé zhì biàn wàn bāng",
-      "translation": "«Хотя я сейчас еще малый ребенок, я осмеливаюсь брать пример с добродетели покойных ванов, мудро влиять на все государства."
+      "translation": "«Embora eu seja agora apenas uma criança, ousaria seguir o exemplo da virtude dos reis falecidos, influenciar sábia e habilmente todos os estados."
     },
     {
       "number": 18,
       "original": "余咸畜俊士保辥王國",
       "transliteration": "yú xián chù jùn shì bǎo yì wáng guó",
-      "translation": "Я собираю вокруг себя достойных мужей и охраняю государство вана»."
+      "translation": "Reúno ao meu redor homens virtuosos e protejo o reino do rei.»"
     }
   ]
 }

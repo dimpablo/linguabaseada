@@ -4,12 +4,12 @@ var extra = {
         {
             "number": 1,
             "original": "其食客無文武備具者",
-            "translation": "Среди его нахлебников не было никого, кто обладал бы способностями как в гражданской, так и в военной сфере."
+            "translation": "Entre seus hóspedes não havia ninguém que possuísse habilidades tanto em assuntos civis quanto militares."
         },
         {
             "number": 2,
             "original": "此人非徒居趙勝之門下而又欲同行者也",
-            "translation": "Этот человек не только жил в доме Чжао Шэна, но и хотел ехать вместе с ним."
+            "translation": "Esta pessoa não apenas vivia na casa de Zhao Sheng, mas também queria viajar junto com ele."
         }
     ]
 };

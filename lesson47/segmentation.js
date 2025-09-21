@@ -6,49 +6,49 @@ var SentenceData = {
       "number": 1,
       "original": "侯生笑曰臣固知公子之還也嬴聞晉鄙之兵符常在王臥內而如姬最幸出入王臥內力能竊之",
       "transliteration": "hóu shēng xiào yuē chén gù zhī gōng zǐ zhī huán yě yíng wén jìn bǐ zhī bīng fú cháng zài wáng wò nèi ér rú jī zuì xìng chū rù wáng wò nèi lì néng qiè zhī",
-      "translation": "— Я так и знал, что вы вернетесь! — засмеялся Хоу Ин. — Говорят, военный мандат Цзинь Би постоянно находится в спальне правителя, а Жу Цзи — его самая любимая наложница — бывает в спальне правителя и вполне может выкрасть мандат."
+      "translation": "— Eu já sabia que o príncipe voltaria! — riu Hou Ying. — Dizem que o mandato militar de Jin Bi está constantemente no quarto do rei, e Ru Ji é sua concubina favorita — ela entra no quarto do rei e pode facilmente roubar o mandato."
     },
     {
       "number": 2,
       "original": "嬴聞如姬父為人所殺如姬資之三年自王以下欲求報其父仇莫能得公子使客斬其仇頭敬進如姬",
       "transliteration": "yíng wén rú jī fù wéi rén suǒ shā rú jī zī zhī sān nián zì wáng yǐ xià yù qiú bào qí fù chóu mò néng dé gōng zǐ shǐ kè zhǎn qí chóu tóu jìng jìn rú jī",
-      "translation": "Я слышал, что отец Жу Цзи был убит и Жу Цзи три года носила по нему траур. Многие люди, начиная с самого правителя, пытались отомстить за него, но не могли найти убийцу. Вы послали своего гостя, который нашел его и отрубил ему голову, после чего вы почтительно поднесли ее Жу Цзи."
+      "translation": "Ouvi dizer que o pai de Ru Ji foi morto e Ru Ji lamentou por três anos. Muitas pessoas, começando pelo próprio rei, tentaram vingar seu pai, mas não conseguiram encontrar o assassino. O príncipe enviou seu hóspede, que encontrou o assassino e lhe decepou a cabeça, depois a ofereceu respeitosamente a Ru Ji."
     },
     {
       "number": 3,
       "original": "如姬之欲為公子死無所辭顧未有路耳公子從其計請如姬如姬果盜兵符與公子",
       "transliteration": "rú jī zhī yù wéi gōng zǐ sǐ wú suǒ cí gù wèi yǒu lù ěr gōng zǐ cóng qí jì qǐng rú jī rú jī guǒ dào bīng fú yǔ gōng zǐ",
-      "translation": "Поэтому ради вас Жу Цзи готова даже на смерть, она ни в чем не отказала бы вам, но у нее просто не было случая доказать это. Принц последовал его совету. Он попросил Жу Цзи, и та действительно выкрала военный мандат и передала его принцу."
+      "translation": "Por isso, por sua causa Ru Ji estaria disposta até à morte, não recusaria nada, mas simplesmente não tinha oportunidade de provar isso. O príncipe seguiu seu conselho. Pediu a Ru Ji, e ela realmente roubou o mandato militar e o entregou ao príncipe."
     },
     {
       "number": 4,
       "original": "侯生曰將在外主令有所不受公子即合符而晉鄙不授公子兵而復請之事必危矣臣客屠者朱亥可與俱此人力士晉鄙聽大善不聽可使擊之",
       "transliteration": "hóu shēng yuē jiàng zài wài zhǔ lìng yǒu suǒ bù shòu gōng zǐ jí hé fú ér jìn bǐ bù shòu gōng zǐ bīng ér fù qǐng zhī shì bì wēi yǐ chén kè tú zhě zhū hài kě yǔ jù cǐ rén lì shì jìn bǐ tīng dà shàn bù tīng kě shǐ jī zhī",
-      "translation": "Хоу Ин сказал: — Когда полководец находится в армии, он может не подчиниться приказу правителя. Если вы предъявите мандат, а Цзинь Би не отдаст вам армию и дополнительно запросит правителя, дело наверняка будет под угрозой. Мой знакомый мясник Чжу Хай может отправиться вместе с вами. Этот человек — силач. Если Цзинь Би послушает вас, то все будет хорошо. А не послушает — можно приказать Чжу Хаю убить его."
+      "translation": "Hou Ying disse: — Quando um general está no exército, pode não obedecer às ordens do rei. Se o príncipe apresentar o mandato e Jin Bi não entregar o exército e solicitar confirmação adicional ao rei, a situação certamente estará em perigo. Meu amigo açougueiro Zhu Hai pode ir junto. Este homem é um forte. Se Jin Bi obedecer, tudo bem. Se não obedecer, pode ordenar a Zhu Hai que o mate."
     },
     {
       "number": 5,
       "original": "於是公子泣侯生曰公子畏死邪何泣也公子曰晉鄙宿將恐不聽必當殺之是以泣耳豈畏死哉",
       "transliteration": "yú shì gōng zǐ qì hóu shēng yuē gōng zǐ wèi sǐ xié hé qì yě gōng zǐ yuē jìn bǐ sù jiàng kǒng bù tīng bì dāng shā zhī shì yǐ qì ěr qǐ wèi sǐ zāi",
-      "translation": "Услышав это, принц заплакал. — Почему вы плачете? — спросил Хоу Ин. — Боитесь смерти? Принц ответил: — Ох! Цзинь Би, он ведь заслуженный полководец. Я боюсь, что он не послушает меня и тогда придется убить его. Вот почему я заплакал. Разве смерти боюсь я!"
+      "translation": "Ouvindo isso, o príncipe chorou. — Por que o príncipe chora? — perguntou Hou Ying. — Teme a morte? O príncipe respondeu: — Ah! Jin Bi é um general experiente. Temo que ele não obedeça e então tenha que matá-lo. É por isso que chorei. Acaso temo a morte!"
     },
     {
       "number": 6,
       "original": "於是公子請朱亥朱亥曰臣乃市井鼓刀屠者而公子親數存之今公子有急此乃臣效命之秋也",
       "transliteration": "yú shì gōng zǐ qǐng zhū hài zhū hài yuē chén nǎi shì jǐng gǔ dāo tú zhě ér gōng zǐ qīn shù cún zhī jīn gōng zǐ yǒu jí cǐ nǎi chén xiào mìng zhī qiū yě",
-      "translation": "И тогда принц попросил Чжу Хая отправиться вместе с ним. Чжу Хай сказал: — Я — мясник, орудующий ножом на рынке. А вы не раз оказывали мне знаки внимания. Сейчас вы идете на риск. Это — час, когда я должен отплатить вам за добро."
+      "translation": "E então o príncipe pediu a Zhu Hai que fosse junto. Zhu Hai disse: — Sou um açougueiro que maneja faca no mercado. Mas o príncipe várias vezes me honrou com sua atenção. Agora o príncipe enfrenta perigo. Esta é a hora em que devo retribuir o bem recebido."
     },
     {
       "number": 7,
       "original": "公子遂行至鄴矯魏王令代晉鄙晉鄙合符疑之欲無聽朱亥袖四十斤鐵椎椎殺晉鄙",
       "transliteration": "gōng zǐ suì xíng zhì yè jiǎo wèi wáng lìng dài jìn bǐ jìn bǐ hé fú yí zhī yù wú tīng zhū hài xiù sì shí jīn tiě chuí chuí shā jìn bǐ",
-      "translation": "Принц отправился в путь. Прибыв в Е, он передал Цзинь Би фальшивый приказ вана о том, что должен заменить его. Цзинь Би совместил обе части мандата, но им овладели сомнения, и он был уже готов не подчиниться приказу. У Чжу Хая в рукаве был спрятан железный молот весом в 40 цзиней. Этим молотом он убил Цзинь Би."
+      "translation": "O príncipe partiu. Ao chegar a Ye, apresentou ao general Jin Bi um falso decreto do rei ordenando que o substituísse. Jin Bi juntou as duas partes do mandato, mas foi dominado por suspeitas e já se preparava para não obedecer. Zhu Hai tinha escondido na manga um martelo de ferro pesando 40 jin. Com este martelo matou Jin Bi."
     },
     {
       "number": 8,
       "original": "公子遂將晉鄙軍進兵擊秦軍秦軍解去遂救邯鄲存趙",
       "transliteration": "gōng zǐ suì jiāng jìn bǐ jūn jìn bīng jī qín jūn qín jūn jiě qù suì jiù hán dān cún zhào",
-      "translation": "После этого принц принял командование армией Цзинь Би и повел ее против циньского войска. Армия Цинь сняла осаду с Ханьданя и ретировалась, тем самым сохранив Чжао в целости."
+      "translation": "Após isso, o príncipe assumiu o comando do exército de Jin Bi e liderou-o contra o exército Qin. O exército Qin levantou o cerco de Handan e retirou-se, salvando assim Zhao."
     }
   ]
 }

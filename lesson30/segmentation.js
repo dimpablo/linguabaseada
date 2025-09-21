@@ -6,55 +6,55 @@ var SentenceData = {
       "number": 1,
       "original": "萋兮斐兮成是貝錦彼譖人者亦已大甚",
       "transliteration": "qī xī fěi xī chéng shì bèi jǐn bǐ zèn rén zhě yì yǐ dà shèn",
-      "translation": "Причудливо вьется прекрасный узор — ракушками тканная выйдет парча. Смотрю я на вас, мастера клеветы! Давно превзошли вы искусство ткача."
+      "translation": "Ornamental e intricado é o padrão - tecido com conchas formará um brocado. Olho para vocês, mestres da calúnia! Há muito tempo superaram a arte do tecelão."
     },
     {
       "number": 2,
       "original": "哆兮侈兮成是南箕彼譖人者誰適與謀",
       "transliteration": "chǐ xī chǐ xī chéng shì nán jī bǐ zèn rén zhě shuí shì yǔ móu",
-      "translation": "Созвездие Сита на юге блестит, язык растянув, непомерно для глаз. Смотрю я на вас, мастера клеветы, кто главный теперь на совете у вас?"
+      "translation": "A constelação do Cesto brilha no sul, língua esticada, desmedida aos olhos. Olho para vocês, mestres da calúnia, quem é o principal no conselho agora?"
     },
     {
       "number": 3,
       "original": "緝緝翩翩謀欲譖人慎爾言也謂爾不信",
       "transliteration": "jī jī piān piān móu yù zèn rén shèn ěr yán yě wèi ěr bù xìn",
-      "translation": "Стрекочете вы, там и тут егозя, кого б оболгать, только ищете вы. В словах осторожнее будьте, увы! Уже говорят, что вам верить нельзя."
+      "translation": "Tagarelam vocês, aqui e ali ativos, buscando a quem difamar. Sejam mais cautelosos nas palavras, ai de nós! Já dizem que não se pode confiar em vocês."
     },
     {
       "number": 4,
       "original": "捷捷幡幡謀欲譖言豈不爾受既其女遷",
       "transliteration": "jié jié fān fān móu yù zèn yán qǐ bù ěr shòu jì qí nǚ qiān",
-      "translation": "Двуличный пронырлив — и тут он, и там, дать волю он думает лживым словам. Смотрите же: то, что не примут от вас, с бедою назад не вернулось бы к вам!"
+      "translation": "Astuto e falso - aqui e ali aparece, querendo dar vazão a palavras mentirosas. Vejam bem: o que não é aceito de vocês, com desgraça não voltaria para vocês!"
     },
     {
       "number": 5,
       "original": "驕人好好勞人草草蒼天蒼天視彼驕人",
       "transliteration": "jiāo rén hǎo hǎo láo rén cǎo cǎo cāng tiān cāng tiān shì bǐ jiāo rén",
-      "translation": "Спесивый и гордый доволен и рад, трудом изнуренный — печалью объят. О синее, синее небо вдали, взгляни на спесивых и гордых земли. Трудом изнуренных печаль утоли!"
+      "translation": "O orgulhoso e arrogante está satisfeito e contente, o trabalhador exausto - consumido pela tristeza. Ó céu azul, céu azul, olhe para os orgulhosos e arrogantes da terra. Alivie a tristeza dos trabalhadores exaustos!"
     },
     {
       "number": 6,
       "original": "彼譖人者取彼譖人投畀豺虎豺虎不食投畀有北有北不受投畀有昊",
       "transliteration": "bǐ zèn rén zhě qǔ bǐ zèn rén tóu bì chái hǔ chái hǔ bù shí tóu bì yǒu běi yǒu běi bù shòu tóu bì yǒu hào",
-      "translation": "О ты, клеветы зачинатель и лжи, кто главный у вас на совете, скажи? Лжецов клеветавших схватил бы я сам и бросил бы тиграм их всех и волкам; коль тигры б и волки их жрать не смогли, на север их кинул бы к краю земли; коль в мрачные север не примет края, к великому небу их кинул бы я!"
+      "translation": "Ó tu, iniciador da calúnia e da mentira, quem é o principal no vosso conselho, dizei? Os caluniadores que capturei eu mesmo jogaria aos tigres e lobos; se tigres e lobos não puderam devorá-los, lançaria ao norte, aos confins da terra; se o sombrio norte não aceitar seus limites, ao grande céu os lançaria eu!"
     },
     {
       "number": 7,
       "original": "謀欲譖人猗於畝丘寺人孟子作為此詩凡百君子敬而聽之",
       "transliteration": "móu yù zèn rén yī yú mǔ qiū sì rén mèng zǐ zuò wéi cǐ shī fán bǎi jūn zǐ jìng ér tīng zhī",
-      "translation": "Дорожка от сада в ветвях тополей, и к холму ведет, что меж хлебных полей! Лишь евнух я, Мэн-цзы, в покоях дворца; я эту правдивую песню сложил. Прошу вас, прослушав ее до конца, размыслить над ней, благородства мужи!"
+      "translation": "Um caminho do jardim entre ramos de álamos, e conduz à colina entre campos de cereais! Sou apenas um eunuco, Meng Zi, nos aposentos do palácio; compus esta canção verdadeira. Peço-vos, após ouvi-la até o fim, refletir sobre ela, ó homens nobres!"
     },
     {
       "number": 8,
       "original": "彼黍離離彼稷之苗行邁靡靡中心揺揺知我者謂我心憂不知我者謂我何求悠悠蒼天此何人哉",
       "transliteration": "bǐ shǔ lí lí bǐ jì zhī miáo xíng mài mǐ mǐ zhōng xīn yáo yáo zhī wǒ zhě wèi wǒ xīn yōu bù zhī wǒ zhě wèi wǒ hé qiú yōu yōu cāng tiān cǐ hé rén zāi",
-      "translation": "Там просо склонилось теперь к бороздам, там всходы взошли ячменя... И медленно я прохожу по полям, в смятении дух у меня. И всякий, кто знает меня, говорит, что скорбь в моем сердце и страх. А тот, кто не знает меня, говорит: «Что ищет он в этих полях?» О неба лазурная даль в вышине, кто пыль запустенья разнес по стране?"
+      "translation": "Lá o milho se inclina agora sulcando, lá os brotos de cevada cresceram... E lentamente eu passo pelos campos, meu espírito em confusão. Quem me conhece diz que há tristeza em meu coração e medo. Quem não me conhece diz: «O que ele busca nestes campos?» Ó céu azul distante nas alturas, quem espalhou o pó do abandono por toda a terra?"
     },
     {
       "number": 9,
       "original": "彼黍離離彼稷之穗行邁靡靡中心如醉知我者謂我心憂不知我者謂我何求悠悠蒼天此何人哉",
       "transliteration": "bǐ shǔ lí lí bǐ jì zhī suì xíng mài mǐ mǐ zhōng xīn rú zuì zhī wǒ zhě wèi wǒ xīn yōu bù zhī wǒ zhě wèi wǒ hé qiú yōu yōu cāng tiān cǐ hé rén zāi",
-      "translation": "Там просо склонилось теперь к бороздам, ячмень колосится давно... И медленно я прохожу по полям, и сердце смятеньем полно. И всякий, кто знает меня, говорит, что скорбь в моем сердце и страх. А тот, кто не знает меня, говорит: «Что ищет он в этих полях?» О неба лазурная даль в вышине, кто пыль запустенья разнес по стране?"
+      "translation": "Lá o milho se inclina agora sulcando, a cevada já espigou há tempo... E lentamente eu passo pelos campos, e o coração está cheio de perturbação. Quem me conhece diz que há tristeza em meu coração e medo. Quem não me conhece diz: «O que ele busca nestes campos?» Ó céu azul distante nas alturas, quem espalhou o pó do abandono por toda a terra?"
     }
   ]
 }

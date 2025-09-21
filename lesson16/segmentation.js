@@ -6,139 +6,139 @@ var SentenceData = {
       "number": 1,
       "original": "王南征",
       "transliteration": "wáng nán zhēng",
-      "translation": "Правитель совершил поход на юг."
+      "translation": "O rei realizou uma expedição para o sul."
     },
     {
       "number": 2,
       "original": "唯還自征",
       "transliteration": "wéi huán zì zhēng",
-      "translation": "Возвращаясь из похода,"
+      "translation": "Ao retornar da expedição,"
     },
     {
       "number": 3,
       "original": "在坏",
       "transliteration": "zài pèi",
-      "translation": "остановился в Пэй."
+      "translation": "parou em Pei."
     },
     {
       "number": 4,
       "original": "鄂侯馭方納醴于王",
       "transliteration": "è hóu yù fāng nà lǐ yú wáng",
-      "translation": "После того как Э-хоу Юй-фан поднес правителю сладкое вино,"
+      "translation": "Depois que o Marquês E Yu-fang ofereceu vinho doce ao rei,"
     },
     {
       "number": 5,
       "original": "乃祼之",
       "transliteration": "nǎi guàn zhī",
-      "translation": "его распили."
+      "translation": "o despejaram."
     },
     {
       "number": 6,
       "original": "馭方侑王",
       "transliteration": "yù fāng yòu wáng",
-      "translation": "Юй-фан угощал правителя."
+      "translation": "Yu-fang serviu o rei."
     },
     {
       "number": 7,
       "original": "王休宴",
       "transliteration": "wáng xiū yàn",
-      "translation": "Правитель устроил пир."
+      "translation": "O rei organizou um banquete."
     },
     {
       "number": 8,
       "original": "乃射馭方",
       "transliteration": "nǎi shè yù fāng",
-      "translation": "После этого стреляли из лука. Юй-фан стрелял."
+      "translation": "Depois disso, atiraram com arco. Yu-fang atirou."
     },
     {
       "number": 9,
       "original": "會王射",
       "transliteration": "huì wáng shè",
-      "translation": "Он стрелял вместе с правителем."
+      "translation": "Ele atirou junto com o rei."
     },
     {
       "number": 10,
       "original": "咸飲",
       "transliteration": "xián yǐn",
-      "translation": "Все пили вино."
+      "translation": "Todos beberam vinho."
     },
     {
       "number": 11,
       "original": "王親賜馭方玉五瑴馬五匹矢五束",
       "transliteration": "wáng qīn cì yù fāng yù wǔ jué mǎ wǔ pǐ shǐ wǔ shù",
-      "translation": "Правитель лично одарил Юй-фана пятью украшениями из нефрита, пятью лошадьми, пятью пучками стрел."
+      "translation": "O rei pessoalmente presenteou Yu-fang com cinco ornamentos de jade, cinco cavalos e cinco punhados de flechas."
     },
     {
       "number": 12,
       "original": "馭方拜手稽首",
       "transliteration": "yù fāng bài shǒu qǐ shǒu",
-      "translation": "Юй-фан почтительно сложил руки и поклонился до земли,"
+      "translation": "Yu-fang reverentemente juntou as mãos e se prostrou até o chão,"
     },
     {
       "number": 13,
       "original": "敢對揚天子丕顯休",
       "transliteration": "gǎn duì yáng tiān zǐ pī xiǎn xiū",
-      "translation": "осмелившись отблагодарить правителя за великолепный подарок."
+      "translation": "ousando agradecer ao rei pelo magnífico presente."
     },
     {
       "number": 14,
       "original": "贅用作尊鼎",
       "transliteration": "zhuì yòng zuò zūn dǐng",
-      "translation": "По этому случаю был сделан жертвенный сосуд."
+      "translation": "Por esta ocasião, foi feito um vaso sacrificial."
     },
     {
       "number": 15,
       "original": "其萬年子孫永寶用",
       "transliteration": "qí wàn nián zǐ sūn yǒng bǎo yòng",
-      "translation": "Юй-фан на протяжении десяти тысяч лет, в течение жизни детей и внуков, будет пользоваться им как драгоценностью."
+      "translation": "Yu-fang, por dez mil anos, durante a vida dos filhos e netos, o usará como tesouro."
     },
     {
       "number": 16,
       "original": "唯王二十又三年九月",
       "transliteration": "wéi wáng èr shí yòu sān nián jiǔ yuè",
-      "translation": "В двадцать третьем году правления вана, в девятом месяце,"
+      "translation": "No vigésimo terceiro ano do reinado do rei, no nono mês,"
     },
     {
       "number": 17,
       "original": "王在宗周",
       "transliteration": "wáng zài zōng zhōu",
-      "translation": "ван находился в Цзунчжоу."
+      "translation": "o rei estava em Zongzhou."
     },
     {
       "number": 18,
       "original": "王命膳夫克舍令于成周",
       "transliteration": "wáng mìng shàn fū kè shě lìng yú chéng zhōu",
-      "translation": "Ван приказал стряпчему Кэ отдать приказ в Чэнчжоу."
+      "translation": "O rei ordenou ao cozinheiro Ke que desse um decreto em Chengzhou."
     },
     {
       "number": 19,
       "original": "遹正八師之年",
       "transliteration": "yù zhēng bā shī zhī nián",
-      "translation": "В год, когда он отправился и сформировал восемь армий,"
+      "translation": "No ano em que partiu e formou oito exércitos,"
     },
     {
       "number": 20,
       "original": "克作朕皇祖釐季寶宗彝",
       "transliteration": "kè zuò zhèn huáng zǔ lí jì bǎo zōng yí",
-      "translation": "я, Кэ, сделал драгоценный ритуальный сосуд в честь моего великого предка Ли-цзи."
+      "translation": "eu, Ke, fiz um vaso ritual precioso em homenagem ao meu grande ancestral Li-ji."
     },
     {
       "number": 21,
       "original": "克其日用䵼朕辟魯休",
       "transliteration": "kè qí rì yòng tān zhèn bì lǔ xiū",
-      "translation": "Я, Кэ, буду ежедневно использовать его для того, чтобы молить о щедрой милости моего господина,"
+      "translation": "Eu, Ke, usarei diariamente para orar pela generosa graça do meu senhor,"
     },
     {
       "number": 22,
       "original": "用匄康樂純佑眉壽永命靈終",
       "transliteration": "yòng gài kāng lè chún yòu méi shòu yǒng mìng líng zhōng",
-      "translation": "просить о ниспослании благополучия и радости, искренней помощи, о том, чтобы достичь долголетия и умереть своей смертью,"
+      "translation": "pedir o envio de prosperidade e alegria, ajuda sincera, alcançar longevidade e morrer sua própria morte,"
     },
     {
       "number": 23,
       "original": "萬年無疆",
       "transliteration": "wàn nián wú jiāng",
-      "translation": "о том, чтобы на протяжении десяти тысяч лет не было конца продолжению рода."
+      "translation": "para que por dez mil anos não haja fim à continuidade da linhagem."
     }
   ]
 }

@@ -1,106 +1,105 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="../../tasks.css">
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-  <title>Какие предложения — безличные?</title>
+<link rel="stylesheet" href="../../tasks.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+<title>Quais frases são impessoais?</title>
 </head>
 <body>
 
-  <h2>Какие предложения — безличные?</h2>
-  <p class="instruction">Выберите предложения без подлежащего — действия происходят сами (погода, судьба и т.п.)</p>
+<h2>Quais frases são impessoais?</h2>
+<p class="instruction">Selecione frases sem sujeito — as ações acontecem automaticamente (clima, destino, etc.)</p>
 
-  <div id="options-container">
-    <!-- Варианты будут добавлены динамически -->
-  </div>
+<div id="options-container">
+<!-- As opções serão adicionadas dinamicamente -->
+</div>
 
-  <button onclick="check()">Проверить</button>
-  <p id="result"></p>
+<button onclick="check()">Verificar</button>
+<p id="result"></p>
 
-  <script>
-    const items = [
-      { id: "yu", text: "雨", isImpersonal: true },
-      { id: "qi-yu", text: "其雨", isImpersonal: true },
-      { id: "wang-zhan-yue", text: "王占曰", isImpersonal: false },
-      { id: "bu-yu", text: "不雨", isImpersonal: true },
-      { id: "yun-yu", text: "允雨", isImpersonal: true }
-    ];
+<script>
+const items = [
+{ id: "yu", texto: "雨", éImpessoal: true },
+{ id: "qi-yu", texto: "其雨", éImpessoal: true },
+{ id: "wang-zhan-yue", texto: "王占曰", éImpessoal: false },
+{ id: "bu-yu", texto: "不雨", éImpessoal: true },
+{ id: "yun-yu", texto: "允雨", éImpessoal: true }
+];
 
-    function shuffleArray(array) {
-      const arr = [...array];
-      for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
-      }
-      return arr;
-    }
+function shuffleArray(matriz) {
+const arr = [...matriz];
+for (seja i = arr.length - 1; i > 0; i--) {
+const j = Math.floor(Math.random() * (i + 1));
+[arr[i], arr[j]] = [arr[j], arr[i]];
+}
+return arr;
+}
 
-    const userSelections = {};
+const userSelections = {};
 
-    function renderOptions() {
-      const container = document.getElementById("options-container");
-      container.innerHTML = "";
+function renderOptions() {
+const container = document.getElementById("options-container");
+container.innerHTML = "";
 
-      const shuffled = shuffleArray(items);
+const shuffled = shuffleArray(itens);
 
-      shuffled.forEach(item => {
-        const label = document.createElement("label");
-        label.className = "option";
-        label.dataset.id = item.id;
+embaralhado.paraCada(item => {
+const rótulo = document.createElement("rótulo");
+rótulo.className = "opção";
+rótulo.dataset.id = item.id;
 
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.id = `chk-${item.id}`;
-        checkbox.checked = false;
+const caixa de seleção = document.createElement("entrada");
+caixa de seleção.tipo = "caixa de seleção";
+caixa de seleção.id = `chk-${item.id}`;
+caixa de seleção.marcado = false;
 
-        checkbox.onchange = () => {
-          userSelections[item.id] = checkbox.checked;
-          label.classList.toggle("checked", checkbox.checked);
-        };
+caixa de seleção.onchange = () => {
+SeleçõesUsuário[item.id] = caixa de seleção.marcado;
+rótulo.classList.alternar("marcado", caixa de seleção.marcado);
+};
 
-        const textNode = document.createTextNode(item.text);
+const NóDeTexto = document.createTextNode(item.texto);
 
-        label.appendChild(checkbox);
-        label.appendChild(textNode);
-        container.appendChild(label);
+rótulo.appendChild(caixa de seleção);
+rótulo.appendChild(NóDeTexto);
+contêiner.appendChild(rótulo);
 
-        userSelections[item.id] = false;
-      });
-    }
+SeleçõesUsuário[item.id] = false;
+});
+}
 
-    function check() {
-      const resultEl = document.getElementById("result");
-      resultEl.className = "";
+function check() {
+const resultEl = document.getElementById("result");
+resultEl.className = "";
 
-      const allCorrect = items.every(item => {
-        const expected = item.isImpersonal;
-        const actual = !!userSelections[item.id];
-        return expected === actual;
-      });
+const allCorrect = items.every(item => {
+const expected = item.isImpersonal;
+const actual = !!userSelections[item.id];
+return expected === actual;
+});
 
-      if (allCorrect) {
-        resultEl.textContent = "✅ Верно!";
-        resultEl.className = "success";
-        sendResult(true);
-      } else {
-        resultEl.textContent = "❌ Меньше дождя — не значит не безличное.";
-        resultEl.className = "error";
-        sendResult(false, "Ошибка в определении безличных предложений");
-      }
-    }
+if (allCorrect) {
+resultEl.textContent = "✅ Correto!";
+resultEl.className = "sucesso";
+sendResult(true);
+} else {
+resultEl.textContent = "❌ Menos chuva não significa menos impessoal.";
+resultEl.className = "error";
+sendResult(false, "Erro na detecção de frases impessoais");
+}
+}
 
-    function sendResult(success, message) {
-      window.parent.postMessage({
-        type: "TASK_RESULT",
-        success,
-        message: message || (success ? "Верно определены безличные формы" : "Ошибка в определении безличности")
-      }, "*");
-    }
+function sendResult(sucesso, mensagem) {
+window.parent.postMessage({
+type: "TASK_RESULT",
+sucesso,
+mensagem: mensagem || (sucesso? "Formulários impessoais definidos corretamente": "Erro ao definir impessoalidade")
+}, "*");
+}
 
-    renderOptions();
-    window.parent.postMessage({ type: "TASK_EXISTS", valid: true }, "*");
-  </script>
+renderOptions();
+window.parent.postMessage({ type: "TASK_EXISTS", válido: verdadeiro }, "*");
+</script>
 </body>
 </html>
-

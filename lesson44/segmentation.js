@@ -6,49 +6,49 @@ var SentenceData = {
       "number": 1,
       "original": "白起小豎子耳率數萬之眾興師以與楚戰一戰而舉鄢郢再戰而燒夷陵三戰而辱王之先人此百世之怨而趙之所羞而王弗知惡焉",
       "transliteration": "bái qǐ xiǎo shù zǐ ěr shuài shù wàn zhī zhòng xīng shī yǐ yǔ chǔ zhàn yī zhàn ér jǔ yān yǐng zài zhàn ér shāo yí lín sān zhàn ér rǔ wáng zhī xiān rén cǐ bǎi shì zhī yuàn ér zhào zhī suǒ xiū ér wáng fú zhī è yān",
-      "translation": "— Бай Ци — просто мальчишка! — продолжал Мао Суй. — Но он собрал армию в несколько сотен тысяч человек и повел ее в поход на Чу. После первого же сражения он захватил Яньин, после второго — сжег Илин, после третьего — надругался над вашими предками. Это — обида, которая не будет забыта и через сто поколений, и даже Чжао стыдится этого, а вы, правитель, не видите в этом ничего особенного."
+      "translation": "— Bai Qi é apenas uma criança! — continuou Mao Sui. — Mas ele reuniu um exército de vários centenas de milhares e liderou-o contra Chu. Após a primeira batalha capturou Yan Ying, após a segunda queimou Yi Ling, após a terceira humilhou seus antepassados. Esta é uma humilhação que não será esquecida por cem gerações, e até Zhao se envergonha disso, mas Vossa Majestade não vê nada de especial nisso."
     },
     {
       "number": 2,
       "original": "合縱者為楚非為趙也吾君在前叱者何也",
       "transliteration": "hé zòng zhě wéi chǔ fēi wéi zhào yě wú jūn zài qián chì zhě hé yě",
-      "translation": "«Вертикальный союз» нужен Чу, а не Чжао! К тому же мой господин перед вами, как же вы смеете кричать на меня?"
+      "translation": "«A aliança vertical» é necessária para Chu, e não para Zhao! Além disso, meu senhor está diante de Vossa Majestade, como ousa gritar comigo?"
     },
     {
       "number": 3,
       "original": "楚王曰唯唯誠若先生之言謹奉社稷而以縱",
       "transliteration": "chǔ wáng yuē wéi wéi chéng ruò xiān shēng zhī yán jǐn fèng shè jì ér yǐ zòng",
-      "translation": "— Да, да, все обстоит именно так, как говорит учитель, — сказал чуский ван, — я почтительно поведу свое государство и присоединюсь к «вертикальному союзу»."
+      "translation": "— Sim, sim, tudo está exatamente como o mestre diz, — disse o rei de Chu, — conduzirei respeitosamente meu estado e me juntarei à «aliança vertical»."
     },
     {
       "number": 4,
       "original": "毛遂曰縱定乎楚王曰定矣",
       "transliteration": "máo suì yuē zòng dìng hū chǔ wáng yuē dìng yǐ",
-      "translation": "— Так союз заключен? — спросил Мао Суй. — Заключен! — отвечал чуский ван."
+      "translation": "— Então a aliança está concluída? — perguntou Mao Sui. — Está concluída! — respondeu o rei de Chu."
     },
     {
       "number": 5,
       "original": "毛遂謂楚王之左右曰取雞狗馬之血來毛遂奉銅盤而跪進之楚王曰王當歃血而定縱次者吾君次者遂",
       "transliteration": "máo suì wèi chǔ wáng zhī zuǒ yòu yuē qǔ jī gǒu mǎ zhī xuè lái máo suì fèng tóng pán ér guì jìn zhī chǔ wáng yuē wáng dāng shà xuè ér dìng zòng cì zhě wú jūn cì zhě suì",
-      "translation": "Мао Суй велел приближенным чуского вана: — Принесите крови курицы, собаки и лошади! Мао Суй, держа двумя руками бронзовый сосуд, встал на колени и подал его чускому вану со словами: — Вы, правитель, должны помазать губы жертвенной кровью и тем подтвердить верность союзу. После вас это сделает мой господин, а затем уже и я."
+      "translation": "Mao Sui ordenou aos auxiliares do rei de Chu: — Tragam sangue de galinha, cachorro e cavalo! Mao Sui, segurando o vaso de bronze com ambas as mãos, ajoelhou-se e o ofereceu ao rei de Chu dizendo: — Vossa Majestade deve ungir os lábios com o sangue sacrificial e confirmar a lealdade à aliança. Após Vossa Majestade, meu senhor o fará, e então eu."
     },
     {
       "number": 6,
       "original": "遂定縱於殿上毛遂左手持盤血而右手招十九人曰公相與歃此血於堂下公等錄錄所謂因人成事者也",
       "transliteration": "suì dìng zòng yú diàn shàng máo suì zuǒ shǒu chí pán xuè ér yòu shǒu zhāo shí jiǔ rén yuē gōng xiāng yǔ shà cǐ xuè yú táng xià gōng děng lù lù suǒ wèi yīn rén chéng shì zhě yě",
-      "translation": "Так во дворце был заключен «вертикальный союз». Левой рукой Мао Суй взял сосуд с кровью, а правой поманил девятнадцать человек, говоря: — Помажьте-ка и вы все губы этой кровью у входа во дворец! От вас ведь не было никакой пользы, вы, что называется, загребаете жар чужими руками!"
+      "translation": "Assim foi concluída a «aliança vertical» no palácio. Com a mão esquerda Mao Sui segurou o vaso com sangue, e com a direita chamou os dezenove homens, dizendo: — Ungi também os lábios com este sangue à entrada do palácio! De vocês não houve nenhuma utilidade, vocês que se aproveitam do calor das mãos alheias!"
     },
     {
       "number": 7,
       "original": "平原君已定縱而歸歸至於趙曰勝不敢復相士勝相士多者千人寡者百數自以為不失天下之士今乃於毛先生而失之也",
       "transliteration": "píng yuán jūn yǐ dìng zòng ér guī guī zhì yú zhào yuē shèng bù gǎn fù xiàng shì shèng xiàng shì duō zhě qiān rén guǎ zhě bǎi shù zì yǐ wéi bù shī tiān xià zhī shì jīn nǎi yú máo xiān shēng ér shī zhī yě",
-      "translation": "Пинъюань-цзюнь заключил союз и поехал обратно. Вернувшись в Чжао, он сказал: — Больше я никогда не осмелюсь определять достоинства людей по их внешнему виду. Передо мной прошло от нескольких сотен до тысячи человек, и я полагал, что я не пропустил ни одного достойного мужа Поднебесной. И вот на сей раз я не распознал учителя Мао!"
+      "translation": "Pingyuan Jun concluiu a aliança e retornou. Ao chegar a Zhao, disse: — Nunca mais ousarei julgar as qualidades das pessoas pela aparência. Diante de mim passaram de várias centenas a mil pessoas, e pensava que não tinha perdido nenhum homem virtuoso do Reino Celestial. E agora descobri que não reconheci o Mestre Mao!"
     },
     {
       "number": 8,
       "original": "毛先生一至楚而使趙重於九鼎大呂毛先生以三寸之舌強於百萬之師勝不敢復相士",
       "transliteration": "máo xiān shēng yī zhì chǔ ér shǐ zhào zhòng yú jiǔ dǐng dà lǚ máo xiān shēng yǐ sān cùn zhī shé qiáng yú bǎi wàn zhī shī shèng bù gǎn fù xiàng shì",
-      "translation": "Как только учитель Мао прибыл в Чу, авторитет царства Чжао стал выше, чем если бы оно имело девять треножников и большие колокола. Своим трехвершковым языком учитель Мао сделал больше, чем миллионная армия. Больше я никогда не осмелюсь определять достоинства людей по их внешнему виду!"
+      "translation": "Assim que o Mestre Mao chegou a Chu, o prestígio do reino de Zhao tornou-se maior do que se tivesse os nove tripés e os grandes sinos. Com sua língua de três versos, o Mestre Mao fez mais do que um exército de um milhão. Nunca mais ousarei julgar as qualidades das pessoas pela aparência!"
     }
   ]
 }
