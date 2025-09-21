@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru">
-<!-- Favicon: используем только .ico — он покрывает все размеры -->
+<html lang="pt-BR">
+<!-- Favicon: usamos apenas .ico — ele cobre todos os tamanhos -->
 <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon.png"> <!-- если favicon.png — это 32x32 -->
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon.png"> <!-- se favicon.png é 32x32 -->
 
-<!-- Apple Touch Icons -->
+<!-- Ícones para dispositivos Apple -->
 <link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-touch-icon-57x57.png">
 <link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-touch-icon-60x60.png">
 <link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-touch-icon-72x72.png">
@@ -18,7 +18,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon-180x180.png">
 <link rel="apple-touch-icon" sizes="1024x1024" href="/favicon/apple-touch-icon-1024x1024.png">
 
-<!-- Android Chrome Icons -->
+<!-- Ícones para Chrome Android -->
 <link rel="icon" type="image/png" sizes="96x96" href="/favicon/android-chrome-96x96.png">
 <link rel="icon" type="image/png" sizes="144x144" href="/favicon/android-chrome-144x144.png">
 <link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png">
@@ -26,21 +26,21 @@
 <link rel="icon" type="image/png" sizes="384x384" href="/favicon/android-chrome-384x384.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png">
 
-<!-- Maskable Icons (Adaptive Icons для Android) -->
+<!-- Ícones Maskable (Ícones Adaptativos para Android) -->
 <link rel="icon" type="image/png" sizes="192x192" href="/favicon/maskable-icon-192x192-masked.png">
 <link rel="icon" type="image/png" sizes="512x512" href="/favicon/maskable-icon-512x512-masked.png">
 
-<!-- Web App Manifest -->
+<!-- Manifesto do Web App -->
 <link rel="manifest" href="/favicon/site.webmanifest">
 
-<!-- Для IE11 / Edge -->
+<!-- Para IE11 / Edge -->
 <meta name="msapplication-config" content="/favicon/browserconfig.xml">
 
-<!-- Основной цвет интерфейса (например, при установке PWA) -->
+<!-- Cor principal da interface (ex: ao instalar PWA) -->
 <meta name="theme-color" content="#4CAF50">
 <head>
     <meta charset="UTF-8">
-    <title>Китайские иероглифы по урокам</title>
+    <title>Caracteres chineses por lição</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -135,7 +135,7 @@
             color: #555;
         }
 
-        /* Modal styles */
+        /* Estilos do modal */
         .modal {
             display: none;
             position: fixed;
@@ -192,7 +192,7 @@
             color: #2c3e50;
         }
 
-        /* Скрытые заглушки для будущего функционала */
+        /* Placeholders ocultos para funcionalidade futura */
         #theory-loading-bar,
         #theory-tabbed-box {
             display: none;
@@ -200,45 +200,45 @@
     </style>
 </head>
 <body>
-    <h1>Словарь иероглифов по урокам</h1>
+    <h1>Dicionário de caracteres por lição</h1>
 
-    <!-- Search Box -->
+    <!-- Caixa de busca -->
     <div class="search-container">
-        <input type="text" id="search-input" placeholder="Поиск по иероглифу, пиньиню или значению...">
+        <input type="text" id="search-input" placeholder="Buscar por caractere, pinyin ou significado...">
     </div>
-    <div id="no-results" class="no-results">Ничего не найдено</div>
+    <div id="no-results" class="no-results">Nada encontrado</div>
 
-    <!-- Progress Bar загрузки карточек -->
+    <!-- Barra de progresso do carregamento dos cartões -->
     <div class="progress-container">
         <div id="progress-bar"></div>
     </div>
 
-    <!-- Контейнер для результатов поиска -->
+    <!-- Container para resultados da busca -->
     <div id="search-results" class="lesson" style="display: none;">
-        <h2>Результаты поиска</h2>
+        <h2>Resultados da busca</h2>
         <div class="card-container"></div>
     </div>
 
-    <!-- Основной контейнер для уроков -->
+    <!-- Container principal para as lições -->
     <div id="lessons-container"></div>
 
-    <!-- Модальное окно для деталей иероглифа -->
+    <!-- Modal para detalhes do caractere -->
     <div id="char-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="close-modal">&times;</span>
             <div class="modal-char" id="modal-char"></div>
             <div class="modal-info">
-                <p><strong>Пиньинь:</strong> <span id="modal-pinyin"></span></p>
-                <p><strong>Значение:</strong> <span id="modal-meaning"></span></p>
-                <p><strong>Встречается в уроках:</strong></p>
+                <p><strong>Pinyin:</strong> <span id="modal-pinyin"></span></p>
+                <p><strong>Significado:</strong> <span id="modal-meaning"></span></p>
+                <p><strong>Aparece nas lições:</strong></p>
                 <ul class="lesson-list" id="modal-lessons"></ul>
             </div>
         </div>
     </div>
 
-    <!-- ЗАГЛУШКИ — скрыты, для будущего использования -->
+    <!-- PLACEHOLDERS — ocultos, para uso futuro -->
     <div id="theory-loading-bar" style="display:none;">
-        🔍 Поиск данных... (0/60)
+        🔍 Buscando dados... (0/60)
     </div>
 
     <div id="theory-tabbed-box" style="display:none;">
@@ -251,7 +251,7 @@
         </div>
     </div>
 
-    <!-- Подключаем словарь -->
+    <!-- Conectamos o dicionário -->
     <script src="dictionary.js"></script>
 
 <script>
@@ -265,12 +265,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const modalMeaning = document.getElementById('modal-meaning');
     const modalLessons = document.getElementById('modal-lessons');
 
-    // Функция удаления диакритик
+    // Função para remover diacríticos
     function removeDiacritics(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
     }
 
-    // Индекс: иероглиф → массив уроков
+    // Índice: caractere → array de lições
     const charIndex = {};
     for (const char in charData) {
         const lessonNum = charData[char].lesson;
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
         charIndex[char].push(lessonNum);
     }
 
-    // Группируем по урокам
+    // Agrupamos por lições
     const lessons = {};
     for (const char in charData) {
         const lessonNum = charData[char].lesson;
@@ -306,26 +306,26 @@ document.addEventListener('DOMContentLoaded', function() {
         progressBar.style.width = percent + '%';
     }
 
-    // --- ОСНОВНОЕ ИЗМЕНЕНИЕ: showTheoryModal теперь знает про .theory ---
+    // --- ALTERAÇÃO PRINCIPAL: showTheoryModal agora conhece .theory ---
 function showTheoryModal(hanzi) {
     const data = charData[hanzi];
     modalChar.textContent = hanzi;
     modalPinyin.textContent = data?.pinyin || '—';
     modalMeaning.textContent = data?.meaning || '—';
 
-    // Очищаем
+    // Limpa
     modalLessons.innerHTML = '';
 
-    // --- Создаём вкладки ---
+    // --- Criamos abas ---
     const tabHeader = document.createElement('div');
     tabHeader.style.cssText = 'display:flex;margin-bottom:15px;border-bottom:1px solid #ddd';
 
     const tabTheory = document.createElement('div');
-    tabTheory.textContent = '📌 Теория';
+    tabTheory.textContent = '📌 Teoria';
     tabTheory.style.cssText = 'padding:8px 16px;cursor:pointer;font-weight:bold;color:#7c6b96;background:white;border:1px solid #ddd;border-bottom:none;border-radius:6px 6px 0 0;margin-left:10px;z-index:2;';
 
     const tabInput = document.createElement('div');
-    tabInput.textContent = '✍️ Рукописный ввод';
+    tabInput.textContent = '✍️ Entrada manuscrita';
     tabInput.style.cssText = 'padding:8px 16px;cursor:pointer;color:#666;background:#f8f6fb;border:1px solid #ddd;border-bottom:none;border-radius:6px 6px 0 0;margin-left:4px;';
 
     tabHeader.append(tabTheory, tabInput);
@@ -334,9 +334,9 @@ function showTheoryModal(hanzi) {
     const theoryPane = document.createElement('div');
     const inputPane = document.createElement('div');
 
-    // --- Вкладка "Теория" ---
+    // --- Aba "Teoria" ---
     if (!data.theory || data.theory.length === 0) {
-        theoryPane.innerHTML = '<p style="color:#999;font-size:13px;">Нет данных.</p>';
+        theoryPane.innerHTML = '<p style="color:#999;font-size:13px;">Sem dados.</p>';
     } else {
         for (const item of data.theory) {
             const div = document.createElement('div');
@@ -348,7 +348,7 @@ function showTheoryModal(hanzi) {
             );
 
             div.innerHTML = `
-                <strong style="color:#5a5a5a;font-size:12px">Урок ${item.lesson}</strong><br>
+                <strong style="color:#5a5a5a;font-size:12px">Lição ${item.lesson}</strong><br>
                 <strong style="color:#7c6b96;margin:4px 0;display:block">${item.title}</strong>
                 <div>${highlightedContext}</div>
             `;
@@ -356,13 +356,13 @@ function showTheoryModal(hanzi) {
         }
     }
 
-    // --- Вкладка "Рукописный ввод" ---
+    // --- Aba "Entrada manuscrita" ---
     inputPane.innerHTML = `<iframe src="./lesson1/tasks/task1.html#${hanzi}" style="width:100%;height:400px;border:1px solid #ddd;border-radius:6px;margin-top:10px"></iframe>`;
     inputPane.style.display = 'none';
 
     modalLessons.append(theoryPane, inputPane);
 
-    // Переключение вкладок
+    // Alternância entre abas
     tabTheory.onclick = () => {
         tabTheory.style.backgroundColor = 'white';
         tabInput.style.backgroundColor = '#f8f6fb';
@@ -376,19 +376,19 @@ function showTheoryModal(hanzi) {
         theoryPane.style.display = 'none';
     };
 
-    // Открываем "Теорию" по умолчанию
+    // Abrimos "Teoria" por padrão
     tabTheory.click();
 
     modal.style.display = 'block';
 }
-    // Создание карточек (без изменений)
+    // Criação dos cartões (sem alterações)
     sortedLessons.forEach(lessonNum => {
         const lessonDiv = document.createElement('div');
         lessonDiv.className = 'lesson';
         lessonDiv.dataset.lesson = lessonNum;
 
         const title = document.createElement('h2');
-        title.textContent = `Урок ${lessonNum}`;
+        title.textContent = `Lição ${lessonNum}`;
         lessonDiv.appendChild(title);
 
         const cardContainer = document.createElement('div');
@@ -441,7 +441,7 @@ function showTheoryModal(hanzi) {
         setTimeout(updateProgress, 0);
     });
 
-    // --- Поиск ---
+    // --- Busca ---
     const searchInput = document.getElementById('search-input');
     const noResultsDiv = document.getElementById('no-results');
     const searchResultsContainer = document.getElementById('search-results');
@@ -472,7 +472,7 @@ function showTheoryModal(hanzi) {
                 wrapper.className = 'card';
 
                 const lessonLabel = document.createElement('div');
-                lessonLabel.textContent = `Урок ${cardData.lessonNum}`;
+                lessonLabel.textContent = `Lição ${cardData.lessonNum}`;
                 lessonLabel.style.color = '#4CAF50';
                 lessonLabel.style.fontSize = '14px';
                 lessonLabel.style.fontWeight = 'bold';
@@ -519,7 +519,7 @@ function showTheoryModal(hanzi) {
         filterCards(this.value);
     });
 
-    // Закрытие модального окна
+    // Fechamento do modal
     closeModalBtn.onclick = () => modal.style.display = 'none';
     window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'block') modal.style.display = 'none'; });
@@ -527,20 +527,20 @@ function showTheoryModal(hanzi) {
 </script>
 <script>
 
-// === СКРИПТ ДЛЯ КОНСОЛИ: ОБОГАЩЕНИЕ charData + ВКЛАДКИ "ТЕОРИЯ" И "РУКОПИСНЫЙ ВВОД" ===
-// ✅ Никаких "Уроков"
-// ✅ Только "📌 Теория" и "✍️ Рукописный ввод"
-// ✅ Работает при динамическом поиске
+// === SCRIPT PARA CONSOLE: ENRIQUECIMENTO charData + ABAS "TEORIA" E "ENTRADA MANUSCRITA" ===
+// ✅ Sem "Lições"
+// ✅ Apenas "📌 Teoria" e "✍️ Entrada manuscrita"
+// ✅ Funciona na busca dinâmica
 
 (async function enrichCharDataInMemory() {
     'use strict';
 
     if (typeof charData !== 'object') {
-        console.error('❌ charData не найдена');
+        console.error('❌ charData não encontrada');
         return;
     }
 
-    // --- Прогресс-бар ---
+    // --- Barra de progresso ---
     const progressBarContainer = document.createElement('div');
     progressBarContainer.id = 'enrichment-progress-container';
     progressBarContainer.style.cssText = `
@@ -562,14 +562,14 @@ function showTheoryModal(hanzi) {
             font-size: 12px;
             color: #666;
             padding: 5px 0;
-        ">Обогащение данных... (0/60)</div>
+        ">Enriquecendo dados... (0/60)</div>
     `;
     document.querySelector('h1').after(progressBarContainer);
 
     const bar = document.getElementById('enrichment-progress-bar');
     const text = document.getElementById('enrichment-progress-text');
 
-    // --- Обогащаем charData ---
+    // --- Enriquecemos charData ---
     for (const hanzi in charData) {
         if (!charData[hanzi].theory) {
             charData[hanzi].theory = [];
@@ -609,29 +609,29 @@ function showTheoryModal(hanzi) {
 
                         charData[hanzi].theory.push({
                             lesson: lessonNum,
-                            title: h3 ? h3.textContent.trim() : '(без заголовка)',
+                            title: h3 ? h3.textContent.trim() : '(sem título)',
                             context: block.outerHTML
                         });
                     }
                 }
             }
         } catch (err) {
-            console.warn(`Урок ${lessonNum} не загружен`, err.message);
+            console.warn(`Lição ${lessonNum} não carregada`, err.message);
         } finally {
             completed++;
             const percent = Math.round((completed / totalLessons) * 100);
             bar.style.width = percent + '%';
-            text.textContent = `Обогащение данных... (${completed}/${totalLessons})`;
+            text.textContent = `Enriquecendo dados... (${completed}/${totalLessons})`;
         }
     }
 
-    // Удаляем прогресс-бар через 2 секунды
+    // Removemos a barra de progresso após 2 segundos
     setTimeout(() => {
         progressBarContainer.remove();
     }, 2000);
 
-    console.log('✅ charData обогащена данными из theory.html');
-    window.charData = charData; // На всякий случай
+    console.log('✅ charData enriquecida com dados de theory.html');
+    window.charData = charData; // Por precaução
 })();
 </script>
 </body>
