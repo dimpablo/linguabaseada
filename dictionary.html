@@ -1,46 +1,47 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<!-- Favicon: usamos apenas .ico — ele cobre todos os tamanhos -->
-<link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon.png"> <!-- se favicon.png é 32x32 -->
+<html lang="ru">
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="./favicon/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon/favicon.png">
 
-<!-- Ícones para dispositivos Apple -->
-<link rel="apple-touch-icon" sizes="57x57" href="/favicon/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="/favicon/apple-touch-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="/favicon/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="/favicon/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="80x80" href="/favicon/apple-touch-icon-80x80.png">
-<link rel="apple-touch-icon" sizes="114x114" href="/favicon/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="/favicon/apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="/favicon/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="/favicon/apple-touch-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="167x167" href="/favicon/apple-touch-icon-167x167.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon-180x180.png">
-<link rel="apple-touch-icon" sizes="1024x1024" href="/favicon/apple-touch-icon-1024x1024.png">
+<!-- Apple Touch Icons -->
+<link rel="apple-touch-icon" sizes="57x57" href="./favicon/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="60x60" href="./favicon/apple-touch-icon-60x60.png">
+<link rel="apple-touch-icon" sizes="72x72" href="./favicon/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="./favicon/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="80x80" href="./favicon/apple-touch-icon-80x80.png">
+<link rel="apple-touch-icon" sizes="114x114" href="./favicon/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="./favicon/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="./favicon/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="./favicon/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="./favicon/apple-touch-icon-167x167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./favicon/apple-touch-icon-180x180.png">
+<link rel="apple-touch-icon" sizes="1024x1024" href="./favicon/apple-touch-icon-1024x1024.png">
 
-<!-- Ícones para Chrome Android -->
-<link rel="icon" type="image/png" sizes="96x96" href="/favicon/android-chrome-96x96.png">
-<link rel="icon" type="image/png" sizes="144x144" href="/favicon/android-chrome-144x144.png">
-<link rel="icon" type="image/png" sizes="192x192" href="/favicon/android-chrome-192x192.png">
-<link rel="icon" type="image/png" sizes="256x256" href="/favicon/android-chrome-256x256.png">
-<link rel="icon" type="image/png" sizes="384x384" href="/favicon/android-chrome-384x384.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/favicon/android-chrome-512x512.png">
+<!-- Android Chrome Icons -->
+<link rel="icon" type="image/png" sizes="96x96" href="./favicon/android-chrome-96x96.png">
+<link rel="icon" type="image/png" sizes="144x144" href="./favicon/android-chrome-144x144.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./favicon/android-chrome-192x192.png">
+<link rel="icon" type="image/png" sizes="256x256" href="./favicon/android-chrome-256x256.png">
+<link rel="icon" type="image/png" sizes="384x384" href="./favicon/android-chrome-384x384.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./favicon/android-chrome-512x512.png">
 
-<!-- Ícones Maskable (Ícones Adaptativos para Android) -->
-<link rel="icon" type="image/png" sizes="192x192" href="/favicon/maskable-icon-192x192-masked.png">
-<link rel="icon" type="image/png" sizes="512x512" href="/favicon/maskable-icon-512x512-masked.png">
+<!-- Maskable Icons -->
+<link rel="icon" type="image/png" sizes="192x192" href="./favicon/maskable-icon-192x192-masked.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./favicon/maskable-icon-512x512-masked.png">
 
-<!-- Manifesto do Web App -->
-<link rel="manifest" href="/favicon/site.webmanifest">
+<!-- Web App Manifest -->
+<link rel="manifest" href="./favicon/site.webmanifest">
 
-<!-- Para IE11 / Edge -->
-<meta name="msapplication-config" content="/favicon/browserconfig.xml">
+<!-- Для IE11 / Edge -->
+<meta name="msapplication-config" content="./favicon/browserconfig.xml">
 
-<!-- Cor principal da interface (ex: ao instalar PWA) -->
+<!-- Тема -->
 <meta name="theme-color" content="#4CAF50">
+
 <head>
     <meta charset="UTF-8">
-    <title>Caracteres chineses por lição</title>
+    <title>Caracteres chineses por lições</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -129,13 +130,33 @@
             color: #e74c3c;
             font-size: 14px;
             margin-bottom: 5px;
+            position: relative;
         }
         .meaning {
             font-size: 13px;
             color: #555;
         }
 
-        /* Estilos do modal */
+        /* Кнопка озвучки */
+        .sound-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            margin-left: 4px;
+            opacity: 0.7;
+            transition: opacity 0.2s, transform 0.1s;
+            padding: 0;
+        }
+        .sound-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .sound-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Modal styles */
         .modal {
             display: none;
             position: fixed;
@@ -192,7 +213,118 @@
             color: #2c3e50;
         }
 
-        /* Placeholders ocultos para funcionalidade futura */
+        /* Блок теории */
+        .theory-block {
+            margin: 14px 0;
+            padding: 12px;
+            background: #f9f7fc;
+            border-left: 4px solid #a8c8d8;
+            border-radius: 0 6px 6px 0;
+            font-size: 13px;
+            line-height: 1.5;
+            position: relative;
+        }
+        .share-paragraph-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #7c6b96;
+            opacity: 0.6;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+        .share-paragraph-btn:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+
+        /* Модальные окна друзей и чата */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(2px);
+        }
+        .modal-content-wide {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            width: 90%;
+            max-width: 900px;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid #eaeaea;
+            background: #f8f6fb;
+        }
+        .modal-header h3 {
+            margin: 0;
+            color: #5a5a5a;
+            font-size: 16px;
+        }
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        .modal-close:hover {
+            color: #555;
+        }
+        .friends-grid {
+            display: grid;
+            gap: 8px;
+            padding: 16px 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .friend-card {
+            padding: 12px;
+            background: #f9f7fc;
+            border: 1px solid #d9d4e7;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #5a5a5a;
+        }
+        .friend-card:hover {
+            background: #f0eaf9;
+            border-color: #d9d4e7;
+        }
+        .info-message {
+            text-align: center;
+            color: #777;
+            padding: 20px;
+            font-style: italic;
+        }
+        .chat-iframe {
+            width: 100%;
+            min-height: 70vh;
+            border: none;
+            border-top: 1px solid #eee;
+            border-radius: 0 0 12px 12px;
+            display: none;
+        }
+        #loadingIframe {
+            text-align: center;
+            padding: 30px;
+            color: #777;
+        }
+
+        /* Скрытые заглушки */
         #theory-loading-bar,
         #theory-tabbed-box {
             display: none;
@@ -200,29 +332,29 @@
     </style>
 </head>
 <body>
-    <h1>Dicionário de caracteres por lição</h1>
+    <h1>Dicionário de caracteres por lições</h1>
 
-    <!-- Caixa de busca -->
+    <!-- Search Box -->
     <div class="search-container">
-        <input type="text" id="search-input" placeholder="Buscar por caractere, pinyin ou significado...">
+        <input type="text" id="search-input" placeholder="Pesquisar por caractere, pinyin ou significado...">
     </div>
     <div id="no-results" class="no-results">Nada encontrado</div>
 
-    <!-- Barra de progresso do carregamento dos cartões -->
+    <!-- Progress Bar -->
     <div class="progress-container">
         <div id="progress-bar"></div>
     </div>
 
-    <!-- Container para resultados da busca -->
+    <!-- Search Results -->
     <div id="search-results" class="lesson" style="display: none;">
-        <h2>Resultados da busca</h2>
+        <h2>Resultados da pesquisa</h2>
         <div class="card-container"></div>
     </div>
 
-    <!-- Container principal para as lições -->
+    <!-- Lessons Container -->
     <div id="lessons-container"></div>
 
-    <!-- Modal para detalhes do caractere -->
+    <!-- Modal -->
     <div id="char-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn" id="close-modal">&times;</span>
@@ -236,403 +368,580 @@
         </div>
     </div>
 
-    <!-- PLACEHOLDERS — ocultos, para uso futuro -->
-    <div id="theory-loading-bar" style="display:none;">
-        🔍 Buscando dados... (0/60)
-    </div>
-
+    <!-- Заглушки -->
+    <div id="theory-loading-bar" style="display:none;">🔍 Procurando dados... (0/60)</div>
     <div id="theory-tabbed-box" style="display:none;">
         <div id="tab-header"></div>
         <div id="tab-content">
             <div id="tab-theory"></div>
-            <div id="tab-input">
-                <iframe id="hanzi-frame"></iframe>
+            <div id="tab-input"><iframe id="hanzi-frame"></iframe></div>
+        </div>
+    </div>
+
+    <!-- Подключаем словарь -->
+    <script src="dictionary.js"></script>
+
+    <!-- === FIREBASE INIT === -->
+    <script>
+        let auth = null;
+        let db = null;
+        let currentUser = null;
+
+        let docRef = null;
+        let getDocRef = null;
+        let collectionRef = null;
+        let queryRef = null;
+        let whereRef = null;
+        let getDocsRef = null;
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBvyxPtx5PICYk60HUCERw5Cxh1TyCcZCY",
+            authDomain: "antient-9bff0.firebaseapp.com",
+            projectId: "antient-9bff0",
+            storageBucket: "antient-9bff0.firebasestorage.app",
+            messagingSenderId: "311792589414",
+            appId: "1:311792589414:web:5fff3154735007c2006ba7",
+            measurementId: "G-W4ZQXWRTKK"
+        };
+
+        async function initFirebase() {
+            try {
+                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js   ');
+                const { getAuth, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js   ');
+                const { getFirestore, doc, getDoc, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js   ');
+
+                const app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+
+                docRef = doc;
+                getDocRef = getDoc;
+                collectionRef = collection;
+                queryRef = query;
+                whereRef = where;
+                getDocsRef = getDocs;
+
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        console.log('🔐 Usuário logado:', user.uid);
+                        try {
+                            const userDocRef = docRef(db, 'users', user.uid);
+                            const userDocSnap = await getDocRef(userDocRef);
+                            if (userDocSnap.exists()) {
+                                currentUser = { uid: user.uid, ...userDocSnap.data() };
+                                console.log('✅ Perfil do usuário carregado:', currentUser);
+                            }
+                        } catch (err) {
+                            console.error('❌ Erro ao carregar perfil:', err);
+                        }
+                    } else {
+                        console.warn('🔒 Usuário não autenticado');
+                        currentUser = null;
+                    }
+                });
+
+                console.log("✅ Firebase inicializado");
+            } catch (error) {
+                console.error("❌ Erro na inicialização do Firebase:", error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initFirebase);
+    </script>
+
+    <!-- === МОДАЛЬНЫЕ ОКНА === -->
+    <div id="modalSelectRecipient" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>📬 Escolha o destinatário</h3>
+                <button id="closeRecipientModalBtn" class="modal-close">×</button>
+            </div>
+            <div id="recipientList" class="friends-grid">
+                <div>Carregando...</div>
+            </div>
+            <div id="noFriendsMessage" class="info-message">
+                Você ainda não tem amigos.
             </div>
         </div>
     </div>
 
-    <!-- Conectamos o dicionário -->
-    <script src="dictionary.js"></script>
+    <div id="modalShareTaskChat" class="modal-overlay">
+        <div class="modal-content modal-content-wide">
+            <div class="modal-header">
+                <h3>💬 Enviando tarefa</h3>
+                <button id="closeModalBtnChat" class="modal-close">×</button>
+            </div>
+            <div id="loadingIframe">Carregando chat...</div>
+            <iframe id="shareTaskFrame" class="chat-iframe" frameborder="0"></iframe>
+        </div>
+    </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const lessonsContainer = document.getElementById('lessons-container');
-    const progressBar = document.getElementById('progress-bar');
-    const modal = document.getElementById('char-modal');
-    const closeModalBtn = document.getElementById('close-modal');
-    const modalChar = document.getElementById('modal-char');
-    const modalPinyin = document.getElementById('modal-pinyin');
-    const modalMeaning = document.getElementById('modal-meaning');
-    const modalLessons = document.getElementById('modal-lessons');
+    <!-- === ОСНОВНОЙ СКРИПТ === -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const lessonsContainer = document.getElementById('lessons-container');
+            const progressBar = document.getElementById('progress-bar');
+            const modal = document.getElementById('char-modal');
+            const closeModalBtn = document.getElementById('close-modal');
+            const modalChar = document.getElementById('modal-char');
+            const modalPinyin = document.getElementById('modal-pinyin');
+            const modalMeaning = document.getElementById('modal-meaning');
+            const modalLessons = document.getElementById('modal-lessons');
 
-    // Função para remover diacríticos
-    function removeDiacritics(str) {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
+            const modalSelectRecipient = document.getElementById('modalSelectRecipient');
+            const closeRecipientModalBtn = document.getElementById('closeRecipientModalBtn');
+            const recipientList = document.getElementById('recipientList');
+            const noFriendsMessage = document.getElementById('noFriendsMessage');
+            const modalShareTaskChat = document.getElementById('modalShareTaskChat');
+            const closeModalBtnChat = document.getElementById('closeModalBtnChat');
+            const shareTaskFrame = document.getElementById('shareTaskFrame');
+            const loadingIframe = document.getElementById('loadingIframe');
 
-    // Índice: caractere → array de lições
-    const charIndex = {};
-    for (const char in charData) {
-        const lessonNum = charData[char].lesson;
-        if (!charIndex[char]) {
-            charIndex[char] = [];
-        }
-        charIndex[char].push(lessonNum);
-    }
+            const searchInput = document.getElementById('search-input');
+            const noResultsDiv = document.getElementById('no-results');
+            const searchResultsContainer = document.getElementById('search-results');
+            const searchCardContainer = searchResultsContainer.querySelector('.card-container');
 
-    // Agrupamos por lições
-    const lessons = {};
-    for (const char in charData) {
-        const lessonNum = charData[char].lesson;
-        if (!lessons[lessonNum]) {
-            lessons[lessonNum] = [];
-        }
-        lessons[lessonNum].push({
-            char,
-            pinyin: charData[char].pinyin,
-            meaning: charData[char].meaning
-        });
-    }
-
-    const sortedLessons = Object.keys(lessons).sort((a, b) => a - b);
-    const totalLessons = sortedLessons.length;
-    let renderedLessons = 0;
-
-    const allCards = [];
-
-    function updateProgress() {
-        renderedLessons++;
-        const percent = Math.round((renderedLessons / totalLessons) * 100);
-        progressBar.style.width = percent + '%';
-    }
-
-    // --- ALTERAÇÃO PRINCIPAL: showTheoryModal agora conhece .theory ---
-function showTheoryModal(hanzi) {
-    const data = charData[hanzi];
-    modalChar.textContent = hanzi;
-    modalPinyin.textContent = data?.pinyin || '—';
-    modalMeaning.textContent = data?.meaning || '—';
-
-    // Limpa
-    modalLessons.innerHTML = '';
-
-    // --- Criamos abas ---
-    const tabHeader = document.createElement('div');
-    tabHeader.style.cssText = 'display:flex;margin-bottom:15px;border-bottom:1px solid #ddd';
-
-    const tabTheory = document.createElement('div');
-    tabTheory.textContent = '📌 Teoria';
-    tabTheory.style.cssText = 'padding:8px 16px;cursor:pointer;font-weight:bold;color:#7c6b96;background:white;border:1px solid #ddd;border-bottom:none;border-radius:6px 6px 0 0;margin-left:10px;z-index:2;';
-
-    const tabInput = document.createElement('div');
-    tabInput.textContent = '✍️ Entrada manuscrita';
-    tabInput.style.cssText = 'padding:8px 16px;cursor:pointer;color:#666;background:#f8f6fb;border:1px solid #ddd;border-bottom:none;border-radius:6px 6px 0 0;margin-left:4px;';
-
-    tabHeader.append(tabTheory, tabInput);
-    modalLessons.appendChild(tabHeader);
-
-    const theoryPane = document.createElement('div');
-    const inputPane = document.createElement('div');
-
-    // --- Aba "Teoria" ---
-    if (!data.theory || data.theory.length === 0) {
-        theoryPane.innerHTML = '<p style="color:#999;font-size:13px;">Sem dados.</p>';
-    } else {
-        for (const item of data.theory) {
-            const div = document.createElement('div');
-            div.style.cssText = 'margin:14px 0;padding:12px;background:#f9f7fc;border-left:4px solid #a8c8d8;border-radius:0 6px 6px 0;font-size:13px;line-height:1.5';
-
-            const highlightedContext = item.context.replace(
-                new RegExp(`(${hanzi})`, 'g'),
-                '<span style="background:#ffb6c1;padding:2px 3px;border-radius:3px;font-weight:bold;">$1</span>'
-            );
-
-            div.innerHTML = `
-                <strong style="color:#5a5a5a;font-size:12px">Lição ${item.lesson}</strong><br>
-                <strong style="color:#7c6b96;margin:4px 0;display:block">${item.title}</strong>
-                <div>${highlightedContext}</div>
-            `;
-            theoryPane.appendChild(div);
-        }
-    }
-
-    // --- Aba "Entrada manuscrita" ---
-    inputPane.innerHTML = `<iframe src="./lesson1/tasks/task1.html#${hanzi}" style="width:100%;height:400px;border:1px solid #ddd;border-radius:6px;margin-top:10px"></iframe>`;
-    inputPane.style.display = 'none';
-
-    modalLessons.append(theoryPane, inputPane);
-
-    // Alternância entre abas
-    tabTheory.onclick = () => {
-        tabTheory.style.backgroundColor = 'white';
-        tabInput.style.backgroundColor = '#f8f6fb';
-        theoryPane.style.display = 'block';
-        inputPane.style.display = 'none';
-    };
-    tabInput.onclick = () => {
-        tabInput.style.backgroundColor = 'white';
-        tabTheory.style.backgroundColor = '#f8f6fb';
-        inputPane.style.display = 'block';
-        theoryPane.style.display = 'none';
-    };
-
-    // Abrimos "Teoria" por padrão
-    tabTheory.click();
-
-    modal.style.display = 'block';
-}
-    // Criação dos cartões (sem alterações)
-    sortedLessons.forEach(lessonNum => {
-        const lessonDiv = document.createElement('div');
-        lessonDiv.className = 'lesson';
-        lessonDiv.dataset.lesson = lessonNum;
-
-        const title = document.createElement('h2');
-        title.textContent = `Lição ${lessonNum}`;
-        lessonDiv.appendChild(title);
-
-        const cardContainer = document.createElement('div');
-        cardContainer.className = 'card-container';
-
-        lessons[lessonNum].sort((a, b) => a.char.localeCompare(b.char));
-
-        lessons[lessonNum].forEach(item => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.dataset.char = item.char;
-            card.dataset.pinyin = item.pinyin;
-            card.dataset.meaning = item.meaning;
-
-            const charElem = document.createElement('div');
-            charElem.className = 'char';
-            charElem.textContent = item.char;
-
-            const pinyinElem = document.createElement('div');
-            pinyinElem.className = 'pinyin';
-            pinyinElem.textContent = item.pinyin;
-
-            const meaningElem = document.createElement('div');
-            meaningElem.className = 'meaning';
-            meaningElem.textContent = item.meaning;
-
-            card.appendChild(charElem);
-            card.appendChild(pinyinElem);
-            card.appendChild(meaningElem);
-
-            card.addEventListener('click', function() {
-                showTheoryModal(this.dataset.char);
-            });
-
-            cardContainer.appendChild(card);
-            allCards.push({
-                element: card,
-                char: item.char,
-                pinyin: item.pinyin,
-                meaning: item.meaning,
-                lessonElement: lessonDiv,
-                normalizedPinyin: removeDiacritics(item.pinyin.toLowerCase()),
-                normalizedMeaning: item.meaning.toLowerCase()
-            });
-        });
-
-        lessonDiv.appendChild(cardContainer);
-        lessonsContainer.appendChild(lessonDiv);
-
-        setTimeout(updateProgress, 0);
-    });
-
-    // --- Busca ---
-    const searchInput = document.getElementById('search-input');
-    const noResultsDiv = document.getElementById('no-results');
-    const searchResultsContainer = document.getElementById('search-results');
-    const searchCardContainer = searchResultsContainer.querySelector('.card-container');
-
-    function filterCards(query) {
-        if (!query.trim()) {
-            searchResultsContainer.style.display = 'none';
-            lessonsContainer.style.display = 'block';
-            noResultsDiv.style.display = 'none';
-            return;
-        }
-
-        searchCardContainer.innerHTML = '';
-        const lowerQuery = query.toLowerCase();
-        const normalizedQuery = removeDiacritics(lowerQuery);
-        let found = false;
-
-        allCards.forEach(cardData => {
-            let match = false;
-
-            if (cardData.char.includes(query)) match = true;
-            else if (cardData.normalizedPinyin.includes(normalizedQuery)) match = true;
-            else if (cardData.normalizedMeaning.includes(lowerQuery)) match = true;
-
-            if (match) {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'card';
-
-                const lessonLabel = document.createElement('div');
-                lessonLabel.textContent = `Lição ${cardData.lessonNum}`;
-                lessonLabel.style.color = '#4CAF50';
-                lessonLabel.style.fontSize = '14px';
-                lessonLabel.style.fontWeight = 'bold';
-                lessonLabel.style.marginBottom = '4px';
-
-                const charElem = document.createElement('div');
-                charElem.className = 'char';
-                charElem.textContent = cardData.char;
-
-                const pinyinElem = document.createElement('div');
-                pinyinElem.className = 'pinyin';
-                pinyinElem.textContent = cardData.pinyin;
-
-                const meaningElem = document.createElement('div');
-                meaningElem.className = 'meaning';
-                meaningElem.textContent = cardData.meaning;
-
-                wrapper.appendChild(lessonLabel);
-                wrapper.appendChild(charElem);
-                wrapper.appendChild(pinyinElem);
-                wrapper.appendChild(meaningElem);
-
-                wrapper.addEventListener('click', () => {
-                    showTheoryModal(cardData.char);
-                });
-
-                searchCardContainer.appendChild(wrapper);
-                found = true;
+            // --- Удаление диакритик ---
+            function removeDiacritics(str) {
+                return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
             }
-        });
 
-        if (found) {
-            searchResultsContainer.style.display = 'block';
-            lessonsContainer.style.display = 'none';
-            noResultsDiv.style.display = 'none';
-        } else {
-            searchResultsContainer.style.display = 'none';
-            lessonsContainer.style.display = 'block';
-            noResultsDiv.style.display = 'block';
-        }
-    }
+            // --- Индекс: иероглиф → уроки ---
+            const charIndex = {};
+            for (const char in charData) {
+                const lessonNum = charData[char].lesson;
+                if (!charIndex[char]) charIndex[char] = [];
+                charIndex[char].push(lessonNum);
+            }
 
-    searchInput.addEventListener('input', function() {
-        filterCards(this.value);
-    });
+            // --- Группировка по урокам ---
+            const lessons = {};
+            for (const char in charData) {
+                const lessonNum = charData[char].lesson;
+                if (!lessons[lessonNum]) lessons[lessonNum] = [];
+                lessons[lessonNum].push({
+                    char,
+                    pinyin: charData[char].pinyin,
+                    meaning: charData[char].meaning
+                });
+            }
 
-    // Fechamento do modal
-    closeModalBtn.onclick = () => modal.style.display = 'none';
-    window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.style.display === 'block') modal.style.display = 'none'; });
-});
-</script>
-<script>
+            const sortedLessons = Object.keys(lessons).sort((a, b) => a - b);
+            const totalLessons = sortedLessons.length;
+            let renderedLessons = 0;
 
-// === SCRIPT PARA CONSOLE: ENRIQUECIMENTO charData + ABAS "TEORIA" E "ENTRADA MANUSCRITA" ===
-// ✅ Sem "Lições"
-// ✅ Apenas "📌 Teoria" e "✍️ Entrada manuscrita"
-// ✅ Funciona na busca dinâmica
+            const allCards = [];
 
-(async function enrichCharDataInMemory() {
-    'use strict';
+            function updateProgress() {
+                renderedLessons++;
+                const percent = Math.round((renderedLessons / totalLessons) * 100);
+                progressBar.style.width = percent + '%';
+            }
 
-    if (typeof charData !== 'object') {
-        console.error('❌ charData não encontrada');
-        return;
-    }
+            // --- Озвучка ---
+            function playHanziSound(hanzi) {
+                if (!charData[hanzi] || !charData[hanzi].pinyin) return;
+                const rawPinyin = charData[hanzi].pinyin.split(',')[0].trim();
+                const cleanBase = rawPinyin.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ü/g, 'u').replace(/v/g, 'u');
+                const toneMap = [
+                    { re: /[āēīōūǖ]/, tone: '1' },
+                    { re: /[áéíóúǘ]/, tone: '2' },
+                    { re: /[ǎěǐǒǔǚ]/, tone: '3' },
+                    { re: /[àèìòùǜ]/, tone: '4' }
+                ];
+                const tone = toneMap.find(t => t.re.test(rawPinyin))?.tone || '1';
+                const url = `https://data.dong-chinese.com/pinyin/b/   ${cleanBase}${tone}.mp3`;
+                new Audio(url).play().catch(() => {
+                    if ('speechSynthesis' in window) {
+                        const u = rawPinyin.replace(/[āáǎà]/g, 'a').replace(/[ēéěè]/g, 'e').replace(/[īíǐì]/g, 'i').replace(/[ōóǒò]/g, 'o').replace(/[ūúǔù|ǖǘǚǜ|ü|v]/g, 'ü');
+                        const utterance = new SpeechSynthesisUtterance(u);
+                        utterance.lang = 'zh-CN';
+                        utterance.rate = 0.8;
+                        speechSynthesis.speak(utterance);
+                    }
+                });
+            }
 
-    // --- Barra de progresso ---
-    const progressBarContainer = document.createElement('div');
-    progressBarContainer.id = 'enrichment-progress-container';
-    progressBarContainer.style.cssText = `
-        width: 100%;
-        background-color: #e0e0e0;
-        border-radius: 4px;
-        margin: 10px 0 20px;
-    `;
-    progressBarContainer.innerHTML = `
-        <div id="enrichment-progress-bar" style="
-            height: 8px;
-            background-color: #4CAF50;
-            border-radius: 4px;
-            width: 0%;
-            transition: width 0.2s ease;
-        "></div>
-        <div id="enrichment-progress-text" style="
-            text-align: center;
-            font-size: 12px;
-            color: #666;
-            padding: 5px 0;
-        ">Enriquecendo dados... (0/60)</div>
-    `;
-    document.querySelector('h1').after(progressBarContainer);
+            // --- Модальное окно с вкладками ---
+            function showTheoryModal(hanzi) {
+                const data = charData[hanzi];
+                modalChar.textContent = hanzi;
 
-    const bar = document.getElementById('enrichment-progress-bar');
-    const text = document.getElementById('enrichment-progress-text');
+                const existingBtn = modalPinyin.previousElementSibling;
+                if (existingBtn && existingBtn.classList.contains('sound-btn')) existingBtn.remove();
 
-    // --- Enriquecemos charData ---
-    for (const hanzi in charData) {
-        if (!charData[hanzi].theory) {
-            charData[hanzi].theory = [];
-        }
-    }
+                const soundBtn = document.createElement('button');
+                soundBtn.className = 'sound-btn';
+                soundBtn.innerHTML = '🔊';
+                soundBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    playHanziSound(hanzi);
+                };
+                modalPinyin.parentNode.insertBefore(soundBtn, modalPinyin);
 
-    const totalLessons = 60;
-    let completed = 0;
+                modalPinyin.textContent = data?.pinyin || '—';
+                modalMeaning.textContent = data?.meaning || '—';
 
-    for (let lessonNum = 1; lessonNum <= totalLessons; lessonNum++) {
-        const url = `./lesson${lessonNum}/theory.html`;
-        try {
-            const response = await fetch(url);
-            if (!response.ok) continue;
+                modalLessons.innerHTML = '';
 
-            const html = await response.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(html, 'text/html');
+                const tabHeader = document.createElement('div');
+                tabHeader.style.cssText = 'display:flex;margin-bottom:15px;border-bottom:1px solid #ddd';
 
-            const grammar = doc.querySelector('.grammar');
-            if (!grammar) continue;
+                const tabTheory = document.createElement('div');
+                tabTheory.textContent = '📌 Teoria';
+                tabTheory.style.cssText = 'padding:8px 16px;cursor:pointer;font-weight:bold;color:#7c6b96;background:white;border:1px solid #ddd;border-bottom:none;border-radius:6px 6px 0 0;margin-left:10px;z-index:2;';
 
-            const blocks = grammar.querySelectorAll('p.original');
+                const tabInput = document.createElement('div');
+                tabInput.textContent = '✍️ Entrada manuscrita';
+                tabInput.style.cssText = 'padding:8px 16px;cursor:pointer;color:#666;background:#f8f6fb;border:1px solid #ddd;border-bottom:none;border-radius:6px 6px 0 0;margin-left:4px;';
 
-            for (const block of blocks) {
-                for (const hanzi in charData) {
-                    if (block.textContent.includes(hanzi)) {
-                        let h3 = null;
-                        let sib = block.previousElementSibling;
-                        while (sib) {
-                            if (sib.tagName === 'H3') {
-                                h3 = sib;
-                                break;
-                            }
-                            sib = sib.previousElementSibling;
-                        }
+                tabHeader.append(tabTheory, tabInput);
+                modalLessons.appendChild(tabHeader);
 
-                        charData[hanzi].theory.push({
-                            lesson: lessonNum,
-                            title: h3 ? h3.textContent.trim() : '(sem título)',
-                            context: block.outerHTML
-                        });
+                const theoryPane = document.createElement('div');
+                const inputPane = document.createElement('div');
+
+                if (!data.theory || data.theory.length === 0) {
+                    theoryPane.innerHTML = '<p style="color:#999;font-size:13px;">Sem dados.</p>';
+                } else {
+                    for (const item of data.theory) {
+                        const div = document.createElement('div');
+                        div.className = 'theory-block';
+
+                        const highlightedContext = item.context.replace(
+                            new RegExp(`(${hanzi})`, 'g'),
+                            '<span style="background:#ffb6c1;padding:2px 3px;border-radius:3px;font-weight:bold;">$1</span>'
+                        );
+
+                        div.innerHTML = `
+                            <strong style="color:#5a5a5a;font-size:12px">Lição ${item.lesson}</strong><br>
+                            <strong style="color:#7c6b96;margin:4px 0;display:block">${item.title}</strong>
+                            <div>${highlightedContext}</div>
+                        `;
+
+                        const shareBtn = document.createElement('button');
+                        shareBtn.className = 'share-paragraph-btn';
+                        shareBtn.innerHTML = '↪️ Compartilhar';
+                        shareBtn.title = 'Compartilhar este parágrafo';
+                        shareBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            shareParagraph(item, hanzi);
+                        };
+                        div.appendChild(shareBtn);
+
+                        theoryPane.appendChild(div);
                     }
                 }
+
+                inputPane.innerHTML = `<iframe src="./lesson1/tasks/task1.html#${hanzi}" style="width:100%;height:400px;border:1px solid #ddd;border-radius:6px;margin-top:10px"></iframe>`;
+                inputPane.style.display = 'none';
+
+                modalLessons.append(theoryPane, inputPane);
+
+                tabTheory.onclick = () => {
+                    tabTheory.style.backgroundColor = 'white';
+                    tabInput.style.backgroundColor = '#f8f6fb';
+                    theoryPane.style.display = 'block';
+                    inputPane.style.display = 'none';
+                };
+                tabInput.onclick = () => {
+                    tabInput.style.backgroundColor = 'white';
+                    tabTheory.style.backgroundColor = '#f8f6fb';
+                    inputPane.style.display = 'block';
+                    theoryPane.style.display = 'none';
+                };
+                tabTheory.click();
+
+                modal.style.display = 'block';
             }
-        } catch (err) {
-            console.warn(`Lição ${lessonNum} não carregada`, err.message);
-        } finally {
-            completed++;
-            const percent = Math.round((completed / totalLessons) * 100);
-            bar.style.width = percent + '%';
-            text.textContent = `Enriquecendo dados... (${completed}/${totalLessons})`;
-        }
-    }
 
-    // Removemos a barra de progresso após 2 segundos
-    setTimeout(() => {
-        progressBarContainer.remove();
-    }, 2000);
+            // --- Шаринг параграфа ---
+            async function shareParagraph(item, hanzi) {
+                if (!currentUser) return alert("⛔ Faça login primeiro.");
+                modalSelectRecipient.style.display = 'flex';
+                loadFriendsForSelection(item, hanzi);
+            }
 
-    console.log('✅ charData enriquecida com dados de theory.html');
-    window.charData = charData; // Por precaução
-})();
-</script>
+            async function loadFriendsForSelection(item, hanzi) {
+                recipientList.innerHTML = '<div style="text-align:center;padding:10px;">Carregando...</div>';
+                noFriendsMessage.style.display = 'none';
+
+                if (!currentUser || !Array.isArray(currentUser.friends) || currentUser.friends.length === 0) {
+                    recipientList.innerHTML = '';
+                    noFriendsMessage.style.display = 'block';
+                    return;
+                }
+
+                try {
+                    const friendsRef = collectionRef(db, 'users');
+                    const q = queryRef(friendsRef, whereRef('__name__', 'in', currentUser.friends.slice(0, 10)));
+                    const querySnap = await getDocsRef(q);
+                    const friends = [];
+                    querySnap.forEach(doc => friends.push({ id: doc.id, ...doc.data() }));
+
+                    recipientList.innerHTML = '';
+                    if (friends.length === 0) {
+                        noFriendsMessage.style.display = 'block';
+                        return;
+                    }
+
+                    friends.forEach(friend => {
+                        const card = document.createElement('div');
+                        card.className = 'friend-card';
+                        card.textContent = `${friend.displayName} (${friend.points || 0} pontos)`;
+                        card.onclick = () => sendToFriend(friend, item, hanzi);
+                        recipientList.appendChild(card);
+                    });
+                } catch (err) {
+                    recipientList.innerHTML = '<div style="color:red">Erro</div>';
+                }
+            }
+
+            function sendToFriend(friend, item, hanzi) {
+                modalSelectRecipient.style.display = 'none';
+
+                const title = item.title.replace(/"/g, '\\"');
+                const context = item.context.replace(/"/g, '\\"').replace(/\s+/g, ' ');
+
+                const shareString = `’‘’‘ [paragraph]: {"<h3>${title}</h3> ${context}"}’‘’‘`;
+                const encoded = encodeURIComponent(shareString);
+                const chatUrl = `./chat.html#chat/${friend.id}/${encoded}`;
+
+                modalShareTaskChat.style.display = 'flex';
+                shareTaskFrame.src = '';
+                loadingIframe.style.display = 'block';
+                shareTaskFrame.style.display = 'none';
+                setTimeout(() => shareTaskFrame.src = chatUrl, 10);
+                shareTaskFrame.onload = () => {
+                    loadingIframe.style.display = 'none';
+                    shareTaskFrame.style.display = 'block';
+                };
+            }
+
+            // --- Создание карточек ---
+            sortedLessons.forEach(lessonNum => {
+                const lessonDiv = document.createElement('div');
+                lessonDiv.className = 'lesson';
+                lessonDiv.dataset.lesson = lessonNum;
+
+                const title = document.createElement('h2');
+                title.textContent = `Lição ${lessonNum}`;
+                lessonDiv.appendChild(title);
+
+                const cardContainer = document.createElement('div');
+                cardContainer.className = 'card-container';
+
+                lessons[lessonNum].sort((a, b) => a.char.localeCompare(b.char));
+
+                lessons[lessonNum].forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'card';
+                    card.dataset.char = item.char;
+
+                    const charElem = document.createElement('div');
+                    charElem.className = 'char';
+                    charElem.textContent = item.char;
+
+                    const pinyinElem = document.createElement('div');
+                    pinyinElem.className = 'pinyin';
+                    pinyinElem.textContent = item.pinyin;
+
+                    const sndBtn = document.createElement('button');
+                    sndBtn.className = 'sound-btn';
+                    sndBtn.innerHTML = '🔊';
+                    sndBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        playHanziSound(item.char);
+                    };
+                    pinyinElem.appendChild(sndBtn);
+
+                    const meaningElem = document.createElement('div');
+                    meaningElem.className = 'meaning';
+                    meaningElem.textContent = item.meaning;
+
+                    card.appendChild(charElem);
+                    card.appendChild(pinyinElem);
+                    card.appendChild(meaningElem);
+
+                    card.addEventListener('click', () => showTheoryModal(item.char));
+                    cardContainer.appendChild(card);
+                    allCards.push({
+                        element: card,
+                        char: item.char,
+                        pinyin: item.pinyin,
+                        meaning: item.meaning,
+                        normalizedPinyin: removeDiacritics(item.pinyin.toLowerCase()),
+                        normalizedMeaning: item.meaning.toLowerCase()
+                    });
+                });
+
+                lessonDiv.appendChild(cardContainer);
+                lessonsContainer.appendChild(lessonDiv);
+                setTimeout(updateProgress, 0);
+            });
+
+            // --- ПОИСК (полная версия из оригинала) ---
+            function filterCards(query) {
+                if (!query.trim()) {
+                    searchResultsContainer.style.display = 'none';
+                    lessonsContainer.style.display = 'block';
+                    noResultsDiv.style.display = 'none';
+                    return;
+                }
+
+                searchCardContainer.innerHTML = '';
+                const lowerQuery = query.toLowerCase();
+                const normalizedQuery = removeDiacritics(lowerQuery);
+                let found = false;
+
+                allCards.forEach(cardData => {
+                    let match = false;
+
+                    if (cardData.char.includes(query)) match = true;
+                    else if (cardData.normalizedPinyin.includes(normalizedQuery)) match = true;
+                    else if (cardData.normalizedMeaning.includes(lowerQuery)) match = true;
+
+                    if (match) {
+                        const wrapper = document.createElement('div');
+                        wrapper.className = 'card';
+
+                        const lessonLabel = document.createElement('div');
+                        lessonLabel.textContent = `Lição ${cardData.lessonNum || '?'}`;
+                        lessonLabel.style.color = '#4CAF50';
+                        lessonLabel.style.fontSize = '14px';
+                        lessonLabel.style.fontWeight = 'bold';
+                        lessonLabel.style.marginBottom = '4px';
+
+                        const charElem = document.createElement('div');
+                        charElem.className = 'char';
+                        charElem.textContent = cardData.char;
+
+                        const pinyinElem = document.createElement('div');
+                        pinyinElem.className = 'pinyin';
+                        pinyinElem.textContent = cardData.pinyin;
+
+                        const sndBtn = document.createElement('button');
+                        sndBtn.className = 'sound-btn';
+                        sndBtn.innerHTML = '🔊';
+                        sndBtn.onclick = (e) => {
+                            e.stopPropagation();
+                            playHanziSound(cardData.char);
+                        };
+                        pinyinElem.appendChild(sndBtn);
+
+                        const meaningElem = document.createElement('div');
+                        meaningElem.className = 'meaning';
+                        meaningElem.textContent = cardData.meaning;
+
+                        wrapper.appendChild(lessonLabel);
+                        wrapper.appendChild(charElem);
+                        wrapper.appendChild(pinyinElem);
+                        wrapper.appendChild(meaningElem);
+
+                        wrapper.addEventListener('click', () => {
+                            showTheoryModal(cardData.char);
+                        });
+
+                        searchCardContainer.appendChild(wrapper);
+                        found = true;
+                    }
+                });
+
+                if (found) {
+                    searchResultsContainer.style.display = 'block';
+                    lessonsContainer.style.display = 'none';
+                    noResultsDiv.style.display = 'none';
+                } else {
+                    searchResultsContainer.style.display = 'none';
+                    lessonsContainer.style.display = 'block';
+                    noResultsDiv.style.display = 'block';
+                }
+            }
+
+            searchInput.addEventListener('input', () => filterCards(searchInput.value));
+
+            // --- Закрытие модальных окон ---
+            closeModalBtn.onclick = () => modal.style.display = 'none';
+            closeRecipientModalBtn.onclick = () => modalSelectRecipient.style.display = 'none';
+            closeModalBtnChat.onclick = () => {
+                modalShareTaskChat.style.display = 'none';
+                shareTaskFrame.src = '';
+            };
+            window.onclick = (e) => {
+                if (e.target === modal) modal.style.display = 'none';
+                if (e.target === modalSelectRecipient) modalSelectRecipient.style.display = 'none';
+                if (e.target === modalShareTaskChat) modalShareTaskChat.style.display = 'none';
+            };
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    modal.style.display = 'none';
+                    modalSelectRecipient.style.display = 'none';
+                    modalShareTaskChat.style.display = 'none';
+                }
+            });
+        });
+    </script>
+
+    <!-- === Обогащение charData === -->
+    <script>
+        (async function enrichCharDataInMemory() {
+            if (typeof charData !== 'object') return;
+            const container = document.createElement('div');
+            container.innerHTML = `
+                <div style="width:100%;background:#e0e0e0;height:8px;border-radius:4px;margin:10px 0">
+                    <div id="enrich-bar" style="height:100%;background:#4CAF50;width:0%;transition:width 0.2s"></div>
+                </div>
+                <div id="enrich-text" style="text-align:center;color:#666;font-size:12px">Enriquecendo dados... (0/60)</div>
+            `;
+            document.querySelector('h1').after(container);
+
+            const bar = document.getElementById('enrich-bar');
+            const text = document.getElementById('enrich-text');
+
+            for (const hanzi in charData) {
+                if (!charData[hanzi].theory) charData[hanzi].theory = [];
+            }
+
+            const totalLessons = 60;
+            let completed = 0;
+
+            for (let lessonNum = 1; lessonNum <= totalLessons; lessonNum++) {
+                const url = `./lesson${lessonNum}/theory.html`;
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) continue;
+                    const html = await response.text();
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const grammar = doc.querySelector('.grammar');
+                    if (!grammar) continue;
+                    const blocks = grammar.querySelectorAll('p.original');
+                    for (const block of blocks) {
+                        for (const hanzi in charData) {
+                            if (block.textContent.includes(hanzi)) {
+                                let h3 = null;
+                                let sib = block.previousElementSibling;
+                                while (sib && sib.tagName !== 'H3') sib = sib.previousElementSibling;
+                                if (sib) h3 = sib;
+                                charData[hanzi].theory.push({
+                                    lesson: lessonNum,
+                                    title: h3 ? h3.textContent.trim() : '(sem título)',
+                                    context: block.outerHTML
+                                });
+                            }
+                        }
+                    }
+                } catch (err) {
+                    console.warn(`Lição ${lessonNum}`, err.message);
+                } finally {
+                    completed++;
+                    bar.style.width = `${Math.round((completed / totalLessons) * 100)}%`;
+                    text.textContent = `Enriquecendo dados... (${completed}/${totalLessons})`;
+                }
+            }
+            setTimeout(() => container.remove(), 2000);
+        })();
+    </script>
 </body>
 </html>
