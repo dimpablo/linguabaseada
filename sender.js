@@ -1,9 +1,9 @@
 /**
- * sender.js — módulo de envio de parágrafos do theory.html
- * Utiliza Firebase, charData e chat.html
+ * sender.js — módulo para envio de parágrafos do theory.html
+ * Usa Firebase, charData e chat.html
  */
 
-// Variáveis globais para acesso em todas as partes
+// Variáveis globais para acesso de todas as partes
 let auth = null;
 let db = null;
 let currentUser = null;
@@ -18,9 +18,9 @@ let getDocsRef = null;
 // === INICIALIZAÇÃO DO FIREBASE ===
 async function initFirebase() {
     try {
-        const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js  ');
-        const { getAuth, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js  ');
-        const { getFirestore, doc, getDoc, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js  ');
+        const { initializeApp } = await import('https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js    ');
+        const { getAuth, onAuthStateChanged } = await import('https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js    ');
+        const { getFirestore, doc, getDoc, collection, query, where, getDocs } = await import('https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js    ');
 
         const firebaseConfig = {
             apiKey: "AIzaSyBvyxPtx5PICYk60HUCERw5Cxh1TyCcZCY",
@@ -63,33 +63,41 @@ async function initFirebase() {
     }
 }
 
-// === MODAIS ===
+// === JANELAS MODAIS ===
 function createSenderModals() {
     // Já existe?
     if (document.getElementById('modalSelectRecipient')) return;
 
     const modalsHTML = `
-        <!-- Modal de seleção de destinatário -->
+        <!-- Janela modal para seleção de destinatário -->
         <div id="modalSelectRecipient" class="modal-overlay">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>📬 Selecione o destinatário</h3>
+                    <h3>📬 Selecione o Destinatário</h3>
                     <button id="closeRecipientModalBtn" class="modal-close">×</button>
                 </div>
-                <div id="recipientList" class="friends-grid">
-                    Carregando...
+                <div id="friendsList" class="friends-grid">
+                    <h4 style="margin: 10px 0 10px 15px; color: #1a4f72;">Amigos</h4>
+                    <div id="friendsListContent"></div>
+                </div>
+                <div id="allUsersList" class="friends-grid">
+                    <h4 style="margin: 10px 0 10px 15px; color: #1a4f72;">Todos os Usuários</h4>
+                    <div id="allUsersListContent"></div>
                 </div>
                 <div id="noFriendsMessage" class="info-message">
                     Você ainda não tem amigos.
                 </div>
+                <div id="noUsersMessage" class="info-message">
+                    Nenhum usuário disponível.
+                </div>
             </div>
         </div>
 
-        <!-- Modal do chat -->
+        <!-- Janela modal de chat -->
         <div id="modalShareTaskChat" class="modal-overlay">
             <div class="modal-content chat-modal">
                 <div class="modal-header">
-                    <h3>💬 Enviando tarefa</h3>
+                    <h3>💬 Enviar Tarefa</h3>
                     <button id="closeModalBtnChat" class="modal-close">×</button>
                 </div>
                 <div id="loadingIframe">Carregando chat...</div>
@@ -100,7 +108,7 @@ function createSenderModals() {
     document.body.insertAdjacentHTML('beforeend', modalsHTML);
 }
 
-// === ESTILOS PARA OS MODAIS ===
+// === ESTILOS PARA JANELAS MODAIS ===
 function injectStyles() {
     const style = document.createElement('style');
     style.textContent = `
@@ -148,13 +156,12 @@ function injectStyles() {
             color: #555;
         }
         .friends-grid {
-            display: grid;
-            gap: 8px;
+            display: block;
             padding: 16px 20px;
             max-height: 400px;
             overflow-y: auto;
         }
-        .friend-card {
+        .friend-card, .user-card {
             padding: 12px;
             background: #f9f7fc;
             border: 1px solid #d9d4e7;
@@ -162,8 +169,9 @@ function injectStyles() {
             cursor: pointer;
             font-size: 14px;
             color: #5a5a5a;
+            margin-bottom: 8px;
         }
-        .friend-card:hover {
+        .friend-card:hover, .user-card:hover {
             background: #f0eaf9;
             border-color: #d9d4e7;
         }
@@ -211,7 +219,7 @@ function injectStyles() {
     document.head.appendChild(style);
 }
 
-// === ADICIONA BOTÕES ↪️ EM CADA PARÁGRAFO ===
+// === ADICIONANDO BOTÕES ↪️ A CADA PARÁGRAFO ===
 function addSendButtonsToParagraphs() {
     const paragraphs = document.querySelectorAll('.grammar .original');
     paragraphs.forEach(p => {
@@ -231,7 +239,7 @@ function addSendButtonsToParagraphs() {
     });
 }
 
-// === FUNÇÃO PARA ENVIAR PARÁGRAFO ===
+// === FUNÇÃO DE ENVIO DE PARÁGRAFO ===
 async function shareParagraph(title, context) {
     if (!currentUser) {
         alert('⛔ Faça login para compartilhar.');
@@ -241,47 +249,83 @@ async function shareParagraph(title, context) {
     const modal = document.getElementById('modalSelectRecipient');
     modal.style.display = 'flex';
 
-    loadFriendsForSelection(title, context);
+    loadFriendsAndUsersForSelection(title, context);
 }
 
-async function loadFriendsForSelection(title, context) {
-    const recipientList = document.getElementById('recipientList');
+async function loadFriendsAndUsersForSelection(title, context) {
+    const friendsListContent = document.getElementById('friendsListContent');
+    const allUsersListContent = document.getElementById('allUsersListContent');
     const noFriendsMessage = document.getElementById('noFriendsMessage');
-    recipientList.innerHTML = '<div style="text-align:center;padding:10px;">Carregando...</div>';
-    noFriendsMessage.style.display = 'none';
+    const noUsersMessage = document.getElementById('noUsersMessage');
 
-    if (!currentUser || !Array.isArray(currentUser.friends) || currentUser.friends.length === 0) {
-        recipientList.innerHTML = '';
-        noFriendsMessage.style.display = 'block';
-        return;
-    }
+    // Limpar listas
+    friendsListContent.innerHTML = '<div style="text-align:center;padding:10px;">Carregando amigos...</div>';
+    allUsersListContent.innerHTML = '<div style="text-align:center;padding:10px;">Carregando usuários...</div>';
+    noFriendsMessage.style.display = 'none';
+    noUsersMessage.style.display = 'none';
 
     try {
-        const friendsRef = collectionRef(db, 'users');
-        const q = queryRef(friendsRef, whereRef('__name__', 'in', currentUser.friends.slice(0, 10)));
-        const querySnap = await getDocsRef(q);
-        const friends = [];
-        querySnap.forEach(doc => friends.push({ id: doc.id, ...doc.data() }));
+        // Carregar todos os usuários
+        const usersQuery = queryRef(collectionRef(db, 'users'));
+        const usersSnapshot = await getDocsRef(usersQuery);
+        const allUsers = [];
+        usersSnapshot.forEach(doc => {
+            const data = doc.data();
+            if (data.displayName) {
+                allUsers.push({ id: doc.id, ...data });
+            }
+        });
 
-        recipientList.innerHTML = '';
-        if (friends.length === 0) {
-            noFriendsMessage.style.display = 'block';
-            return;
+        // Separar em amigos e outros
+        const friendIds = currentUser.friends || [];
+        const friends = allUsers.filter(u => friendIds.includes(u.id));
+        const others = allUsers.filter(u => u.id !== currentUser.uid && !friendIds.includes(u.id));
+
+        // === MOSTRAR AMIGOS ===
+        friendsListContent.innerHTML = '';
+        if (friends.length > 0) {
+            document.getElementById('friendsList').style.display = 'block';
+            friends.forEach(friend => {
+                const card = document.createElement('div');
+                card.className = 'friend-card';
+                card.textContent = `${friend.displayName} (${friend.points || 0} pontos)`;
+                card.onclick = () => sendToUser(friend, title, context);
+                friendsListContent.appendChild(card);
+            });
+        } else {
+            document.getElementById('friendsList').style.display = 'none';
         }
 
-        friends.forEach(friend => {
-            const card = document.createElement('div');
-            card.className = 'friend-card';
-            card.textContent = `${friend.displayName} (${friend.points || 0} pontos)`;
-            card.onclick = () => sendToFriend(friend, title, context);
-            recipientList.appendChild(card);
-        });
+        // === MOSTRAR TODOS OS OUTROS ===
+        allUsersListContent.innerHTML = '';
+        if (others.length > 0) {
+            document.getElementById('allUsersList').style.display = 'block';
+            others.forEach(user => {
+                const card = document.createElement('div');
+                card.className = 'user-card';
+                card.textContent = `${user.displayName} (${user.points || 0} pontos)`;
+                card.onclick = () => sendToUser(user, title, context);
+                allUsersListContent.appendChild(card);
+            });
+        } else {
+            document.getElementById('allUsersList').style.display = 'none';
+        }
+
+        // === MENSAGENS ===
+        if (friends.length === 0) {
+            noFriendsMessage.style.display = 'block';
+        }
+        if (others.length === 0) {
+            noUsersMessage.style.display = 'block';
+        }
+
     } catch (err) {
-        recipientList.innerHTML = '<div style="color:red">Erro</div>';
+        friendsListContent.innerHTML = '<div style="color:red">Erro ao carregar amigos</div>';
+        allUsersListContent.innerHTML = '<div style="color:red">Erro ao carregar usuários</div>';
     }
 }
 
-function sendToFriend(friend, title, context) {
+function sendToUser(user, title, context) {
     const modal = document.getElementById('modalSelectRecipient');
     modal.style.display = 'none';
 
@@ -291,7 +335,7 @@ function sendToFriend(friend, title, context) {
 
     const shareString = `’‘’‘ [paragraph]: {"<h3>${cleanTitle}</h3> ${cleanContext}"}’‘’‘`;
     const encoded = encodeURIComponent(shareString);
-    const chatUrl = `../chat.html#chat/${friend.id}/${encoded}`;
+    const chatUrl = `../chat.html#chat/${user.id}/${encoded}`;
 
     const chatModal = document.getElementById('modalShareTaskChat');
     const frame = document.getElementById('shareTaskFrame');
@@ -309,7 +353,7 @@ function sendToFriend(friend, title, context) {
     };
 }
 
-// === FECHAMENTO DOS MODAIS ===
+// === FECHAR MODAIS ===
 function setupModalCloseHandlers() {
     const closeRecipientBtn = document.getElementById('closeRecipientModalBtn');
     const closeModalBtn = document.getElementById('closeModalBtnChat');
@@ -345,8 +389,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     createSenderModals();
     setupModalCloseHandlers();
 
-    await initFirebase(); // Aguarda autenticação
+    await initFirebase(); // Aguardar autenticação
 
-    // Apenas após o carregamento completo do DOM e do Firebase
+    // Apenas após carregamento completo do DOM e Firebase
     setTimeout(addSendButtonsToParagraphs, 500);
 });
